@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>AdminLTE v4</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-  </head>
-  <body>
-    <form action="" method="post" id="frmCrearLibro">
+let btnAgregar = document.querySelector("#crearLibro");
+btnAgregar.addEventListener("click", () => {
+  Swal.fire({
+    title: '<h1 class="text-success fw-bolder">Añadir Libro<h1>',
+    html: `
+         <form action="" method="post" id="frmCrearLibro">
   <div class="row">
     <div class="col-sm-12">
       <div class="mb-3">
@@ -43,8 +39,36 @@
   </div>
 </form>
 
-    <script>
-      window.location.href = "./dist/views/dashboard.php";
-    </script>
-  </body>
-</html>
+        `,
+    showCancelButton: true,
+    confirmButtonText: "Agregar",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "btn btn-success fs-5",
+      cancelButton: "btn btn-danger fs-5",
+    },
+    preConfirm: () => {
+      const form = document.getElementById("frmCrearLibro");
+      const formData = new FormData(form);
+      return $.ajax({
+        url: "../../controllers/agregar_libro.php",
+        type: "POST",
+        data: formData,
+        processData: false,
+        contentType: false,
+        dataType: "json",
+      }).then((respuesta) => {
+        if (!respuesta.success) {
+          Swal.showValidationMessage(respuesta.message);
+        }
+        return respuesta;
+      });
+    },
+  }).then((result) => {
+    if (result.isConfirmed && result.value.success) {
+      Swal.fire("Exito", result.value.message, "success").then(() => {
+        location.reload();
+      });
+    }
+  });
+});
