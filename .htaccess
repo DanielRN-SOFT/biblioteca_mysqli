@@ -9,7 +9,3 @@ Options -Indexes
 # 2. (Opcional) Página personalizada al intentar acceder a la carpeta directamente
 ErrorDocument 403 Acceso_Denegado
 
-# Bloquear acceso web a carpetas sensibles
-RewriteEngine On
-
-RewriteRule ^(model|controllers)/ - [F,L]
