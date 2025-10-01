@@ -9,6 +9,11 @@ class MySQL
     private $contrasena = "UxxjUzE9KHlkkZBAupKi";
     private $nombreBaseDatos = "bimgfadlj4mkeidcoq66";
 
+    // private $ipServidor = "localhost";
+    // private $usuarioBase = "root";
+    // private $contrasena = "";
+    // private $nombreBaseDatos = "biblioteca_mysqli";
+
     private $conexion;
 
     // Método para conectar a la base de datos

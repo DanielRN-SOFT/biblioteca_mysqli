@@ -31,7 +31,7 @@ $mysql->desconectar();
   <!--begin::Meta-->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Biblioteca_Mysqli</title>
+  <title>ServiPlus | Ver empleados</title>
   <!--end::Meta-->
 
   <!--begin::Preload CSS-->
@@ -42,7 +42,6 @@ $mysql->desconectar();
 
   <link rel="shortcut icon" href="../assets/img/biblioteca.png" type="image/x-icon">
 
-  <!-- Fin Favi.ico -->
   <!--begin::Fonts-->
   <link
     rel="stylesheet"
@@ -71,13 +70,8 @@ $mysql->desconectar();
   <link rel="stylesheet" href="../css/adminlte.css" />
   <!--end::Required Plugin(AdminLTE)-->
 
-  <!--begin::Datatables CSS-->
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/columncontrol/1.1.0/css/columnControl.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.1.1/css/colReorder.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.6/css/responsive.dataTables.css" />
-  <!--end::Datatables CSS-->
+  <!-- FontAwesonme -->
+  <link rel="stylesheet" href="">
 </head>
 <!--end::Head-->
 
@@ -101,7 +95,7 @@ $mysql->desconectar();
             </a>
           </li>
           <li class="nav-item d-none d-md-block">
-            <a href="./dashboard.php" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Home</a>
           </li>
         </ul>
         <!--end::Start Navbar Links-->
@@ -113,13 +107,13 @@ $mysql->desconectar();
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
               <img
                 src="../assets/img/profile.png"
-                class="user-image rounded-circle"
+                class="user-image rounded-circle shadow"
                 alt="User Image" />
               <span class="d-none d-md-inline">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
-              <li class="user-header bg-body-secondary">
+              <li class="user-header text-bg-body-secondary">
                 <img
                   src="../assets/img/profile.png"
                   class="rounded-circle shadow"
@@ -192,7 +186,7 @@ $mysql->desconectar();
 
             <!-- Dashboard principal -->
             <li class="nav-item">
-              <a href="./dashboard.php" class="nav-link active">
+              <a href="./dashboard.php" class="nav-link">
                 <i class="fa-solid fa-table-columns"></i>
                 <p>Dashboard</p>
               </a>
@@ -206,7 +200,7 @@ $mysql->desconectar();
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./usuarios.php" class="nav-link">
+                  <a href="./usuarios.php" class="nav-link active">
                     <i class="fa-solid fa-users"></i>
                     <p>Usuarios</p>
                   </a>
@@ -278,13 +272,13 @@ $mysql->desconectar();
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold">Titulo de ejemplo</h3>
+              <h3 class="mb-0 fw-bold">Usuarios</h3>
             </div>
           </div>
 
-          <div class="row my-2">
+          <div class="row mt-3 mb-2">
             <div class="col-sm-12">
-              <button class="btn btn-primary w-100" id="abrirCrearFrm">Crear nuevo </button>
+              <button class="btn btn-success w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
             </div>
           </div>
         </div>
@@ -296,7 +290,7 @@ $mysql->desconectar();
             <div class="col-md-12">
               <div class="card mb-4">
                 <div class="card-header">
-                  <h5 class="card-title fw-bold fs-5">Lista de ejemplo</h5>
+                  <h5 class="card-title fw-bold fs-5">Lista de usuarios</h5>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                       <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -310,13 +304,15 @@ $mysql->desconectar();
                   <div class="row">
                     <div class="col-md-12" id="contenedorTabla">
                       <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                           <thead>
                             <tr>
                               <th>Nombre</th>
                               <th>Apellido</th>
                               <th>Email</th>
                               <th>Tipo</th>
+                              <th>Estado</th>
+                              <th>Acciones</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -326,6 +322,11 @@ $mysql->desconectar();
                                 <td><?php echo $fila["apellido"]; ?></td>
                                 <td><?php echo $fila["email"]; ?></td>
                                 <td><?php echo $fila["tipo"]; ?></td>
+                                <td><?php echo $fila["estado"] ?></td>
+                                <td>
+                                  <button class="btn btn-primary mx-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                  <button class="btn btn-danger mx-1"><i class="fa-solid fa-trash"></i></button>
+                                </td>
                               </tr>
                             <?php endwhile; ?>
                           </tbody>
@@ -355,7 +356,7 @@ $mysql->desconectar();
       <div class="float-end d-none d-sm-inline">Anything you want</div>
       <strong>
         Copyright &copy; 2014-2025
-        <a href="#" class="text-decoration-none">biblioteca_Mysqli.com</a>.
+        <a href="#" class="text-decoration-none">bibliotecaMysqli.com</a>.
       </strong>
       All rights reserved.
     </footer>
@@ -400,6 +401,16 @@ $mysql->desconectar();
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/4c0cbe7815.js" crossorigin="anonymous"></script>
   <!-- ========================== -->
+
+
+  <!-- Sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- JS externo  -->
+  <script src="../../public/js/gestion_usuarios.js"></script>
+
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <!-- Fin sección: Scripts       -->
   <!-- ========================== -->
 
