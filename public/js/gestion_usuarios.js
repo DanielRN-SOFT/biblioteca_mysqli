@@ -82,10 +82,10 @@ btnCrear.addEventListener("click", () => {
         data: formData,
         processData: false,
         contentType: false,
-        dataType: "json"
-      }).then(respuesta =>{
-        if(!respuesta.success){
-            Swal.showValidationMessage(respuesta.message);
+        dataType: "json",
+      }).then((respuesta) => {
+        if (!respuesta.success) {
+          Swal.showValidationMessage(respuesta.message);
         }
         return respuesta;
       });
@@ -98,3 +98,83 @@ btnCrear.addEventListener("click", () => {
     }
   });
 });
+
+// ELIMINAR EMPLEADO
+function eliminarUsuario(IDusuario, estado) {
+  Swal.fire({
+    title: '<span class = "text-danger"> Eliminar usuario </span>',
+    html: "¿Esta seguro de realizar esta accion?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Si, eliminar usuario",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    preConfirm: () => {
+      return $.ajax({
+        url: "../../controllers/eliminar_integrar_usuario.php",
+        type: "POST",
+        data: {
+          id: IDusuario,
+          estado: estado,
+        },
+        dataType: "json",
+      }).then((respuesta) => {
+        if (!respuesta.success) {
+          Swal.showValidationMessage(respuesta.message);
+        }
+        return respuesta;
+      });
+    },
+  }).then((resultado) => {
+    if (resultado.isConfirmed && resultado.value.success) {
+      Swal.fire("Eliminacion completada", resultado.value.message, "success").then(() => {
+        location.reload();
+      });
+    }
+  });
+}
+
+function reintegrarUsuario(IDusuario, estado) {
+  console.log(estado);
+  Swal.fire({
+    title: "<span class='text-success'> Reintegrar empleado </span>",
+    html: "¿Esta seguro de reintegrar este empleado?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Si, reintegrar empleado",
+    cancelButtonText: "Cancelar",
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
+    },
+    preConfirm: () => {
+      return $.ajax({
+        url: "../../controllers/eliminar_integrar_usuario.php",
+        type: "POST",
+        data: {
+          id: IDusuario,
+          estado: estado,
+        },
+        dataType: "json",
+      }).then((respuesta) => {
+        if (!respuesta.success) {
+          Swal.showValidationMessage(respuesta.message);
+        }
+        return respuesta;
+      });
+    },
+  }).then((result) => {
+    if (result.isConfirmed && result.value.success) {
+      Swal.fire(
+        "Reintegracion completada",
+        result.value.message,
+        "success"
+      ).then(() => {
+        location.reload();
+      });
+    }
+  });
+}

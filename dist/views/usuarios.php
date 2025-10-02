@@ -3,6 +3,12 @@
 // Sección: Conexión a la BD
 // ==========================
 
+//Evitar el cache
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
 
@@ -31,7 +37,7 @@ $mysql->desconectar();
   <!--begin::Meta-->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>ServiPlus | Ver empleados</title>
+  <title>Biblioteca | Usuarios</title>
   <!--end::Meta-->
 
   <!--begin::Preload CSS-->
@@ -71,7 +77,7 @@ $mysql->desconectar();
   <!--end::Required Plugin(AdminLTE)-->
 
   <!-- FontAwesonme -->
-  <link rel="stylesheet" href="">
+
 </head>
 <!--end::Head-->
 
@@ -325,7 +331,13 @@ $mysql->desconectar();
                                 <td><?php echo $fila["estado"] ?></td>
                                 <td>
                                   <button class="btn btn-primary mx-1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                  <button class="btn btn-danger mx-1"><i class="fa-solid fa-trash"></i></button>
+                                  <?php if ($fila["estado"] == "Activo") { ?>
+                                    <button class="btn btn-danger mx-1 btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                  <?php } else { ?>
+                                    <button class="btn btn-success mx-1 btn-reitengrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+
+
+                                  <?php } ?>
                                 </td>
                               </tr>
                             <?php endwhile; ?>
@@ -402,6 +414,8 @@ $mysql->desconectar();
   <script src="https://kit.fontawesome.com/4c0cbe7815.js" crossorigin="anonymous"></script>
   <!-- ========================== -->
 
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 
   <!-- Sweet alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -409,8 +423,7 @@ $mysql->desconectar();
   <!-- JS externo  -->
   <script src="../../public/js/gestion_usuarios.js"></script>
 
-  <!-- Jquery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
   <!-- Fin sección: Scripts       -->
   <!-- ========================== -->
 
