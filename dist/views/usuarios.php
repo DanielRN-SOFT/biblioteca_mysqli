@@ -19,7 +19,7 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Ejecución de la consulta
-$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuarios");
+$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario");
 
 // Desconexión con la base de datos
 $mysql->desconectar();
@@ -76,6 +76,9 @@ $mysql->desconectar();
   <link rel="stylesheet" href="../css/adminlte.css" />
   <!--end::Required Plugin(AdminLTE)-->
 
+  <!-- CSS personal -->
+  <link rel="stylesheet" href="../../public/css/style.css">
+
   <!-- FontAwesonme -->
 
 </head>
@@ -113,13 +116,13 @@ $mysql->desconectar();
             <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
               <img
                 src="../assets/img/profile.png"
-                class="user-image rounded-circle shadow"
+                class="user-image rounded-circle"
                 alt="User Image" />
               <span class="d-none d-md-inline">Alexander Pierce</span>
             </a>
             <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
               <!--begin::User Image-->
-              <li class="user-header text-bg-body-secondary">
+              <li class="user-header bg-body-secondary">
                 <img
                   src="../assets/img/profile.png"
                   class="rounded-circle shadow"
@@ -168,7 +171,7 @@ $mysql->desconectar();
     <!-- ========================== -->
     <!-- Sección: Sidebar           -->
     <!-- ========================== -->
-    <aside class="app-sidebar bg-dark shadow" data-bs-theme="dark">
+    <aside class="app-sidebar bg-nav-bar shadow" data-bs-theme="dark">
       <!--begin::Sidebar Brand-->
       <div class="sidebar-brand">
         <a href="./dashboard.php" class="brand-link">
@@ -202,7 +205,7 @@ $mysql->desconectar();
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
                 <i class="fa-solid fa-table-list"></i>
-                <p>Informacion <i class="nav-arrow bi bi-chevron-right"></i></p>
+                <p>Información <i class="nav-arrow bi bi-chevron-right"></i></p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
@@ -278,7 +281,7 @@ $mysql->desconectar();
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold">Usuarios</h3>
+              <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-users"></i> Usuarios</h3>
             </div>
           </div>
 
@@ -330,11 +333,12 @@ $mysql->desconectar();
                                 <td><?php echo $fila["tipo"]; ?></td>
                                 <td><?php echo $fila["estado"] ?></td>
                                 <td>
-                                  <button class="btn btn-primary mx-1"><i class="fa-solid fa-pen-to-square"></i></button>
+                                  <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+
                                   <?php if ($fila["estado"] == "Activo") { ?>
-                                    <button class="btn btn-danger mx-1 btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-danger btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
                                   <?php } else { ?>
-                                    <button class="btn btn-success mx-1 btn-reitengrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                                    <button class="btn btn-success btn-reitengrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
 
 
                                   <?php } ?>

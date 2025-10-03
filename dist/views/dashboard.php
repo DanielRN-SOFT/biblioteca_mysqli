@@ -13,7 +13,7 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Ejecución de la consulta
-$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuarios");
+$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario");
 
 // Desconexión con la base de datos
 $mysql->desconectar();
@@ -71,13 +71,9 @@ $mysql->desconectar();
   <link rel="stylesheet" href="../css/adminlte.css" />
   <!--end::Required Plugin(AdminLTE)-->
 
-  <!--begin::Datatables CSS-->
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/columncontrol/1.1.0/css/columnControl.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/colreorder/2.1.1/css/colReorder.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/rowreorder/1.5.0/css/rowReorder.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.6/css/responsive.dataTables.css" />
-  <!--end::Datatables CSS-->
+  <!-- CSS personal -->
+  <link rel="stylesheet" href="../../public/css/style.css">
+  <!-- END CSS personal -->
 </head>
 <!--end::Head-->
 
@@ -168,7 +164,7 @@ $mysql->desconectar();
     <!-- ========================== -->
     <!-- Sección: Sidebar           -->
     <!-- ========================== -->
-    <aside class="app-sidebar bg-dark shadow" data-bs-theme="dark">
+    <aside class="app-sidebar bg-nav-bar shadow" data-bs-theme="dark">
       <!--begin::Sidebar Brand-->
       <div class="sidebar-brand">
         <a href="./dashboard.php" class="brand-link">
@@ -202,7 +198,7 @@ $mysql->desconectar();
             <li class="nav-item menu-open">
               <a href="#" class="nav-link active">
                 <i class="fa-solid fa-table-list"></i>
-                <p>Informacion <i class="nav-arrow bi bi-chevron-right"></i></p>
+                <p>Información <i class="nav-arrow bi bi-chevron-right"></i></p>
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">

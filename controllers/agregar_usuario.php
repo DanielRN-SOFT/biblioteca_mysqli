@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
         // Verificar que no se repita el email
-        $verificacionEmail = $mysql->efectuarConsulta("SELECT 1 FROM usuarios WHERE email = '$email'");
+        $verificacionEmail = $mysql->efectuarConsulta("SELECT 1 FROM usuario WHERE email = '$email'");
 
         if (mysqli_num_rows($verificacionEmail) > 0) {
             echo json_encode([
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
 
-        $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuarios(nombre, apellido, email, password, tipo, estado) VALUES('$nombre', '$apellido', '$email', '$password', '$tipo', 'Activo')");
+        $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuario(nombre, apellido, email, password, tipo, estado) VALUES('$nombre', '$apellido', '$email', '$password', '$tipo', 'Activo')");
         if ($insertarUsuario) {
            echo json_encode([
                 "success" => true,
@@ -58,5 +58,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "Ocurrio un error..."
             ]);
         }
+
+        // Desconectamos la conexion
+        $mysql->desconectar();
     }
 }

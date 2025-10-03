@@ -1,0 +1,8 @@
+:root{
+    --azul-nav-bar: #000d2b;
+}
+
+.bg-nav-bar{
+    background-color:var(--azul-nav-bar);
+}
+
