@@ -10,7 +10,7 @@ btnCrear.addEventListener("click", () => {
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre:</label>
+                <label for="nombre" class="form-label fw-bold">Nombre:</label>
                 <input
                   class="form-control"
                   type="text"
@@ -21,7 +21,7 @@ btnCrear.addEventListener("click", () => {
             </div>
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido:</label>
+                <label for="apellido" class="form-label fw-bold">Apellido:</label>
                 <input
                   class="form-control"
                   type="text"
@@ -33,12 +33,12 @@ btnCrear.addEventListener("click", () => {
           </div>
 
           <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
+            <label for="email" class="form-label fw-bold">Email:</label>
             <input class="form-control" type="email" id="email" name="email" />
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label">Password:</label>
+            <label for="password" class="form-label fw-bold">Password:</label>
             <input
               class="form-control"
               type="password"
@@ -48,7 +48,7 @@ btnCrear.addEventListener("click", () => {
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label">Tipo:</label>
+            <label for="password" class="form-label fw-bold">Tipo:</label>
             <select class="form-control text-center" name="tipo" id="tipo">
               <option value="Administrador">Administrador</option>
               <option value="Cliente">Cliente</option>
@@ -105,7 +105,7 @@ function editarUsuario(IDuser) {
       // El parametro de la funcion permite acceder a cada valor
       // del JSON por medio del operador de objetos '.'
       Swal.fire({
-        title: '<span class ="text-primary"> Editar usuario </span>',
+        title: '<span class ="text-primary fw-bold"> Editar usuario </span>',
         html: `
            <form action="" method="post" id="frmEditarUsuario">
       <div class="row">
@@ -113,7 +113,7 @@ function editarUsuario(IDuser) {
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre:</label>
+                <label for="nombre" class="form-label fw-bold">Nombre:</label>
                 <input
                   class="form-control"
                   type="text"
@@ -126,7 +126,7 @@ function editarUsuario(IDuser) {
 
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido:</label>
+                <label for="apellido" class="form-label fw-bold">Apellido:</label>
                 <input
                   class="form-control"
                   type="text"
@@ -139,7 +139,7 @@ function editarUsuario(IDuser) {
           </div>
 
           <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
+            <label for="email" class="form-label fw-bold">Email:</label>
             <input
               class="form-control"
               type="email"
@@ -152,7 +152,7 @@ function editarUsuario(IDuser) {
           <div class="row">
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="oldPassword" class="form-label"
+                <label for="oldPassword" class="form-label fw-bold"
                   >Contraseña antigua:</label
                 >
                 <input
@@ -165,7 +165,7 @@ function editarUsuario(IDuser) {
             </div>
             <div class="col-sm-6">
               <div class="mb-3">
-                <label for="newPassword" class="form-label"
+                <label for="newPassword" class="form-label fw-bold"
                   >Contraseña nueva:</label
                 >
                 <input
@@ -179,7 +179,7 @@ function editarUsuario(IDuser) {
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label">Tipo:</label>
+            <label for="password" class="form-label fw-bold">Tipo:</label>
             <select class="form-control text-center" name="tipo" id="tipo">
               <option value="Administrador" ${data.tipo == "Administrador" ? "selected" : ""}>Administrador</option>
               <option value="Cliente" ${data.tipo == "Cliente" ? "selected" : ""}>Cliente</option>
@@ -245,7 +245,7 @@ function editarUsuario(IDuser) {
 // ELIMINAR EMPLEADO
 function eliminarUsuario(IDusuario, estado) {
   Swal.fire({
-    title: '<span class = "text-danger"> Eliminar usuario </span>',
+    title: '<span class = "text-danger fw-bold"> Eliminar usuario </span>',
     html: "¿Esta seguro de realizar esta accion?",
     icon: "warning",
     showCancelButton: true,
@@ -288,7 +288,7 @@ function eliminarUsuario(IDusuario, estado) {
 function reintegrarUsuario(IDusuario, estado) {
   console.log(estado);
   Swal.fire({
-    title: "<span class='text-success'> Reintegrar empleado </span>",
+    title: "<span class='text-success fw-bold'> Reintegrar empleado </span>",
     html: "¿Esta seguro de reintegrar este empleado?",
     icon: "warning",
     showCancelButton: true,

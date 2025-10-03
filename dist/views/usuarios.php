@@ -78,8 +78,20 @@ $mysql->desconectar();
 
   <!-- CSS personal -->
   <link rel="stylesheet" href="../../public/css/style.css">
+  <!-- END CSS personal -->
 
-  <!-- FontAwesonme -->
+  <!-- Link Datatables -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.7/css/responsive.bootstrap5.css">
+
+  <!-- FixedHeader -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/4.0.4/css/fixedHeader.bootstrap5.css">
+
+  <!-- ColumnControl -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/columncontrol/1.1.0/css/columnControl.dataTables.css">
+
+
 
 </head>
 <!--end::Head-->
@@ -313,7 +325,7 @@ $mysql->desconectar();
                   <div class="row">
                     <div class="col-md-12" id="contenedorTabla">
                       <div class="table-responsive">
-                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
                           <thead>
                             <tr>
                               <th>Nombre</th>
@@ -387,8 +399,8 @@ $mysql->desconectar();
   <!-- Sección: Scripts           -->
   <!-- ========================== -->
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
   <script src="../js/adminlte.js"></script>
 
   <!-- Configuración OverlayScrollbars -->
@@ -427,6 +439,22 @@ $mysql->desconectar();
   <!-- JS externo  -->
   <script src="../../public/js/gestion_usuarios.js"></script>
 
+  <!-- Datatables Script -->
+  <script src="../../public/js/datatables.js"></script>
+  <!-- BOOSTRAP 5 DATATABLES -->
+
+  <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/responsive/3.0.7/js/dataTables.responsive.js"></script>
+  <script src="https://cdn.datatables.net/responsive/3.0.7/js/responsive.bootstrap5.js"></script>
+
+  <!-- FixedHeader -->
+  <script src="https://cdn.datatables.net/fixedheader/4.0.4/js/dataTables.fixedHeader.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/4.0.4/js/fixedHeader.bootstrap5.js"></script>
+
+  <!-- Column Control -->
+  <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/dataTables.columnControl.js"></script>
+  <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/columnControl.dataTables.js"></script>
 
   <!-- Fin sección: Scripts       -->
   <!-- ========================== -->
