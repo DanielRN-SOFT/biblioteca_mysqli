@@ -3,6 +3,12 @@
 // Sección: Conexión a la BD
 // ==========================
 
+//Evitar el cache
+header("Cache-Control: no-cache, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
+
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
 
@@ -31,7 +37,7 @@ $mysql->desconectar();
   <!--begin::Meta-->
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Biblioteca_Mysqli</title>
+  <title>Biblioteca | Usuarios</title>
   <!--end::Meta-->
 
   <!--begin::Preload CSS-->
@@ -42,7 +48,6 @@ $mysql->desconectar();
 
   <link rel="shortcut icon" href="../assets/img/biblioteca.png" type="image/x-icon">
 
-  <!-- Fin Favi.ico -->
   <!--begin::Fonts-->
   <link
     rel="stylesheet"
@@ -74,6 +79,20 @@ $mysql->desconectar();
   <!-- CSS personal -->
   <link rel="stylesheet" href="../../public/css/style.css">
   <!-- END CSS personal -->
+
+  <!-- Link Datatables -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.7/css/responsive.bootstrap5.css">
+
+  <!-- FixedHeader -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/4.0.4/css/fixedHeader.bootstrap5.css">
+
+  <!-- ColumnControl -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/columncontrol/1.1.0/css/columnControl.dataTables.css">
+
+
+
 </head>
 <!--end::Head-->
 
@@ -97,7 +116,7 @@ $mysql->desconectar();
             </a>
           </li>
           <li class="nav-item d-none d-md-block">
-            <a href="./dashboard.php" class="nav-link">Home</a>
+            <a href="#" class="nav-link">Home</a>
           </li>
         </ul>
         <!--end::Start Navbar Links-->
@@ -188,7 +207,7 @@ $mysql->desconectar();
 
             <!-- Dashboard principal -->
             <li class="nav-item">
-              <a href="./dashboard.php" class="nav-link active">
+              <a href="./dashboard.php" class="nav-link">
                 <i class="fa-solid fa-table-columns"></i>
                 <p>Dashboard</p>
               </a>
@@ -202,7 +221,7 @@ $mysql->desconectar();
               </a>
               <ul class="nav nav-treeview">
                 <li class="nav-item">
-                  <a href="./usuarios.php" class="nav-link">
+                  <a href="./usuarios.php" class="nav-link active">
                     <i class="fa-solid fa-users"></i>
                     <p>Usuarios</p>
                   </a>
@@ -274,13 +293,13 @@ $mysql->desconectar();
         <div class="container-fluid">
           <div class="row">
             <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold">Titulo de ejemplo</h3>
+              <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-users"></i> Usuarios</h3>
             </div>
           </div>
 
-          <div class="row my-2">
+          <div class="row mt-3 mb-2">
             <div class="col-sm-12">
-              <button class="btn btn-primary w-100" id="abrirCrearFrm">Crear nuevo </button>
+              <button class="btn btn-success w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
             </div>
           </div>
         </div>
@@ -292,7 +311,7 @@ $mysql->desconectar();
             <div class="col-md-12">
               <div class="card mb-4">
                 <div class="card-header">
-                  <h5 class="card-title fw-bold fs-5">Lista de ejemplo</h5>
+                  <h5 class="card-title fw-bold fs-5">Lista de usuarios</h5>
                   <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                       <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -306,13 +325,15 @@ $mysql->desconectar();
                   <div class="row">
                     <div class="col-md-12" id="contenedorTabla">
                       <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
                           <thead>
                             <tr>
                               <th>Nombre</th>
                               <th>Apellido</th>
                               <th>Email</th>
                               <th>Tipo</th>
+                              <th>Estado</th>
+                              <th>Acciones</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -322,6 +343,18 @@ $mysql->desconectar();
                                 <td><?php echo $fila["apellido"]; ?></td>
                                 <td><?php echo $fila["email"]; ?></td>
                                 <td><?php echo $fila["tipo"]; ?></td>
+                                <td><?php echo $fila["estado"] ?></td>
+                                <td>
+                                  <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+
+                                  <?php if ($fila["estado"] == "Activo") { ?>
+                                    <button class="btn btn-danger btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                  <?php } else { ?>
+                                    <button class="btn btn-success btn-reitengrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+
+
+                                  <?php } ?>
+                                </td>
                               </tr>
                             <?php endwhile; ?>
                           </tbody>
@@ -351,7 +384,7 @@ $mysql->desconectar();
       <div class="float-end d-none d-sm-inline">Anything you want</div>
       <strong>
         Copyright &copy; 2014-2025
-        <a href="#" class="text-decoration-none">biblioteca_Mysqli.com</a>.
+        <a href="#" class="text-decoration-none">bibliotecaMysqli.com</a>.
       </strong>
       All rights reserved.
     </footer>
@@ -366,8 +399,8 @@ $mysql->desconectar();
   <!-- Sección: Scripts           -->
   <!-- ========================== -->
   <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
   <script src="../js/adminlte.js"></script>
 
   <!-- Configuración OverlayScrollbars -->
@@ -396,6 +429,33 @@ $mysql->desconectar();
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/4c0cbe7815.js" crossorigin="anonymous"></script>
   <!-- ========================== -->
+
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+  <!-- Sweet alert -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+  <!-- JS externo  -->
+  <script src="../../public/js/gestion_usuarios.js"></script>
+
+  <!-- Datatables Script -->
+  <script src="../../public/js/datatables.js"></script>
+  <!-- BOOSTRAP 5 DATATABLES -->
+
+  <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
+  <script src="https://cdn.datatables.net/responsive/3.0.7/js/dataTables.responsive.js"></script>
+  <script src="https://cdn.datatables.net/responsive/3.0.7/js/responsive.bootstrap5.js"></script>
+
+  <!-- FixedHeader -->
+  <script src="https://cdn.datatables.net/fixedheader/4.0.4/js/dataTables.fixedHeader.js"></script>
+  <script src="https://cdn.datatables.net/fixedheader/4.0.4/js/fixedHeader.bootstrap5.js"></script>
+
+  <!-- Column Control -->
+  <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/dataTables.columnControl.js"></script>
+  <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/columnControl.dataTables.js"></script>
+
   <!-- Fin sección: Scripts       -->
   <!-- ========================== -->
 
