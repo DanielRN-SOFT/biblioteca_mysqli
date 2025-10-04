@@ -40,12 +40,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (mysqli_num_rows($verificacionEmail) > 0) {
             echo json_encode([
                 "success" => false,
-                "message" => "Email repetido"
+                "message" => "Ingrese un email que no este repetido"
             ]);
             exit();
         }
 
-
+        // Insercion de usuario
         $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuario(nombre, apellido, email, password, tipo, estado) VALUES('$nombre', '$apellido', '$email', '$password', '$tipo', 'Activo')");
         if ($insertarUsuario) {
            echo json_encode([

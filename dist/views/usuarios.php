@@ -1,465 +1,130 @@
 <?php
-// ==========================
-// Sección: Conexión a la BD
-// ==========================
+// Nombre de la pagina para el title HTML
+$pagina = "Usuarios";
 
-//Evitar el cache
-header("Cache-Control: no-cache, must-revalidate");
-header("Pragma: no-cache");
-header("Expires: 0");
-
+// ==========================
+// Seccion: Conexion a la base de datos
+// ==========================
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
-
 // Instancia de la clase
 $mysql = new MySQL();
-
 // Conexión con la base de datos
 $mysql->conectar();
 
 // Ejecución de la consulta
 $usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario");
 
-// Desconexión con la base de datos
-$mysql->desconectar();
+// ==========================
+// Layout de componentes HTML
+// ==========================
 
+require_once './layouts/head.php';
+require_once './layouts/nav_bar.php';
+require_once './layouts/aside_bar.php';
+
+
+?>
+
+<!-- ========================== -->
+<!-- Sección: Main Content      -->
+<!-- ========================== -->
+<main class="app-main">
+  <div class="app-content-header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-6">
+          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-users"></i> Usuarios</h3>
+        </div>
+      </div>
+
+      <div class="row mt-3 mb-2">
+        <div class="col-sm-12">
+          <button class="btn btn-success w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card mb-4">
+            <div class="card-header">
+              <h5 class="card-title fw-bold fs-5">Lista de usuarios</h5>
+              <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
+                  <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
+                  <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
+                </button>
+              </div>
+            </div>
+            <!-- /.card-header -->
+
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12" id="contenedorTabla">
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
+                      <thead>
+                        <tr>
+                          <th>Nombre</th>
+                          <th>Apellido</th>
+                          <th>Email</th>
+                          <th>Tipo</th>
+                          <th>Estado</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <?php while ($fila = $usuarios->fetch_assoc()): ?>
+                          <tr>
+                            <td><?php echo $fila["nombre"]; ?></td>
+                            <td><?php echo $fila["apellido"]; ?></td>
+                            <td><?php echo $fila["email"]; ?></td>
+                            <td><?php echo $fila["tipo"]; ?></td>
+                            <td><?php echo $fila["estado"] ?></td>
+                            <td>
+                              <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+
+                              <?php if ($fila["estado"] == "Activo") { ?>
+                                <button class="btn btn-danger btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                              <?php } else { ?>
+                                <button class="btn btn-success btn-reitegrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                              <?php } ?>
+                            </td>
+                          </tr>
+                        <?php endwhile; ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ./card-body -->
+
+            <div class="card-footer"></div>
+            <!-- /.card-footer -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- ========================== -->
+<!-- Fin sección: Main Content  -->
+<!-- ========================== -->
+
+<?php
+
+// Footer del layout
+require_once './layouts/footer.php';
+
+
+$mysql->desconectar();
 // ==========================
 // Fin sección: Conexión a la BD
 // ==========================
 ?>
-
-<!doctype html>
-<html lang="en">
-<!--begin::Head-->
-
-<head>
-  <!--begin::Meta-->
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Biblioteca | Usuarios</title>
-  <!--end::Meta-->
-
-  <!--begin::Preload CSS-->
-  <link rel="preload" href="../css/adminlte.css" as="style" />
-  <!--end::Preload CSS-->
-
-  <!-- Favi.ico -->
-
-  <link rel="shortcut icon" href="../assets/img/biblioteca.png" type="image/x-icon">
-
-  <!--begin::Fonts-->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
-    integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
-    crossorigin="anonymous"
-    media="print"
-    onload="this.media='all'" />
-  <!--end::Fonts-->
-
-  <!--begin::Third Party Plugin(OverlayScrollbars)-->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
-    crossorigin="anonymous" />
-  <!--end::Third Party Plugin(OverlayScrollbars)-->
-
-  <!--begin::Third Party Plugin(Bootstrap Icons)-->
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
-    crossorigin="anonymous" />
-  <!--end::Third Party Plugin(Bootstrap Icons)-->
-
-  <!--begin::Required Plugin(AdminLTE)-->
-  <link rel="stylesheet" href="../css/adminlte.css" />
-  <!--end::Required Plugin(AdminLTE)-->
-
-  <!-- CSS personal -->
-  <link rel="stylesheet" href="../../public/css/style.css">
-  <!-- END CSS personal -->
-
-  <!-- Link Datatables -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.3.4/css/dataTables.bootstrap5.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.7/css/responsive.bootstrap5.css">
-
-  <!-- FixedHeader -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/fixedheader/4.0.4/css/fixedHeader.bootstrap5.css">
-
-  <!-- ColumnControl -->
-  <link rel="stylesheet" href="https://cdn.datatables.net/columncontrol/1.1.0/css/columnControl.dataTables.css">
-
-
-
-</head>
-<!--end::Head-->
-
-<!--begin::Body-->
-
-<body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
-  <!--begin::App Wrapper-->
-  <div class="app-wrapper">
-
-    <!-- ========================== -->
-    <!-- Sección: Header / Navbar   -->
-    <!-- ========================== -->
-    <nav class="app-header navbar navbar-expand bg-body">
-      <!--begin::Container-->
-      <div class="container-fluid">
-        <!--begin::Start Navbar Links-->
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
-              <i class="bi bi-list"></i>
-            </a>
-          </li>
-          <li class="nav-item d-none d-md-block">
-            <a href="#" class="nav-link">Home</a>
-          </li>
-        </ul>
-        <!--end::Start Navbar Links-->
-
-        <!--begin::End Navbar Links-->
-        <ul class="navbar-nav ms-auto">
-          <!--begin::User Menu Dropdown-->
-          <li class="nav-item dropdown user-menu">
-            <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-              <img
-                src="../assets/img/profile.png"
-                class="user-image rounded-circle"
-                alt="User Image" />
-              <span class="d-none d-md-inline">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
-              <!--begin::User Image-->
-              <li class="user-header bg-body-secondary">
-                <img
-                  src="../assets/img/profile.png"
-                  class="rounded-circle shadow"
-                  alt="User Image" />
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2023</small>
-                </p>
-              </li>
-              <!--end::User Image-->
-              <!--begin::Menu Body-->
-              <li class="user-body">
-                <!--begin::Row-->
-                <div class="row">
-                  <div class="col-4 text-center">
-                    <a href="#">Followers</a>
-                  </div>
-                  <div class="col-4 text-center">
-                    <a href="#">Sales</a>
-                  </div>
-                  <div class="col-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!--end::Row-->
-              </li>
-              <!--end::Menu Body-->
-              <!--begin::Menu Footer-->
-              <li class="user-footer">
-                <a href="#" class="btn btn-success text-light btn-flat">Profile</a>
-                <a href="#" class="btn btn-danger text-light btn-flat float-end">Sign out</a>
-              </li>
-              <!--end::Menu Footer-->
-            </ul>
-          </li>
-          <!--end::User Menu Dropdown-->
-        </ul>
-        <!--end::End Navbar Links-->
-      </div>
-      <!--end::Container-->
-    </nav>
-    <!-- ========================== -->
-    <!-- Fin sección: Header / Navbar -->
-    <!-- ========================== -->
-
-    <!-- ========================== -->
-    <!-- Sección: Sidebar           -->
-    <!-- ========================== -->
-    <aside class="app-sidebar bg-nav-bar shadow" data-bs-theme="dark">
-      <!--begin::Sidebar Brand-->
-      <div class="sidebar-brand">
-        <a href="./dashboard.php" class="brand-link">
-          <img src="../assets/img/biblioteca.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow" />
-          <span class="brand-text fw-light">Biblioteca</span>
-        </a>
-      </div>
-      <!--end::Sidebar Brand-->
-
-      <!--begin::Sidebar Wrapper-->
-      <div class="sidebar-wrapper">
-        <nav class="mt-2">
-          <!--begin::Sidebar Menu-->
-          <ul
-            class="nav sidebar-menu flex-column"
-            data-lte-toggle="treeview"
-            role="navigation"
-            aria-label="Main navigation"
-            data-accordion="false"
-            id="navigation">
-
-            <!-- Dashboard principal -->
-            <li class="nav-item">
-              <a href="./dashboard.php" class="nav-link">
-                <i class="fa-solid fa-table-columns"></i>
-                <p>Dashboard</p>
-              </a>
-            </li>
-            <!-- Fin de dasboard principal -->
-            <!-- Menú de información -->
-            <li class="nav-item menu-open">
-              <a href="#" class="nav-link active">
-                <i class="fa-solid fa-table-list"></i>
-                <p>Información <i class="nav-arrow bi bi-chevron-right"></i></p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="./usuarios.php" class="nav-link active">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Usuarios</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="./views/departamentos.php" class="nav-link">
-                    <i class="fa-regular fa-eye"></i>
-                    <p>Departamentos</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="./views/cargos.php" class="nav-link">
-                    <i class="fa-regular fa-eye"></i>
-                    <p>Cargos</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <!-- Fin menú de información -->
-
-            <!-- Menú de reportes -->
-            <li class="nav-header">REPORTES</li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="fa-solid fa-file-pdf"></i>
-                <p>PDFs <i class="nav-arrow bi bi-chevron-right"></i></p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="./views/generar_pdf.php" class="nav-link">
-                    <i class="fa-solid fa-globe"></i>
-                    <p>PDF General</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="./views/ListadoDepartamentosPDF.php" class="nav-link">
-                    <i class="fa-solid fa-building-user"></i>
-                    <p>PDF por departamento</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <!-- Fin menú de reportes -->
-
-            <!-- Menú de gráficos -->
-            <li class="nav-header">GRÁFICOS</li>
-            <li class="nav-item">
-              <a href="./views/graficoBarras.php" class="nav-link">
-                <i class="fa-solid fa-signal"></i>
-                <p>Empleados</p>
-              </a>
-            </li>
-            <!-- Fin menú de gráficos -->
-          </ul>
-          <!--end::Sidebar Menu-->
-        </nav>
-      </div>
-      <!--end::Sidebar Wrapper-->
-    </aside>
-    <!-- ========================== -->
-    <!-- Fin sección: Sidebar       -->
-    <!-- ========================== -->
-
-    <!-- ========================== -->
-    <!-- Sección: Main Content      -->
-    <!-- ========================== -->
-    <main class="app-main">
-      <div class="app-content-header">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-sm-6">
-              <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-users"></i> Usuarios</h3>
-            </div>
-          </div>
-
-          <div class="row mt-3 mb-2">
-            <div class="col-sm-12">
-              <button class="btn btn-success w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="app-content">
-        <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="card mb-4">
-                <div class="card-header">
-                  <h5 class="card-title fw-bold fs-5">Lista de usuarios</h5>
-                  <div class="card-tools">
-                    <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                      <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                      <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                    </button>
-                  </div>
-                </div>
-                <!-- /.card-header -->
-
-                <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-12" id="contenedorTabla">
-                      <div class="table-responsive">
-                        <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
-                          <thead>
-                            <tr>
-                              <th>Nombre</th>
-                              <th>Apellido</th>
-                              <th>Email</th>
-                              <th>Tipo</th>
-                              <th>Estado</th>
-                              <th>Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <?php while ($fila = $usuarios->fetch_assoc()): ?>
-                              <tr>
-                                <td><?php echo $fila["nombre"]; ?></td>
-                                <td><?php echo $fila["apellido"]; ?></td>
-                                <td><?php echo $fila["email"]; ?></td>
-                                <td><?php echo $fila["tipo"]; ?></td>
-                                <td><?php echo $fila["estado"] ?></td>
-                                <td>
-                                  <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
-
-                                  <?php if ($fila["estado"] == "Activo") { ?>
-                                    <button class="btn btn-danger btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
-                                  <?php } else { ?>
-                                    <button class="btn btn-success btn-reitengrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
-
-
-                                  <?php } ?>
-                                </td>
-                              </tr>
-                            <?php endwhile; ?>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- ./card-body -->
-
-                <div class="card-footer"></div>
-                <!-- /.card-footer -->
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-    <!-- ========================== -->
-    <!-- Fin sección: Main Content  -->
-    <!-- ========================== -->
-
-    <!-- ========================== -->
-    <!-- Sección: Footer            -->
-    <!-- ========================== -->
-    <footer class="app-footer">
-      <div class="float-end d-none d-sm-inline">Anything you want</div>
-      <strong>
-        Copyright &copy; 2014-2025
-        <a href="#" class="text-decoration-none">bibliotecaMysqli.com</a>.
-      </strong>
-      All rights reserved.
-    </footer>
-    <!-- ========================== -->
-    <!-- Fin sección: Footer        -->
-    <!-- ========================== -->
-
-  </div>
-  <!--end::App Wrapper-->
-
-  <!-- ========================== -->
-  <!-- Sección: Scripts           -->
-  <!-- ========================== -->
-  <script src="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/browser/overlayscrollbars.browser.es6.min.js" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
-
-  <script src="../js/adminlte.js"></script>
-
-  <!-- Configuración OverlayScrollbars -->
-  <script>
-    const SELECTOR_SIDEBAR_WRAPPER = '.sidebar-wrapper';
-    const Default = {
-      scrollbarTheme: 'os-theme-light',
-      scrollbarAutoHide: 'leave',
-      scrollbarClickScroll: true,
-    };
-    document.addEventListener('DOMContentLoaded', function() {
-      const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-      const isMobile = window.innerWidth <= 992;
-      if (sidebarWrapper && OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined && !isMobile) {
-        OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-          scrollbars: {
-            theme: Default.scrollbarTheme,
-            autoHide: Default.scrollbarAutoHide,
-            clickScroll: Default.scrollbarClickScroll,
-          },
-        });
-      }
-    });
-  </script>
-
-  <!-- Font Awesome -->
-  <script src="https://kit.fontawesome.com/4c0cbe7815.js" crossorigin="anonymous"></script>
-  <!-- ========================== -->
-
-  <!-- Jquery -->
-  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-
-  <!-- Sweet alert -->
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <!-- JS externo  -->
-  <script src="../../public/js/gestion_usuarios.js"></script>
-
-  <!-- Datatables Script -->
-  <script src="../../public/js/datatables.js"></script>
-  <!-- BOOSTRAP 5 DATATABLES -->
-
-  <script src="https://cdn.datatables.net/2.3.4/js/dataTables.js"></script>
-  <script src="https://cdn.datatables.net/2.3.4/js/dataTables.bootstrap5.js"></script>
-  <script src="https://cdn.datatables.net/responsive/3.0.7/js/dataTables.responsive.js"></script>
-  <script src="https://cdn.datatables.net/responsive/3.0.7/js/responsive.bootstrap5.js"></script>
-
-  <!-- FixedHeader -->
-  <script src="https://cdn.datatables.net/fixedheader/4.0.4/js/dataTables.fixedHeader.js"></script>
-  <script src="https://cdn.datatables.net/fixedheader/4.0.4/js/fixedHeader.bootstrap5.js"></script>
-
-  <!-- Column Control -->
-  <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/dataTables.columnControl.js"></script>
-  <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/columnControl.dataTables.js"></script>
-
-  <!-- Fin sección: Scripts       -->
-  <!-- ========================== -->
-
-</body>
-<!--end::Body-->
-
-</html>
