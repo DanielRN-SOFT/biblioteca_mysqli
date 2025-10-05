@@ -3,6 +3,18 @@
 $pagina = "Usuarios";
 
 // ==========================
+// Sección: Inicio de sesion
+// ==========================
+session_start();
+
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+  header("location: ./login.php");
+} else {
+  $_SESSION["acceso"] = true;
+}
+
+
+// ==========================
 // Seccion: Conexion a la base de datos
 // ==========================
 

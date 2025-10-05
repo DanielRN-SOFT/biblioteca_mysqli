@@ -2,6 +2,17 @@
 // Nombre de la pagina para el title HTML
 $pagina = "Dashboard";
 
+// ==========================
+// Sección: Inicio de sesion
+// ==========================
+session_start();
+
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+  header("location: ./login.php");
+}else{
+  $_SESSION["acceso"] = true;
+}
+
 
 // ==========================
 // Sección: Conexión a la BD
@@ -81,7 +92,7 @@ require_once './layouts/aside_bar.php';
                         <?php while ($fila = $usuarios->fetch_assoc()): ?>
                           <tr>
                             <td><?php echo $fila["nombre"]; ?></td>
-                            <td><?php echo $fila["apellido"]; ?></td>
+                              <td><?php echo $fila["apellido"]; ?></td>
                             <td><?php echo $fila["email"]; ?></td>
                             <td><?php echo $fila["tipo"]; ?></td>
                           </tr>

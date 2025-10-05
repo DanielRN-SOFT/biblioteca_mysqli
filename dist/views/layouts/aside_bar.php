@@ -3,6 +3,8 @@
 // Obtener el nombre del archivo
 $archivoActual = basename($_SERVER["PHP_SELF"]);
 
+// Tipo de usuario
+$tipoUsuario = $_SESSION["tipoUsuario"];
 ?>
 <!-- Sección: Sidebar           -->
 <!-- ========================== -->
@@ -43,12 +45,14 @@ $archivoActual = basename($_SERVER["PHP_SELF"]);
                         <p>Información <i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
+                        <?php if($tipoUsuario == "Administrador"){?>
                         <li class="nav-item">
                             <a href="./usuarios.php" class="nav-link <?php echo ($archivoActual == "usuarios.php" ? "active" : "") ?>">
                                 <i class="fa-solid fa-users"></i>
                                 <p>Usuarios</p>
                             </a>
                         </li>
+                        <?php }?>
                         <li class="nav-item">
                             <a href="./views/departamentos.php" class="nav-link">
                                 <i class="fa-regular fa-eye"></i>

@@ -1,3 +1,13 @@
+<?php
+
+$nombreUsuario = $_SESSION["nombreUsuario"];
+$apellidoUsuario = $_SESSION["apellidoUsuario"];
+$tipoUsuario = $_SESSION["tipoUsuario"];
+
+?>
+
+
+
 <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
     <!--begin::App Wrapper-->
     <div class="app-wrapper">
@@ -30,7 +40,7 @@
                                 src="../assets/img/profile.png"
                                 class="user-image rounded-circle"
                                 alt="User Image" />
-                            <span class="d-none d-md-inline">Alexander Pierce</span>
+                            <span class="d-none d-md-inline"><?php echo $nombreUsuario . " " . $apellidoUsuario  ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
@@ -40,8 +50,8 @@
                                     class="rounded-circle shadow"
                                     alt="User Image" />
                                 <p>
-                                    Alexander Pierce - Web Developer
-                                    <small>Member since Nov. 2023</small>
+                                    <?php echo $nombreUsuario . " " . $apellidoUsuario  ?>
+                                    <small><?php echo $tipoUsuario ?></small>
                                 </p>
                             </li>
                             <!--end::User Image-->
@@ -65,7 +75,7 @@
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
                                 <a href="#" class="btn btn-success text-light btn-flat">Profile</a>
-                                <a href="#" class="btn btn-danger text-light btn-flat float-end">Sign out</a>
+                                <a href="../../controllers/logout.php" class="btn btn-danger text-light btn-flat float-end">Cerrar sesión</a>
                             </li>
                             <!--end::Menu Footer-->
                         </ul>
