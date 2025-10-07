@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         require_once '../models/MYSQL.php';
         require_once '../controllers/validar_isbn.php';
         $id=$_POST["IDlibro"];
-        $mysql = new MYSQL();
+        $mysql = new MySQL();
         $mysql->conectar();
         //sanitizacion de los datos
         $titulo = filter_var($_POST["titulo"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);

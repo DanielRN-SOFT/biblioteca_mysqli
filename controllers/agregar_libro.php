@@ -9,10 +9,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
         isset($_POST["categoria"]) && !empty($_POST["categoria"]) &&
         isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
-        isset($_POST["cantidad"]) && !empty($_POST["cantidad"])
+        isset($_POST["cantidad"]) && is_numeric($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
-        require_once 'validar:isbn.php';
+        require_once 'validar_isbn.php';
         $mysql = new MySQL();
         $mysql->conectar();
         //sanitizacion de los datos
@@ -22,14 +22,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $categoria = filter_var($_POST["categoria"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $disponibilidad = filter_var($_POST["disponibilidad"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
-
-        if ($isbn < 0) {
-            echo json_encode([
-                "success" => false,
-                "message" => "El ISBN debe tener numeros positivos"
-            ]);
-            exit();
-        }
 
         //validar el ISBN
         if (!validarISBN($isbn)) {
@@ -56,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado) VALUES('$titulo', '$autor', '$isbn', '$categoria', '$disponibilidad', $cantidad,'Activo')");
+        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado) VALUES('$titulo', '$autor', '$isbn', '$categoria', '$disponibilidad', '$cantidad','Activo')");
         if ($agregarLibro) {
             echo json_encode([
                 "success" => true,

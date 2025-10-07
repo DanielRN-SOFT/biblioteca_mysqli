@@ -1,17 +1,11 @@
 <?php
 function validarISBN($isbn) {
-    $isbn = str_replace(['-', ' '], '', strtoupper($isbn));
-
-    if (strlen($isbn) == 10) {
-        return validarISBN10($isbn);
-    } elseif (strlen($isbn) == 13) {
-        return validarISBN13($isbn);
-    } else {
-        return false;
-    }
+    $isbn = str_replace(['-', ' '], '', $isbn);
+    return (ctype_digit($isbn) && (strlen($isbn) == 10 || strlen($isbn) == 13));
 }
 
- function validarISBN10($isbn) {
+
+ /* function validarISBN10($isbn) {
     if (strlen($isbn) != 10) return false;
 
     $suma = 0;
@@ -38,6 +32,6 @@ function validarISBN13($isbn) {
 
     $digitoVerificador = (10 - ($suma % 10)) % 10;
     return $digitoVerificador == (int)$isbn[12];
-} 
+}  */
 
 ?>

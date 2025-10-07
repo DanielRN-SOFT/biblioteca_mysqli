@@ -1,7 +1,7 @@
 let btnAgregar = document.querySelector("#crearLibro");
 btnAgregar.addEventListener("click", () => {
   Swal.fire({
-    title: '<h1 class="text-success fw-bolder">Añadir Libro<h1>',
+    title: '<h1 class="text-success fw-bolder">Añadir Libro</h1>',
     html: `
          <form action="" method="post" id="frmCrearLibro">
   <div class="row">
@@ -62,11 +62,17 @@ btnAgregar.addEventListener("click", () => {
         processData: false,
         contentType: false,
         dataType: "json",
-      }).then((respuesta) => {
+      })
+      .then((respuesta) => {
         if (!respuesta.success) {
-          Swal.showValidationMessage(respuesta.message);
+          throw new Error(respuesta.message);
         }
         return respuesta;
+      })
+      .catch(error => {
+        Swal.showValidationMessage(
+          `Error: ${error.message || 'Ha ocurrido un error al procesar la solicitud'}`
+        );
       });
     },
   }).then((result) => {
