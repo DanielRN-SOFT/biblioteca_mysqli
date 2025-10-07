@@ -53,7 +53,7 @@ btnAgregar.addEventListener("click", () => {
       cancelButton: "btn btn-danger fs-5",
     },
     preConfirm: () => {
-      const form = document.getElementById("frmCrearLibro");
+      const form = document.getElementById("frmCrearUsuario");
       const formData = new FormData(form);
       return $.ajax({
         url: "../../controllers/agregar_libro.php",
@@ -62,22 +62,16 @@ btnAgregar.addEventListener("click", () => {
         processData: false,
         contentType: false,
         dataType: "json",
-      })
-      .then((respuesta) => {
+      }).then((respuesta) => {
         if (!respuesta.success) {
-          throw new Error(respuesta.message);
+          Swal.showValidationMessage(respuesta.message);
         }
         return respuesta;
-      })
-      .catch(error => {
-        Swal.showValidationMessage(
-          `Error: ${error.message || 'Ha ocurrido un error al procesar la solicitud'}`
-        );
       });
     },
-  }).then((result) => {
-    if (result.isConfirmed && result.value.success) {
-      Swal.fire("Exito", result.value.message, "success").then(() => {
+  }).then((resultado) => {
+    if (resultado.isConfirmed && resultado.value.success) {
+      Swal.fire("Exito", resultado.value.message, "success").then(() => {
         location.reload();
       });
     }

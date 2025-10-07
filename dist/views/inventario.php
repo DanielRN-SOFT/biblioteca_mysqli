@@ -15,6 +15,10 @@ $mysql->conectar();
 // Ejecución de la consulta
 $libros = $mysql->efectuarConsulta("SELECT * FROM libro");
 
+require_once './layouts/head.php';
+require_once './layouts/nav_bar.php';
+require_once './layouts/aside_bar.php';
+
 // Desconexión con la base de datos
 $mysql->desconectar();
 
@@ -313,26 +317,26 @@ $mysql->desconectar();
                         <table class="table table-bordered table-striped" id="tblLibros" width="100%" cellspacing="0">
                           <thead>
                             <tr>
-                              <th>ID</th>
                               <th>Titulo</th>
                               <th>Autor</th>
                               <th>ISBN</th>
                               <th>Categoria</th>
                               <th>Disponibilidad</th>
                               <th>Cantidad</th>
+                              <th>Estado</th>
                               <th>Acciones</th>
                             </tr>
                           </thead>
                           <tbody>
                             <?php while ($fila = $libros->fetch_assoc()): ?>
                               <tr>
-                                <td><?php echo $fila["id"]; ?></td>
                                 <td><?php echo $fila["titulo"]; ?></td>
                                 <td><?php echo $fila["autor"]; ?></td>
                                 <td><?php echo $fila["ISBN"]; ?></td>
                                 <td><?php echo $fila["categoria"]; ?></td>
                                 <td><?php echo $fila["disponibilidad"]; ?></td>
                                 <td><?php echo $fila["cantidad"]; ?></td>
+                                <td><?php echo $fila["estado"]; ?></td>
                                 <td>
                                   <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                                   <?php if ($fila["estado"] == "Activo") { ?>
@@ -364,6 +368,11 @@ $mysql->desconectar();
     <!-- ========================== -->
     <!-- Fin sección: Main Content  -->
     <!-- ========================== -->
+
+    <?php
+    require_once './layouts/footer.php';
+    $mysql->desconectar();
+    ?>
 
     <!-- ========================== -->
     <!-- Sección: Footer            -->
