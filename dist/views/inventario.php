@@ -214,7 +214,7 @@ $mysql->desconectar();
                 <li class="nav-item">
                   <a href="./views/departamentos.php" class="nav-link">
                     <i class="fa-regular fa-eye"></i>
-                    <p>Departamentos</p>
+                    <p>Libros</p>
                   </a>
                 </li>
                 <li class="nav-item">
@@ -310,7 +310,7 @@ $mysql->desconectar();
                   <div class="row">
                     <div class="col-md-12" id="contenedorTabla">
                       <div class="table-responsive">
-                        <table class="table table-bordered table-striped" id="dataTable" width="100%" cellspacing="0">
+                        <table class="table table-bordered table-striped" id="tblLibros" width="100%" cellspacing="0">
                           <thead>
                             <tr>
                               <th>ID</th>
@@ -334,8 +334,14 @@ $mysql->desconectar();
                                 <td><?php echo $fila["disponibilidad"]; ?></td>
                                 <td><?php echo $fila["cantidad"]; ?></td>
                                 <td>
-                                    <button class="btn btn-primary mx-1"><i class="fa-solid fa-pen-to-square"></i></button>
-                                    <button class="btn btn-danger mx-1"><i class="fa-solid fa-trash"></i></button>
+                                  <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                  <?php if ($fila["estado"] == "Activo") { ?>
+                                    <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                  <?php } else { ?>
+                                    <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+
+
+                                  <?php } ?>
                                 </td>
                               </tr>
                             <?php endwhile; ?>
@@ -411,13 +417,13 @@ $mysql->desconectar();
   <!-- Font Awesome -->
   <script src="https://kit.fontawesome.com/4c0cbe7815.js" crossorigin="anonymous"></script>
   <!-- ========================== -->
-   <!-- Sweet alert -->
+  <!-- Sweet alert -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<!-- JS externo  -->
+  <!-- JS externo  -->
   <script src="../../public/js/gestion_libros.js"></script>
 
-   <!-- Jquery -->
+  <!-- Jquery -->
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <!-- Fin sección: Scripts       -->
   <!-- ========================== -->
