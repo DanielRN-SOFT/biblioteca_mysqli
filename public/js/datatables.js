@@ -1,7 +1,4 @@
-<<<<<<< HEAD
 
-=======
->>>>>>> CRUD_INVENTARIO
 // Funcion para ejecutar los datatables
 function dataTables(IDtabla){
 $(document).ready(function () {
@@ -26,8 +23,6 @@ dataTables("#tblUsuarios")
 
 // Dashboard
 dataTables("#tblDashboard");
-<<<<<<< HEAD
-=======
 // Funcion para ejecutar los datatables
 
 
@@ -51,4 +46,3 @@ $(document).ready(function () {
 
 // Tabla usuarios
 dataTables("#tblLibros")
->>>>>>> CRUD_INVENTARIO
