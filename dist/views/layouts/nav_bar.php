@@ -1,5 +1,6 @@
 <?php
 
+$IDusuario = $_SESSION["IDusuario"];
 $nombreUsuario = $_SESSION["nombreUsuario"];
 $apellidoUsuario = $_SESSION["apellidoUsuario"];
 $tipoUsuario = $_SESSION["tipoUsuario"];
