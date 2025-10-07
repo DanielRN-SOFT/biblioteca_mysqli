@@ -53,12 +53,23 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
                         <?php }?>
+<<<<<<< HEAD
                         <li class="nav-item">
                             <a href="./views/departamentos.php" class="nav-link">
                                 <i class="fa-regular fa-eye"></i>
                                 <p>Departamentos</p>
                             </a>
                         </li>
+=======
+                        <?php if($tipoUsuario == "Administrador"){?>
+                        <li class="nav-item">
+                            <a href="../inventario.php" class="nav-link <?php echo ($archivoActual == "inventario.php" ? "active" : "") ?>">
+                                <i class="fa-solid fa-users"></i>
+                                <p>Libros</p>
+                            </a>
+                        </li>
+                        <?php }?>
+>>>>>>> CRUD_INVENTARIO
                         <li class="nav-item">
                             <a href="./views/cargos.php" class="nav-link">
                                 <i class="fa-regular fa-eye"></i>
