@@ -60,7 +60,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./reservas.php" class="nav-link">
+                            <a href="./reservas.php" class="nav-link <?php echo($archivoActual == "reservas.php" ? 'active' : "") ?>">
                                 <i class="fa-solid fa-calendar-days"></i>
                                 <p>Reservas</p>
                             </a>

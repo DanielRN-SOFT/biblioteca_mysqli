@@ -37,12 +37,12 @@ $mysql->conectar();
 
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, libro.titulo, reserva.estado, reserva.validacion FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE usuario.id = $IDusuario");
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, libro.titulo, reserva.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE usuario.id = $IDusuario ORDER BY reserva_has_libro.reserva_id");
 }
 
 // Si es administrador puede ver todas las reservas 
 if ($tipoUsuario == "Administrador") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, libro.titulo, reserva.estado, reserva.validacion FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id");
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, libro.titulo, reserva.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id");
 }
 
 
@@ -64,7 +64,7 @@ if ($tipoUsuario == "Administrador") {
 
             <div class="row mt-3 mb-2">
                 <div class="col-sm-12">
-                    <button class="btn btn-success w-100" id="BtnCrearReserva">Crear nueva reserva</button>
+                    <button class="btn btn-success w-100" id="BtnCrearReserva" onclick="crearReserva(<?php echo $IDusuario ?>)">Crear nueva reserva</button>
                 </div>
             </div>
         </div>
@@ -90,42 +90,40 @@ if ($tipoUsuario == "Administrador") {
                             <div class="row">
                                 <div class="col-md-12" id="contenedorTabla">
                                     <div>
-                                      
-                                            <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Usuario</th>
-                                                        <th>Fecha de reserva</th>
-                                                        <th>Reserva</th>
-                                                        <th>Libro</th>
-                                                        <th>Estado</th>
-                                                        <th>Validacion</th>
-                                                        <th>Acciones</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <?php while ($fila = $reservasUsuario->fetch_assoc()): ?>
-                                                        <tr>
-                                                            <td> <?php echo $fila["nombre"] . " " . $fila["apellido"] ?></td>
-                                                            <td> <?php echo $fila["fecha_reserva"] ?></td>
-                                                            <td> <?php echo $fila["reserva_id"] ?></td>
-                                                            <td> <?php echo $fila["titulo"] ?></td>
-                                                            <td> <?php echo $fila["estado"] ?></td>
-                                                            <td> <?php echo $fila["validacion"] ?></td>
-                                                            <td>
-                                                                <button class="btn btn-primary mx-1"><i class="fa-solid fa-pen-to-square"></i></button>
 
-                                                                <?php if ($fila["validacion"] == "Confirmada") { ?>
-                                                                    <button class="btn btn-danger btn-eliminar-usuario"><i class="fa-solid fa-trash"></i></button>
-                                                                <?php } else { ?>
-                                                                    <button class="btn btn-success btn-reitegrar-usuario"><i class="fa-solid fa-check"></i></button>
-                                                                <?php } ?>
-                                                            </td>
-                                                        </tr>
-                                                    <?php endwhile ?>
-                                                </tbody>
-                                            </table>
-                                      
+                                        <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Usuario</th>
+                                                    <th>Fecha de reserva</th>
+                                                    <th>Reserva</th>
+                                                    <th>Libro</th>
+                                                    <th>Estado</th>
+                                                    <th>Acciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php while ($fila = $reservasUsuario->fetch_assoc()): ?>
+                                                    <tr>
+                                                        <td> <?php echo $fila["nombre"] . " " . $fila["apellido"] ?></td>
+                                                        <td> <?php echo $fila["fecha_reserva"] ?></td>
+                                                        <td> <?php echo $fila["reserva_id"] ?></td>
+                                                        <td> <?php echo $fila["titulo"] ?></td>
+                                                        <td> <?php echo $fila["estado"] ?></td>          
+                                                        <td>
+                                                            <button class="btn btn-primary mx-1"><i class="fa-solid fa-pen-to-square"></i></button>
+
+                                                            <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Aprovada") { ?>
+                                                                <button class="btn btn-danger btn-eliminar-usuario"><i class="fa-solid fa-trash"></i></button>
+                                                            <?php } else { ?>
+                                                                <button class="btn btn-success btn-reitegrar-usuario"><i class="fa-solid fa-check"></i></button>
+                                                            <?php } ?>
+                                                        </td>
+                                                    </tr>
+                                                <?php endwhile ?>
+                                            </tbody>
+                                        </table>
+
                                     </div>
                                 </div>
                             </div>

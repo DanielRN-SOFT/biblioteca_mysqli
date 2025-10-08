@@ -53,4 +53,24 @@ class MySQL
 
         return $resultado;
     }
+
+    public function ultimoID()
+    {
+        return mysqli_insert_id($this->conexion);
+    }
+
+    public function comenzarTransaccion()
+    {
+        mysqli_begin_transaction($this->conexion);
+    }
+
+    public function confirmarTransaccion()
+    {
+        mysqli_commit($this->conexion);
+    }
+
+    public function cancelarTransaccion()
+    {
+        mysqli_rollback($this->conexion);
+    }
 }
