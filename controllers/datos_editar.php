@@ -1,7 +1,7 @@
 <?php
 
 // Funcion para seleccionar datos a editar sin necesidad de crear tantos archivos
-function seleccionarDatosEditar($IDtabla)
+function seleccionarDatosEditar($IDtabla, $tabla)
 {
     // Requerir el modelo a utilizar
     require_once '../models/MYSQL.php';
@@ -13,7 +13,7 @@ function seleccionarDatosEditar($IDtabla)
     $mysql->conectar();
 
     // Realizar la consulta para obtener los datos de la tabla
-    $consulta = $mysql->efectuarConsulta("SELECT * FROM usuario WHERE id = $IDtabla");
+    $consulta = $mysql->efectuarConsulta("SELECT * FROM $tabla WHERE id = $IDtabla");
     $datosEditar = $consulta->fetch_assoc();
 
     // Enviar los datos via JSON para utilizarlos en JavaScript
@@ -30,6 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $id = $_POST["IDusuario"];
         
         // Llamar a la funcion de seleccinar
-        seleccionarDatosEditar($id);
+        seleccionarDatosEditar($id, "usuario");
     }
 }
