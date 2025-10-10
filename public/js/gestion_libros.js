@@ -87,7 +87,7 @@ function editarLibro(IDlibro) {
     dataType: "json",
     success: function (data) {
       Swal.fire({
-        title: '<h1 class="text-success fw-bolder">Editar Libro<h1>',
+        title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
         html: `
          <form action="" method="post" id="frmEditarLibro">
   <div class="row">

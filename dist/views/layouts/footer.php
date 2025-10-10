@@ -72,8 +72,6 @@ if ($archivoActual == "usuarios.php") {
     <!-- JS externo  -->
     <script src="../../public/js/gestion_usuarios.js"></script>
 <?php } ?>
-<<<<<<< HEAD
-=======
 <?php
 // Incluir el script especifico en caso de que el archivo sea libros 
 if ($archivoActual == "inventario.php") {
@@ -81,7 +79,6 @@ if ($archivoActual == "inventario.php") {
     <!-- JS externo  -->
     <script src="../../public/js/gestion_libros.js"></script>
 <?php } ?>
->>>>>>> CRUD_INVENTARIO
 
 
 <!-- Datatables Script -->
