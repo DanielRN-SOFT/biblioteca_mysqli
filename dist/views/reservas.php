@@ -37,12 +37,12 @@ $mysql->conectar();
 
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, reserva_has_libro.libro_id, libro.titulo, reserva.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE usuario.id = $IDusuario ORDER BY reserva_has_libro.reserva_id");
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, reserva_has_libro.libro_id, libro.titulo, reserva_has_libro.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE usuario.id = $IDusuario ORDER BY reserva_has_libro.reserva_id");
 }
 
 // Si es administrador puede ver todas las reservas 
 if ($tipoUsuario == "Administrador") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, reserva_has_libro.libro_id, libro.titulo, reserva.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id ORDER BY reserva_has_libro.reserva_id");
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva_has_libro.reserva_id, reserva_has_libro.libro_id, libro.titulo, reserva_has_libro.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id ORDER BY reserva_has_libro.reserva_id");
 }
 
 
@@ -90,16 +90,18 @@ if ($tipoUsuario == "Administrador") {
                             <div class="row">
                                 <div class="col-md-12" id="contenedorTabla">
                                     <div>
-
                                         <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Usuario</th>
-                                                    <th>Fecha de reserva</th>
+                                                    <th>Fecha</th>
                                                     <th>Reserva</th>
                                                     <th>Libro</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
+                                                    <?php if ($tipoUsuario == "Administrador") { ?>
+                                                        <th>Opciones</th>
+                                                    <?php } ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -109,16 +111,30 @@ if ($tipoUsuario == "Administrador") {
                                                         <td> <?php echo $fila["fecha_reserva"] ?></td>
                                                         <td> <?php echo $fila["reserva_id"] ?></td>
                                                         <td> <?php echo $fila["titulo"] ?></td>
-                                                        <td> <?php echo $fila["estado"] ?></td>          
+                                                        <td> <?php echo $fila["estado"] ?></td>
                                                         <td>
                                                             <button class="btn btn-primary mx-1" onclick="editarReserva(<?php echo $fila['reserva_id'] ?> ,<?php echo $fila['libro_id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
 
-                                                            <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Aprobada") { ?>
-                                                                <button class="btn btn-danger btn-eliminar-usuario"><i class="fa-solid fa-trash"></i></button>
-                                                            <?php } else { ?>
-                                                                <button class="btn btn-success btn-reitegrar-usuario"><i class="fa-solid fa-check"></i></button>
+                                                            <?php if ($fila["estado"] == "Pendiente") { ?>
+                                                                <button class="btn btn-danger btn-eliminar-usuario mx-auto" onclick="cancelarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-trash"></i></button>
+                                                            <?php } else if ($fila["estado"] == "Cancelada") { ?>
+                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
+                                                            <?php } else if ($tipoUsuario == "Administrador" && $fila["estado"] == "Aprobada") { ?>
+                                                                <button class="btn btn-danger btn-eliminar-usuario mx-auto" onclick="cancelarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-trash"></i></button>
+                                                            <?php } else if ($tipoUsuario == "Administrador" && $fila["estado"] == "Cancelada") { ?>
+                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
                                                             <?php } ?>
+
+
                                                         </td>
+                                                        <?php if ($tipoUsuario == "Administrador") { ?>
+                                                            <td>
+
+                                                                <button class="btn btn-success mx-1" onclick="aprobarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>', '<?php echo 'Aprobar' ?>')"><i class="fa-solid fa-thumbs-up"></i></button>
+                                                                <button class="btn btn-danger" onclick="rechazarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>', '<?php echo 'Rechazar' ?>')"><i class="fa-solid fa-circle-xmark"></i></button>
+                                                            </td>
+                                                        <?php } ?>
+
                                                     </tr>
                                                 <?php endwhile ?>
                                             </tbody>

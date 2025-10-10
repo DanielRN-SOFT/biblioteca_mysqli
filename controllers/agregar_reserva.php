@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $id = $_POST["IDcliente"];
 
             // Insertar la reserva como tal
-            $insertReserva = $mysql->efectuarConsulta("INSERT INTO reserva(id_usuario, fecha_reserva, estado) VALUES($id, now(), 'Pendiente')");
+            $insertReserva = $mysql->efectuarConsulta("INSERT INTO reserva(id_usuario, fecha_reserva) VALUES($id, now())");
 
             // $consultaUltimoID = $mysql->efectuarConsulta("SELECT MAX(id) as IDmax FROM reserva");
             // Seleccionar el ultimoID existente en reservas
@@ -29,8 +29,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             foreach ($libros as $libro) {
                 // Sanetizar los datos
                 $libro = filter_var($libro, FILTER_SANITIZE_NUMBER_INT);
+                $estado = "Pendiente";
                 // Insertar en la tabla pivote
-                $insertPivote = $mysql->efectuarConsulta("INSERT INTO reserva_has_libro(reserva_id,libro_id) VALUES($ultimoID, $libro)");
+                $insertPivote = $mysql->efectuarConsulta("INSERT INTO reserva_has_libro(reserva_id,libro_id, estado) VALUES($ultimoID, $libro, '$estado')");
             }
 
                 echo json_encode([
