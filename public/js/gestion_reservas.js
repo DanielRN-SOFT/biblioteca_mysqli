@@ -149,7 +149,7 @@ async function editarReserva(IDreservaBD, IDlibroBD) {
 }
 
 // Cancelar reserva
-function cancelarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD){
+function cancelarReserva(tipoUsuarioBD, IDreservaBD, IDlibroBD, tituloBD, estadoBD){
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Cancelar reserva </span>',
     html: `¿Esta seguro de cancelar esta reserva?: <br>
@@ -169,6 +169,7 @@ function cancelarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD){
       formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
+      formData.append("tipoUsuario", tipoUsuarioBD);
 
       const response = await fetch("../../controllers/eliminar_integrar_reserva.php",{
         method: "POST",
@@ -193,7 +194,7 @@ function cancelarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD){
 }
 
 // Reintegrar reserva
-function reintegrarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD){
+function reintegrarReserva(tipoUsuarioBD, IDreservaBD, IDlibroBD, tituloBD, estadoBD){
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Reactivar reserva </span>',
     html: `¿Esta seguro de volver a activar esta reserva?: <br>
@@ -213,6 +214,7 @@ function reintegrarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD){
       formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
+      formData.append("tipoUsuario", tipoUsuarioBD);
 
       const response = await fetch("../../controllers/eliminar_integrar_reserva.php",{
         method: "POST",

@@ -115,14 +115,10 @@ if ($tipoUsuario == "Administrador") {
                                                         <td>
                                                             <button class="btn btn-primary mx-1" onclick="editarReserva(<?php echo $fila['reserva_id'] ?> ,<?php echo $fila['libro_id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
 
-                                                            <?php if ($fila["estado"] == "Pendiente") { ?>
-                                                                <button class="btn btn-danger btn-eliminar-usuario mx-auto" onclick="cancelarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-trash"></i></button>
+                                                            <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Aprobada" || $fila["estado"] == "Rechazada") { ?>
+                                                                <button class="btn btn-danger btn-eliminar-usuario mx-auto" onclick="cancelarReserva('<?php echo $tipoUsuario ?>',<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-trash"></i></button>
                                                             <?php } else if ($fila["estado"] == "Cancelada") { ?>
-                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
-                                                            <?php } else if ($tipoUsuario == "Administrador" && $fila["estado"] == "Aprobada") { ?>
-                                                                <button class="btn btn-danger btn-eliminar-usuario mx-auto" onclick="cancelarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-trash"></i></button>
-                                                            <?php } else if ($tipoUsuario == "Administrador" && $fila["estado"] == "Cancelada") { ?>
-                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
+                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva('<?php echo $tipoUsuario ?>',<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
                                                             <?php } ?>
 
 
