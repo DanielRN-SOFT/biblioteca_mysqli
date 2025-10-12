@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 // Obtener el nombre del archivo
 $archivoActual = basename($_SERVER["PHP_SELF"]);
 
@@ -53,12 +53,6 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
                         <?php }?>
-                        <li class="nav-item">
-                            <a href="./views/departamentos.php" class="nav-link">
-                                <i class="fa-regular fa-eye"></i>
-                                <p>Departamentos</p>
-                            </a>
-                        </li>
                         <?php if($tipoUsuario == "Administrador"){?>
                         <li class="nav-item">
                             <a href="./inventario.php" class="nav-link <?php echo ($archivoActual == "inventario.php" ? "active" : "") ?>">
@@ -67,6 +61,12 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
                         <?php }?>
+                        <li class="nav-item">
+                            <a href="./views/departamentos.php" class="nav-link">
+                                <i class="fa-regular fa-eye"></i>
+                                <p>Departamentos</p>
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="./views/cargos.php" class="nav-link">
                                 <i class="fa-regular fa-eye"></i>

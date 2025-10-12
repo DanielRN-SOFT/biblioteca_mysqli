@@ -29,6 +29,7 @@ dataTables("#tblDashboard");
 function dataTables(IDtabla){
 $(document).ready(function () {
   $(IDtabla).DataTable({
+    destroy: true,
     responsive: true,
     fixedHeader: true,
     scrollY: 300,
@@ -37,7 +38,9 @@ $(document).ready(function () {
       indicators: false,
       handler: false,
     },
+    searching: false,
     language: {
+
       url: "https://cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json",
     },
   });

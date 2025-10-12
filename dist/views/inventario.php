@@ -8,7 +8,7 @@ $pagina = "Libros";
 require_once '../../models/MYSQL.php';
 session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
   header("location: ./login.php");
 } else {
   $_SESSION["acceso"] = true;
@@ -49,6 +49,7 @@ $libros = $mysql->efectuarConsulta("SELECT * FROM libro");
       <div class="row my-2">
         <div class="col-sm-12">
           <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
+          <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
         </div>
       </div>
     </div>

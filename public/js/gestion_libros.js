@@ -87,7 +87,7 @@ function editarLibro(IDlibro) {
     dataType: "json",
     success: function (data) {
       Swal.fire({
-        title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
+       title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
         html: `
          <form action="" method="post" id="frmEditarLibro">
   <div class="row">
@@ -221,7 +221,7 @@ function eliminarLibro(idLibro, estado) {
     }
   });
 }
-// Reintegrar empleado
+// Reintegrar libro
 function reintegrarLibro(idLibro, estado) {
   console.log(estado);
   Swal.fire({
@@ -263,3 +263,143 @@ function reintegrarLibro(idLibro, estado) {
     }
   });
 }
+// BUSQUEDA Y FILTROS
+let btnBuscar = document.querySelector("#crearBusqueda");
+
+btnBuscar.addEventListener("click", () => {
+  Swal.fire({
+    title: '<h2 class="text-primary fw-bolder">Buscar</h2>',
+    html: `
+      <select id="tipoBusqueda" class="form-select swal2-input mb-2">
+        <option value="libros">Libros</option>
+        <option value="reservas">Reservas</option>
+      </select>
+      <input type="text" id="busquedaTexto" class="swal2-input" placeholder="Buscar...">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table class="table table-bordered" id="tablaResultados" style="font-size:14px;">
+          <thead id="tablaHead"></thead>
+          <tbody id="tablaBody"></tbody>
+        </table>
+      </div>
+    `,
+    width: 800,
+    showConfirmButton: false,
+  });
+
+  const tipoSelect = document.getElementById("tipoBusqueda");
+  const input = document.getElementById("busquedaTexto");
+  const tablaHead = document.getElementById("tablaHead");
+  const tablaBody = document.getElementById("tablaBody");
+
+  // 🔹 función para redibujar las columnas según el tipo
+  function actualizarCabecera() {
+    if (tipoSelect.value === "libros") {
+      tablaHead.innerHTML = `
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>ISBN</th>
+          <th>Categoría</th>
+          <th>Disponibilidad</th>
+        </tr>
+      `;
+    } else {
+      tablaHead.innerHTML = `
+        <tr>
+          <th>Usuario</th>
+          <th>Fecha Reserva</th>
+          <th>Estado</th>
+          <th>Validacion</th>
+        </tr>
+      `;
+    }
+    tablaBody.innerHTML = ""; // limpiar resultados
+  }
+
+  // Inicializa la cabecera por defecto
+  actualizarCabecera();
+
+  // Cuando cambias de tipo de búsqueda
+  tipoSelect.addEventListener("change", () => {
+    input.value = "";
+    actualizarCabecera();
+  });
+
+  // Cuando escribes algo en el input
+  input.addEventListener("keyup", () => {
+    const texto = input.value.trim();
+    const tipo = tipoSelect.value;
+
+    if (texto.length < 2) {
+      tablaBody.innerHTML = "";
+      return;
+    }
+
+    if (tipo === "libros") buscarLibros(texto);
+    else buscarReservas(texto);
+  });
+
+  // 🔹 función para buscar libros
+  function buscarLibros(texto) {
+    $.ajax({
+      url: "../../controller/buscar_libros.php",
+      type: "POST",
+      data: { query: texto },
+      success: function (response) {
+        let libros = [];
+        try { libros = JSON.parse(response); } catch (e) { console.error(e); }
+
+        tablaBody.innerHTML = "";
+
+        if (libros.length === 0) {
+          tablaBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No se encontraron libros</td></tr>`;
+          return;
+        }
+
+        libros.forEach(libro => {
+          tablaBody.insertAdjacentHTML("beforeend", `
+            <tr>
+              <td>${libro.titulo}</td>
+              <td>${libro.autor}</td>
+              <td>${libro.categoria}</td>
+              <td>${libro.estado}</td>
+              <td><button class="btn btn-danger btn-sm">X</button></td>
+            </tr>
+          `);
+        });
+      }
+    });
+  }
+
+  // 🔹 función para buscar reservas
+  function buscarReservas(texto) {
+    $.ajax({
+      url: "../../controller/buscar_reservas.php",
+      type: "POST",
+      data: { query: texto },
+      success: function (response) {
+        let reservas = [];
+        try { reservas = JSON.parse(response); } catch (e) { console.error(e); }
+
+        tablaBody.innerHTML = "";
+
+        if (reservas.length === 0) {
+          tablaBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No se encontraron reservas</td></tr>`;
+          return;
+        }
+
+        reservas.forEach(res => {
+          tablaBody.insertAdjacentHTML("beforeend", `
+            <tr>
+              <td>${res.usuario}</td>
+              <td>${res.libro}</td>
+              <td>${res.fecha_reserva}</td>
+              <td>${res.estado}</td>
+              <td><button class="btn btn-danger btn-sm">X</button></td>
+            </tr>
+          `);
+        });
+      }
+    });
+  }
+});
