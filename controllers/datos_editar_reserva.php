@@ -3,7 +3,7 @@
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(isset($_POST["IDreserva"]) && !empty($_POST["IDlibro"])){
 
-        // Santizacion de datos
+        // Sanitizacion de datos
         $IDreserva = filter_var($_POST["IDreserva"], FILTER_SANITIZE_NUMBER_INT);
         $IDlibro = filter_var($_POST["IDlibro"], FILTER_SANITIZE_NUMBER_INT);
 

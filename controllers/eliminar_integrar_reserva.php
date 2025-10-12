@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             // Ejecucion de la consulta
-            $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva_has_libro SET estado ='$nuevoEstado' WHERE reserva_id = $IDreserva AND libro_id = $IDlibro");
+            $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva SET estado ='$nuevoEstado' WHERE id = $IDreserva");
 
             if ($cambiarEstado) {
                 echo json_encode([
@@ -46,17 +46,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
 
+        // Validar que el cliente no pueda cancelar reservas que ya fueron aprobadas o rechazadas
         if($estado == "Aprobada" && $tipoUsuario == "Cliente" || $estado == "Rechazada" && $tipoUsuario == "Cliente"){
             echo json_encode([
                 "success" => false,
-                "message" => "El administrador es el unico que puede cancelar reservas aprobadas o rechazadas"
+                "message" => "Su rol no le permite cancelar reservas aprobadas o rechazadas"
             ]);
             exit();
         }
 
-        if ($estado == "Aprobada" && $tipoUsuario == "Administrador" || $estado == "Rechazada" && $tipoUsuario == "Administrador") {
-             // Ejecucion de la consulta
-            $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva_has_libro SET estado ='Cancelada' WHERE reserva_id = $IDreserva AND libro_id = $IDlibro");
+        // Validar que el administrador si puede cancelar reservas en caso de ser necesario
+        if ($estado == "Aprobada" && $tipoUsuario == "Administrador") {
+
+            if($estado == "Aprobada"){
+                $deleteReserva = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
+            }
+            
+            $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva SET estado ='Cancelada' WHERE id = $IDreserva");
 
             if ($cambiarEstado) {
                 echo json_encode([
@@ -70,6 +76,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
             }
           
+        }
+
+        if ($estado == "Rechazada" && $tipoUsuario == "Administrador") {
+
+            if ($estado == "Aprobada") {
+                $deleteReserva = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
+            }
+
+            $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva SET estado ='Pendiente' WHERE id = $IDreserva");
+
+            if ($cambiarEstado) {
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Cancelacion de reserva completada"
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "Ocurrio un error..."
+                ]);
+            }
         }
 
        

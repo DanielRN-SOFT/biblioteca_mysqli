@@ -16,6 +16,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $IDlibroNuevo = filter_var($_POST["libro"], FILTER_SANITIZE_NUMBER_INT);
             $IDreserva = filter_var($_POST["reserva_id"], FILTER_SANITIZE_NUMBER_INT);
             $IDlibroViejo = filter_var($_POST["libro_id"], FILTER_SANITIZE_NUMBER_INT);
+            $estado = filter_var($_POST["estado"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            $tipoUsuario = filter_var($_POST["tipoUsuario"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
+            // Si la reserva ya fue aprobada o rechazada el cliente no la puede editar
+            if($estado == "Aprobada" && $tipoUsuario == "Cliente" || $estado == "Rechazada" && $tipoUsuario == "Cliente"){
+                echo json_encode([
+                    "success" => false,
+                    "message" => "No se puede editar una reserva que ya fue aprobada o rechazada"
+                ]);
+                exit();
+            }
 
             // Ejecucion de la consulta en la tabla pivote
             $update = $mysql->efectuarConsulta("UPDATE reserva_has_libro set libro_id = $IDlibroNuevo WHERE reserva_id = $IDreserva AND libro_id = $IDlibroViejo");
@@ -36,15 +47,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         }catch (Exception $ex){
             $excepcion = $ex->getMessage();
-            $duplicacion = substr($excepcion, 0, 9);
-            if($duplicacion == "Duplicate"){
+            // Si cae en la expepcion y contiene duplicate
+            if(str_contains($excepcion, "Duplicate")){
                 echo json_encode([
                     "success" => false,
                     "message" => "La reserva ya tiene ese libro registrado"
                 ]);
-            }else{
-                $excepcion = "hola";
+                exit();
             }
+         
            
         }
       

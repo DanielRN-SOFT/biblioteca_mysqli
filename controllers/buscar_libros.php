@@ -5,8 +5,9 @@ require_once '../models/MYSQL.php';
 $mysql = new MySQL();
 $mysql->conectar();
 
+$query = $_POST["query"];
 // Consulta para seleccionar todos los libros
-$consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor, categoria FROM libro WHERE disponibilidad = 'Disponible'");
+$consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor, categoria FROM libro WHERE disponibilidad = 'Disponible' AND titulo LIKE '%$query%' OR autor LIKE '%$query%' LIMIT 10");
 
 $libros = [];
 
