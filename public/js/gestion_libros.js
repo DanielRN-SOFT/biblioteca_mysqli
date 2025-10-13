@@ -1,9 +1,9 @@
-let btnAgregar = document.querySelector("#crearLibro");
-btnAgregar.addEventListener("click", () => {
+// Agregar Libro
+let btnCrear = document.querySelector("#crearLibro");
+btnCrear.addEventListener("click", () => {
   Swal.fire({
-    title: '<h1 class="text-success fw-bolder">Añadir Libro</h1>',
-    html: `
-         <form action="" method="post" id="frmCrearLibro">
+    title: '<span class="text-success fw-bold">Agregar Libro</span>',
+    html: `<form action="" method="post" id="frmCrearLibro">
   <div class="row">
     <div class="col-sm-12">
       <div class="mb-3">
@@ -49,11 +49,11 @@ btnAgregar.addEventListener("click", () => {
     confirmButtonText: "Agregar",
     cancelButtonText: "Cancelar",
     customClass: {
-      confirmButton: "btn btn-success fs-5",
-      cancelButton: "btn btn-danger fs-5",
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger",
     },
     preConfirm: () => {
-      const form = document.getElementById("frmCrearUsuario");
+      const form = document.getElementById("frmCrearLibro");
       const formData = new FormData(form);
       return $.ajax({
         url: "../../controllers/agregar_libro.php",
@@ -180,7 +180,7 @@ function editarLibro(IDlibro) {
     },
   });
 }
-// ELIMINAR EMPLEADO
+// ELIMINAR LIBRO
 function eliminarLibro(idLibro, estado) {
   Swal.fire({
     title: '<span class = "text-danger fw-bold"> Eliminar Libro </span>',
@@ -221,7 +221,7 @@ function eliminarLibro(idLibro, estado) {
     }
   });
 }
-// Reintegrar empleado
+// Reintegrar LIBRO
 function reintegrarLibro(idLibro, estado) {
   console.log(estado);
   Swal.fire({
