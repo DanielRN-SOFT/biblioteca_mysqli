@@ -9,7 +9,7 @@ $mysql->conectar();
 $IDcliente = $_POST["IDcliente"];
 $librosSeleccionados = json_decode($_POST["librosSeleccionados"]);
 
-$consulta = $mysql->efectuarConsulta("SELECT COUNT(*) as numReservas FROM reserva_has_libro JOIN reserva ON reserva.id = reserva_has_libro.reserva_id WHERE reserva.id_usuario = $IDcliente AND reserva_has_libro.estado = 'Pendiente'");
+$consulta = $mysql->efectuarConsulta("SELECT COUNT(*) as numReservas FROM reserva_has_libro JOIN reserva ON reserva.id = reserva_has_libro.reserva_id WHERE reserva.id_usuario = $IDcliente AND reserva.estado = 'Pendiente'");
 
 $conteoReservas = $consulta->fetch_assoc()["numReservas"];
 $conteoReservas =  $conteoReservas + count($librosSeleccionados);

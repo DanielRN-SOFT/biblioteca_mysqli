@@ -119,26 +119,33 @@ if ($tipoUsuario == "Administrador") {
                                                             <td> <?php echo $fila["estado"] ?></td>
                                                         <?php } ?>
                                                         <td>
-                                                            <?php if($fila["estado"] == "Pendiente" || $tipoUsuario == "Administrador"){?>
-                                                            <button class="btn btn-primary mx-1" onclick="editarReserva(<?php echo $fila['reserva_id'] ?> ,<?php echo $fila['libro_id'] ?>, 
+                                                            <?php if ($fila["estado"] == "Pendiente" || $tipoUsuario == "Administrador") { ?>
+                                                                <button class="btn btn-primary mx-1" onclick="editarReserva(<?php echo $fila['reserva_id'] ?> ,<?php echo $fila['libro_id'] ?>, 
                                                             '<?php echo $fila['estado'] ?>', '<?php echo $tipoUsuario ?>')"><i class="fa-solid fa-pen-to-square"></i></button>
                                                             <?php } ?>
 
-                                                            <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Aprobada") { ?>
-                                                                <button class="btn btn-danger btn-eliminar-usuario mx-auto" onclick="cancelarReserva('<?php echo $tipoUsuario ?>',<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-trash"></i></button>
+                                                            <?php if ($fila["estado"] == "Pendiente") { ?>
+                                                                <button class="btn btn-danger mx-auto" onclick="cancelarReserva(<?php echo $fila['reserva_id'] ?> , <?php echo $fila['libro_id'] ?> , '<?php echo $fila['estado']?>')">
+                                                                    <i class="fa-solid fa-trash"></i>
+                                                                </button>
                                                             <?php } else if ($fila["estado"] == "Cancelada") { ?>
-                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva('<?php echo $tipoUsuario ?>',<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
-                                                            <?php } else if ($fila["estado"] == "Rechazada" && $tipoUsuario == "Administrador") { ?>
-                                                                <button class="btn btn-success btn-reitegrar-usuario mx-auto" onclick="reintegrarReserva('<?php echo $tipoUsuario ?>',<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>')"><i class="fa-solid fa-check"></i></button>
+                                                                <button class="btn btn-success mx-auto" onclick="reintegrarReserva(
+                                                                <?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?> , '<?php echo $fila['estado'] ?>')">
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                </button>
                                                             <?php } ?>
 
                                                         </td>
                                                         <?php if ($tipoUsuario == "Administrador") { ?>
                                                             <td>
-                                                                <?php if ($fila["estado"] == "Pendiente") { ?>
+                                                                <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Rechazada") { ?>
                                                                     <button class="btn btn-success mx-1" onclick="aprobarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>', '<?php echo 'Aprobar' ?>')"><i class="fa-solid fa-thumbs-up"></i></button>
+                                                                <?php } ?>
+
+                                                                <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Aprobada") { ?>
                                                                     <button class="btn btn-danger" onclick="rechazarReserva(<?php echo $fila['reserva_id'] ?>, <?php echo $fila['libro_id'] ?>, '<?php echo $fila['titulo'] ?>', '<?php echo $fila['estado'] ?>', '<?php echo 'Rechazar' ?>')"><i class="fa-solid fa-circle-xmark"></i></button>
                                                                 <?php } ?>
+
                                                             </td>
                                                         <?php } ?>
 

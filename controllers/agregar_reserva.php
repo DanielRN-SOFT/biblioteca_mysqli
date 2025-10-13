@@ -52,8 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errores = "Error con el libro ID $IDlibro";
             }
 
-            // // Insertar en la tabla pivote
-            // $insertPivote = $mysql->efectuarConsulta("INSERT INTO reserva_has_libro(reserva_id,libro_id, estado) VALUES($ultimoID, $libro, '$estado')");
+          
         }
 
         $mysql->desconectar();

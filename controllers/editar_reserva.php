@@ -19,15 +19,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $estado = filter_var($_POST["estado"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $tipoUsuario = filter_var($_POST["tipoUsuario"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // Si la reserva ya fue aprobada o rechazada el cliente no la puede editar
-            if($estado == "Aprobada" && $tipoUsuario == "Cliente" || $estado == "Rechazada" && $tipoUsuario == "Cliente"){
-                echo json_encode([
-                    "success" => false,
-                    "message" => "No se puede editar una reserva que ya fue aprobada o rechazada"
-                ]);
-                exit();
-            }
-
             // Ejecucion de la consulta en la tabla pivote
             $update = $mysql->efectuarConsulta("UPDATE reserva_has_libro set libro_id = $IDlibroNuevo WHERE reserva_id = $IDreserva AND libro_id = $IDlibroViejo");
 

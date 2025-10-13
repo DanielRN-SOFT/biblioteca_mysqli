@@ -138,7 +138,7 @@ async function crearReserva(IDcliente) {
           method: "POST",
           body: new URLSearchParams({
             IDcliente: IDcliente,
-            librosSeleccionados: JSON.stringify(productos)
+            librosSeleccionados: JSON.stringify(productos),
           }),
         });
         const resultado = await validar.json();
@@ -338,17 +338,15 @@ async function editarReserva(IDreservaBD, IDlibroBD, estadoBD, tipoUsuarioBD) {
 
 // Cancelar reserva
 function cancelarReserva(
-  tipoUsuarioBD,
   IDreservaBD,
   IDlibroBD,
-  tituloBD,
   estadoBD
 ) {
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Cancelar reserva </span>',
     html: `¿Esta seguro de cancelar esta reserva?: <br>
     <strong>No. de reserva: </strong> ${IDreservaBD} <br>
-     
+    (Se cancelaran todas las reservas con dicho numero) <br> 
     `,
     icon: "warning",
     showCancelButton: true,
@@ -364,7 +362,6 @@ function cancelarReserva(
       formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
-      formData.append("tipoUsuario", tipoUsuarioBD);
 
       const response = await fetch(
         "../../controllers/eliminar_integrar_reserva.php",
@@ -393,16 +390,15 @@ function cancelarReserva(
 
 // Reintegrar reserva
 function reintegrarReserva(
-  tipoUsuarioBD,
   IDreservaBD,
   IDlibroBD,
-  tituloBD,
   estadoBD
 ) {
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Reactivar reserva </span>',
     html: `¿Esta seguro de volver a activar esta reserva?: <br>
     <strong>No. de reserva: </strong> ${IDreservaBD} <br>
+    (Se reactivaran todas las reservas con dicho numero) <br>
     `,
     icon: "warning",
     showCancelButton: true,
@@ -418,7 +414,6 @@ function reintegrarReserva(
       formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
-      formData.append("tipoUsuario", tipoUsuarioBD);
 
       const response = await fetch(
         "../../controllers/eliminar_integrar_reserva.php",
