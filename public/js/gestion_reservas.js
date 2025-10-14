@@ -441,7 +441,7 @@ function reintegrarReserva(
 }
 
 // Aprobar reserva
-function aprobarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD, opcionBD) {
+function aprobarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Aprobar reserva </span>',
     html: `¿Esta seguro de aprobar esta reserva?: <br>
@@ -485,7 +485,7 @@ function aprobarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD, opcionBD) {
 }
 
 // Rechazar reserva
-function rechazarReserva(IDreservaBD, IDlibroBD, tituloBD, estadoBD, opcionBD) {
+function rechazarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Rechazar reserva </span>',
     html: `¿Esta seguro de aprobar esta reserva?: <br>

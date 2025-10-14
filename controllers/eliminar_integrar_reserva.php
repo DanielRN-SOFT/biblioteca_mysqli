@@ -29,7 +29,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Ejecucion de la consulta
             $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva SET estado ='$nuevoEstado' WHERE id = $IDreserva");
-
+        
+            // Si la consulta fue exitosa TRUE
             if ($cambiarEstado) {
                 echo json_encode([
                     "success" => true,

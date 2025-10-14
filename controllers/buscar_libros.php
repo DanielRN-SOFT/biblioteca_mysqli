@@ -5,16 +5,20 @@ require_once '../models/MYSQL.php';
 $mysql = new MySQL();
 $mysql->conectar();
 
+// Capturar lo ingresado por el usuario
 $query = $_POST["query"];
 // Consulta para seleccionar todos los libros
 $consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor, categoria FROM libro WHERE disponibilidad = 'Disponible' AND titulo LIKE '%$query%' OR autor LIKE '%$query%' LIMIT 10");
 
+// Arreglo con todos los resultados de la consulta
 $libros = [];
 
+// Ciclo para llenar el arreglo
 while($fila = mysqli_fetch_assoc($consulta)){
     $libros[] = $fila;
 }
 
+// Envio de la info en JSON
 echo json_encode($libros);
 
 $mysql->desconectar();
