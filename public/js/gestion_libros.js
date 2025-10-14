@@ -87,7 +87,7 @@ function editarLibro(IDlibro) {
     dataType: "json",
     success: function (data) {
       Swal.fire({
-       title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
+        title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
         html: `
          <form action="" method="post" id="frmEditarLibro">
   <div class="row">
@@ -301,6 +301,7 @@ btnBuscar.addEventListener("click", () => {
           <th>ISBN</th>
           <th>Categoría</th>
           <th>Disponibilidad</th>
+          <th>Cantidad</th>
         </tr>
       `;
     } else {
@@ -341,35 +342,43 @@ btnBuscar.addEventListener("click", () => {
 
   // 🔹 función para buscar libros
   function buscarLibros(texto) {
-    $.ajax({
-      url: "../../controller/buscar_libros.php",
-      type: "POST",
-      data: { query: texto },
-      success: function (response) {
-        let libros = [];
-        try { libros = JSON.parse(response); } catch (e) { console.error(e); }
+  if (texto.length < 2) {
+    tablaBody.innerHTML = "";
+    return;
+  }
 
+  $.ajax({
+    url: "../../controllers/buscar_libros.php",
+    type: "POST",
+    data: { query: texto },
+    success: function (response) {
+        const libros = JSON.parse(response);
         tablaBody.innerHTML = "";
 
         if (libros.length === 0) {
-          tablaBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No se encontraron libros</td></tr>`;
+          tablaBody.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
+            </tr>`;
           return;
         }
 
-        libros.forEach(libro => {
-          tablaBody.insertAdjacentHTML("beforeend", `
+        libros.forEach((libro) => {
+          tablaBody.innerHTML += `
             <tr>
               <td>${libro.titulo}</td>
               <td>${libro.autor}</td>
+              <td>${libro.ISBN}</td>
               <td>${libro.categoria}</td>
-              <td>${libro.estado}</td>
-              <td><button class="btn btn-danger btn-sm">X</button></td>
+              <td>${libro.disponibilidad}</td>
+              <td>${libro.cantidad}</td>
             </tr>
-          `);
+          `;
         });
-      }
-    });
-  }
+    },
+  });
+}
+
 
   // 🔹 función para buscar reservas
   function buscarReservas(texto) {
@@ -379,7 +388,11 @@ btnBuscar.addEventListener("click", () => {
       data: { query: texto },
       success: function (response) {
         let reservas = [];
-        try { reservas = JSON.parse(response); } catch (e) { console.error(e); }
+        try {
+          reservas = JSON.parse(response);
+        } catch (e) {
+          console.error(e);
+        }
 
         tablaBody.innerHTML = "";
 
@@ -388,8 +401,10 @@ btnBuscar.addEventListener("click", () => {
           return;
         }
 
-        reservas.forEach(res => {
-          tablaBody.insertAdjacentHTML("beforeend", `
+        reservas.forEach((res) => {
+          tablaBody.insertAdjacentHTML(
+            "beforeend",
+            `
             <tr>
               <td>${res.usuario}</td>
               <td>${res.libro}</td>
@@ -397,9 +412,10 @@ btnBuscar.addEventListener("click", () => {
               <td>${res.estado}</td>
               <td><button class="btn btn-danger btn-sm">X</button></td>
             </tr>
-          `);
+          `
+          );
         });
-      }
+      },
     });
   }
 });
