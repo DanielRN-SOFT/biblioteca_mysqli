@@ -80,6 +80,14 @@ if ($archivoActual == "inventario.php") {
     <script src="../../public/js/gestion_libros.js"></script>
 <?php } ?>
 
+<?php
+// Incluir el script especifico en caso de que el archivo sea usuarios 
+if ($archivoActual == "reservas.php") {
+?>
+    <!-- JS externo  -->
+    <script src="../../public/js/gestion_reservas.js"></script>
+<?php } ?>
+
 
 <!-- Datatables Script -->
 <script src="../../public/js/datatables.js"></script>

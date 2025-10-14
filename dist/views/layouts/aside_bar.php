@@ -44,13 +44,13 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                         <p>Información <i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
-                        <?php if($tipoUsuario == "Administrador"){?>
-                        <li class="nav-item">
-                            <a href="./usuarios.php" class="nav-link <?php echo ($archivoActual == "usuarios.php" ? "active" : "") ?>">
-                                <i class="fa-solid fa-users"></i>
-                                <p>Usuarios</p>
-                            </a>
-                        </li>
+                        <?php if ($tipoUsuario == "Administrador") { ?>
+                            <li class="nav-item">
+                                <a href="./usuarios.php" class="nav-link <?php echo ($archivoActual == "usuarios.php" ? "active" : "") ?>">
+                                    <i class="fa-solid fa-users"></i>
+                                    <p>Usuarios</p>
+                                </a>
+                            </li>
                         <?php }?>
                         <?php if($tipoUsuario == "Administrador"){?>
                         <li class="nav-item">
@@ -59,7 +59,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 <p>Libros</p>
                             </a>
                         </li>
-                        <?php }?>
+                        <?php } ?>
                         <li class="nav-item">
                             <a href="./views/departamentos.php" class="nav-link">
                                 <i class="fa-regular fa-eye"></i>
@@ -67,9 +67,9 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="./views/cargos.php" class="nav-link">
-                                <i class="fa-regular fa-eye"></i>
-                                <p>Cargos</p>
+                            <a href="./reservas.php" class="nav-link <?php echo($archivoActual == "reservas.php" ? 'active' : "") ?>">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <p>Reservas</p>
                             </a>
                         </li>
                     </ul>
