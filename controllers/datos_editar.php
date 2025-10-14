@@ -23,7 +23,7 @@ function seleccionarDatosEditar($IDtabla, $tabla)
 }
 
 
-// Determinar si se envio el formulario por POST
+// Determinar si se envio el formulario por POST en USUARIO
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["IDusuario"]) && !empty($_POST["IDusuario"])) {
         // Capturar el ID
@@ -31,5 +31,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         // Llamar a la funcion de seleccinar
         seleccionarDatosEditar($id, "usuario");
+    }
+}
+
+// Determinar si se envio el formulario por POST en LIBRO
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["IDlibro"]) && !empty($_POST["IDlibro"])) {
+        $id = $_POST["IDlibro"];
+
+        seleccionarDatosEditar($id, "libro");
     }
 }
