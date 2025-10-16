@@ -45,9 +45,11 @@ require_once './layouts/aside_bar.php';
       </div>
 
       <div class="row my-2">
+        <?php if($tipoUsuario == "Administrador"){ ?>
         <div class="col-sm-12">
           <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
         </div>
+        <?php } ?>
       </div>
     </div>
   </div>
@@ -82,7 +84,9 @@ require_once './layouts/aside_bar.php';
                           <th>Disponibilidad</th>
                           <th>Cantidad</th>
                           <th>Estado</th>
+                          <?php if($tipoUsuario == "Administrador"){ ?>
                           <th>Acciones</th>
+                          <?php } ?>
                         </tr>
                       </thead>
                       <tbody>
@@ -95,6 +99,7 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td><?php echo $fila["cantidad"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
+                            <?php if ($tipoUsuario == "Administrador"){?>
                             <td>
                               <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                               <?php if ($fila["estado"] == "Activo") { ?>
@@ -105,6 +110,7 @@ require_once './layouts/aside_bar.php';
 
                               <?php } ?>
                             </td>
+                            <?php } ?>
                           </tr>
                         <?php endwhile; ?>
                       </tbody>

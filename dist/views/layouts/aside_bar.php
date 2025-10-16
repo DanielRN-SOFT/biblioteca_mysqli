@@ -52,14 +52,14 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 </a>
                             </li>
                         <?php } ?>
-                        <?php if ($tipoUsuario == "Administrador") { ?>
+                      
                             <li class="nav-item">
                                 <a href="./inventario.php" class="nav-link <?php echo ($archivoActual == "inventario.php" ? "active" : "") ?>">
                                     <i class="fa-solid fa-book"></i>
                                     <p>Libros</p>
                                 </a>
                             </li>
-                        <?php } ?>
+                     
 
                         <li class="nav-item">
                             <a href="./reservas.php" class="nav-link <?php echo ($archivoActual == "reservas.php" ? 'active' : "") ?>">

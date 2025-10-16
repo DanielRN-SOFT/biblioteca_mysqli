@@ -99,9 +99,7 @@ if ($archivoActual == "dashboard.php") {
         <script src="../../public/js/grafico_usuarios.js"></script>
     <?php } ?>
 
-    <?php if ($tipoUsuario == "Cliente") { ?>
-        <script src="../../public/js/grafico_libros_cliente.js"></script>
-    <?php } ?>
+ 
 <?php } ?>
 
 
