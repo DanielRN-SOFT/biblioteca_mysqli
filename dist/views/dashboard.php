@@ -32,6 +32,11 @@ $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
 
+// =========================
+// Funciones
+//  =======================
+
+// Funcion general para contar la informacion del sistema
 function contarInfo($nombreTabla, $alias)
 {
   // Llamar el modelo MYSQL
@@ -47,6 +52,29 @@ function contarInfo($nombreTabla, $alias)
 
   return $conteoInfo;
 }
+
+// Fuunciones para la lista de CLIENTE
+function contarInfoCliente($estadoReserva, $ID)
+{
+  // Llamar el modelo MYSQL
+  require_once '../../models/MYSQL.php';
+  // Instancia de la clase
+  $mysql = new MySQL();
+  // Conexión con la base de datos
+  $mysql->conectar();
+
+  // Total de reservas por usuario
+  $consultaReservas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.estado = '$estadoReserva' AND reserva.id_usuario = $ID");
+  $conteoAprobadas = $consultaReservas->fetch_assoc()["conteo"];
+
+  return $conteoAprobadas;
+}
+
+// =========================
+// Funciones
+//  =======================
+
+
 // conteo de libros
 $conteoLibros = contarInfo("libro", "conteoLibros");
 
@@ -77,21 +105,15 @@ ORDER BY cantidad DESC LIMIT 5;");
   $consultaTotalReservas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.id_usuario = $IDusuario");
   $conteoTotal = $consultaTotalReservas->fetch_assoc()["conteo"];
 
-  // Total de reservas APROBADAS por usuario
-  $consultaReservasAprobadas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.estado = 'Aprobada' AND reserva.id_usuario = $IDusuario");
-  $conteoAprobadas = $consultaReservasAprobadas->fetch_assoc()["conteo"];
+  // Conteo de reservas segun su estado 
+  
+  $conteoAprobadas = contarInfoCliente("Aprobada", $IDusuario);
 
-  // Total de reservas RECHAZADAS por usuario
-  $consultaReservasRechazadas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.estado = 'Rechazada' AND reserva.id_usuario = $IDusuario");
-  $conteoRechazadas = $consultaReservasRechazadas->fetch_assoc()["conteo"];
+  $conteoRechazadas = contarInfoCliente("Rechazada", $IDusuario);
 
-  // Total de reservas PENDIENTES por usuario
-  $consultaReservasPendientes = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.estado = 'Pendiente' AND reserva.id_usuario = $IDusuario");
-  $conteoPendientes = $consultaReservasPendientes->fetch_assoc()["conteo"];
+  $conteoPendientes = contarInfoCliente("Pendiente", $IDusuario);
 
-  // Total de reservas CANCELADAS por usuario
-  $consultaReservasCanceladas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.estado = 'Cancelada' AND reserva.id_usuario = $IDusuario");
-  $conteoCancelada = $consultaReservasCanceladas->fetch_assoc()["conteo"];
+  $conteoCancelada = contarInfoCliente("Cancelada", $IDusuario);
 }
 
 
