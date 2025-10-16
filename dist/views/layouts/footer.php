@@ -88,6 +88,24 @@ if ($archivoActual == "reservas.php") {
     <script src="../../public/js/gestion_reservas.js"></script>
 <?php } ?>
 
+<?php
+// Incluir el script especifico en caso de que el archivo sea usuarios 
+if ($archivoActual == "dashboard.php") {
+?>
+    <!-- JS externo  -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <?php if ($tipoUsuario == "Administrador") { ?>
+        <script src="../../public/js/grafico_libros.js"></script>
+        <script src="../../public/js/grafico_usuarios.js"></script>
+    <?php } ?>
+
+    <?php if ($tipoUsuario == "Cliente") { ?>
+        <script src="../../public/js/grafico_libros_cliente.js"></script>
+    <?php } ?>
+<?php } ?>
+
+
+
 
 <!-- Datatables Script -->
 <script src="../../public/js/datatables.js"></script>

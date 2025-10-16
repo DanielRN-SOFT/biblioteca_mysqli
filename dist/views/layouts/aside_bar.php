@@ -32,7 +32,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 <!-- Dashboard principal -->
                 <li class="nav-item">
                     <a href="./dashboard.php" class="nav-link <?php echo ($archivoActual == "dashboard.php" ? "active" : "") ?>">
-                        <i class="fa-solid fa-table-columns"></i>
+                        <i class="fa-solid fa-business-time"></i>
                         <p>Dashboard</p>
                     </a>
                 </li>
