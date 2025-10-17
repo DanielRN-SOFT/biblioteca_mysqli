@@ -106,7 +106,7 @@ ORDER BY cantidad DESC LIMIT 5;");
   $conteoTotal = $consultaTotalReservas->fetch_assoc()["conteo"];
 
   // Conteo de reservas segun su estado 
-  
+
   $conteoAprobadas = contarInfoCliente("Aprobada", $IDusuario);
 
   $conteoRechazadas = contarInfoCliente("Rechazada", $IDusuario);
@@ -146,7 +146,7 @@ ORDER BY cantidad DESC LIMIT 5;");
       <!-- Small Box (Stat card) -->
 
       <!-- Small boxes (Stat box) -->
-      <div class="row mt-4">
+      <div class="row mt-2">
         <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -238,7 +238,7 @@ ORDER BY cantidad DESC LIMIT 5;");
         <div class="col-lg-6 connectedSortable mx-auto">
           <div class="card mb-4">
             <div class="card-header">
-              <h3 class="card-title"><?php echo ($tipoUsuario == "Administrador" ? "Libros más prestados" : "Libros más <span class = 'fw-bold'> prestados </span> de: " . $nombreUsuario . " " . $apellidoUsuario) ?></h3>
+              <h3 class="card-title"><?php echo ($tipoUsuario == "Administrador" ? "Libros más prestados" : "Libros más <span class = 'fw-bold'> reservados </span> de: " . $nombreUsuario . " " . $apellidoUsuario) ?></h3>
             </div>
 
             <div class="card-body">
@@ -249,7 +249,13 @@ ORDER BY cantidad DESC LIMIT 5;");
               <?php if ($tipoUsuario == "Cliente") { ?>
                 <ul class="list-group">
                   <?php while ($fila = $consultaLibros->fetch_assoc()): ?>
-                    <li class="list-group-item"> <span class="fw-bold">Libro: </span> <?php echo $fila["titulo"] ?> - <span class="fw-bold">Cantidad</span> <?php echo $fila["cantidad"] ?> </li>
+                    <li class="list-group-item">
+                      <i class="fa-solid fa-book text-primary"></i>
+                      <span class="fw-bold">Libro: </span>
+                      <?php echo $fila["titulo"] ?>
+                      - <i class="fa-solid fa-circle-plus text-info"></i>
+                      <span class="fw-bold">Cantidad</span> <?php echo $fila["cantidad"] ?>
+                    </li>
                   <?php endwhile ?>
                 </ul>
               <?php } ?>
@@ -277,11 +283,31 @@ ORDER BY cantidad DESC LIMIT 5;");
 
                 <?php if ($tipoUsuario == "Cliente") { ?>
                   <ul class="list-group">
-                    <li class="list-group-item"> <span class="fw-bold">Total: </span> <?php echo $conteoTotal ?></li>
-                    <li class="list-group-item"> <span class="fw-bold">Pendientes: </span> <?php echo $conteoPendientes ?></li>
-                    <li class="list-group-item"> <span class="fw-bold">Canceladas: </span> <?php echo $conteoCancelada ?></li>
-                    <li class="list-group-item"> <span class="fw-bold text-success">Aprobadas: </span> <?php echo $conteoAprobadas ?></li>
-                    <li class="list-group-item"> <span class="fw-bold text-danger">Rechazadas: </span> <?php echo $conteoRechazadas ?></li>
+                    <li class="list-group-item"> 
+                      <i class="fa-solid fa-plus"></i>
+                      <span class="fw-bold">Total: </span>
+                      <?php echo $conteoTotal ?>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fa-solid fa-pause text-primary"></i>
+                      <span class="fw-bold text-primary">Pendientes: </span>
+                      <?php echo $conteoPendientes ?>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                      <span class="fw-bold text-warning">Canceladas: </span>
+                      <?php echo $conteoCancelada ?>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fa-solid fa-square-check text-success"></i>
+                      <span class="fw-bold text-success">Aprobadas: </span>
+                      <?php echo $conteoAprobadas ?>
+                    </li>
+                    <li class="list-group-item">
+                      <i class="fa-solid fa-circle-xmark text-danger"></i>
+                      <span class="fw-bold text-danger">Rechazadas: </span>
+                      <?php echo $conteoRechazadas ?>
+                    </li>
 
                   </ul>
                 <?php } ?>
