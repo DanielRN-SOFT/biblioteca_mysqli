@@ -1,19 +1,29 @@
-:root{
-    --azul-nav-bar: #2b1300;
+:root {
+  --azul-nav-bar: #2b1300;
 }
 
-.bg-nav-bar{
-    background-color:var(--azul-nav-bar);
+.bg-nav-bar {
+  background-color: var(--azul-nav-bar);
 }
 
-.bg-login{
-    background: url("../../dist/assets/img/login_biblioteca.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+.bg-login {
+  background: url("../../dist/assets/img/login_biblioteca.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-.bg-sombra{
-    background-color: rgba(0, 0, 0, 0.6);
+.bg-registrar{
+background: url("../../dist/assets/img/registro_biblioteca.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.bg-sombra {
+  background-color: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
 }
