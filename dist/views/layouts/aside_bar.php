@@ -52,14 +52,14 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 </a>
                             </li>
                         <?php } ?>
-                      
-                            <li class="nav-item">
-                                <a href="./inventario.php" class="nav-link <?php echo ($archivoActual == "inventario.php" ? "active" : "") ?>">
-                                    <i class="fa-solid fa-book"></i>
-                                    <p>Libros</p>
-                                </a>
-                            </li>
-                     
+
+                        <li class="nav-item">
+                            <a href="./inventario.php" class="nav-link <?php echo ($archivoActual == "inventario.php" ? "active" : "") ?>">
+                                <i class="fa-solid fa-book"></i>
+                                <p>Libros</p>
+                            </a>
+                        </li>
+
 
                         <li class="nav-item">
                             <a href="./reservas.php" class="nav-link <?php echo ($archivoActual == "reservas.php" ? 'active' : "") ?>">
@@ -74,24 +74,10 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 <!-- Menú de reportes -->
                 <li class="nav-header">REPORTES</li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="./reportes.php" class="nav-link <?php echo ($archivoActual == "reportes.php" ? 'active' : "") ?>">
                         <i class="fa-solid fa-file-pdf"></i>
-                        <p>PDFs <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        <p>PDF</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="./views/generar_pdf.php" class="nav-link">
-                                <i class="fa-solid fa-globe"></i>
-                                <p>PDF General</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="./views/ListadoDepartamentosPDF.php" class="nav-link">
-                                <i class="fa-solid fa-building-user"></i>
-                                <p>PDF por departamento</p>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <!-- Fin menú de reportes -->
 

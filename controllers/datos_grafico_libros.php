@@ -9,7 +9,7 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 
-$consultaLibros = $mysql->efectuarConsulta("SELECT libro.titulo, COUNT(reserva_has_libro.libro_id) AS cantidad FROM reserva_has_libro JOIN libro ON libro.id = reserva_has_libro.libro_id GROUP BY reserva_has_libro.libro_id  
+$consultaLibros = $mysql->efectuarConsulta("SELECT libro.titulo, COUNT(reserva_has_libro.libro_id) AS cantidad FROM reserva_has_libro JOIN libro ON libro.id = reserva_has_libro.libro_id JOIN reserva ON reserva.id = reserva_has_libro.reserva_id WHERE reserva.estado = 'Aprobada' GROUP BY reserva_has_libro.libro_id  
 ORDER BY cantidad DESC LIMIT 5;");
 
 $data = [];

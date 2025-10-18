@@ -99,8 +99,20 @@ if ($archivoActual == "dashboard.php") {
         <script src="../../public/js/grafico_usuarios.js"></script>
     <?php } ?>
 
- 
+
 <?php } ?>
+<?php
+// Incluir el script especifico en caso de que el archivo sea reportes 
+if ($archivoActual == "reportes.php") {
+?>
+    <!-- JS externo  -->
+    <script src="../../public/js/PDF.js"></script>
+
+
+<?php } ?>
+
+
+
 
 
 
