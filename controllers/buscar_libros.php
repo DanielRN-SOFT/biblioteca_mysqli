@@ -1,5 +1,5 @@
 <?php 
-
+/* 
 // Requerir el modelo a utilizar
 require_once '../models/MYSQL.php';
 $mysql = new MySQL();
@@ -19,7 +19,7 @@ while($fila = mysqli_fetch_assoc($consulta)){
 }
 
 // Envio de la info en JSON
-echo json_encode($libros);
+echo json_encode($libros); */
 
 require_once '../models/MYSQL.php';
 $mysql= new MySQL();

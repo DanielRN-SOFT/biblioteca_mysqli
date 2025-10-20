@@ -17,13 +17,7 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
-session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
-  header("location: ./login.php");
-} else {
-  $_SESSION["acceso"] = true;
-}
 
 // ===============================
 // Layout de componentes HTML
@@ -63,7 +57,6 @@ require_once './layouts/aside_bar.php';
         </div>
         <?php } ?>
         <div class="col-sm-12">
-          <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
           <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
         </div>
       </div>
