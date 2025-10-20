@@ -87,12 +87,8 @@ function editarLibro(IDlibro) {
     dataType: "json",
     success: function (data) {
       Swal.fire({
-<<<<<<< HEAD
         title: '<span class="text-primary fw-bold"> Editar Libro </span>',
         title: '<span class="text-primary fw-bold">Editar Libro</span>',
-=======
-        title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
->>>>>>> crud_filtros
         html: `
          <form action="" method="post" id="frmEditarLibro">
   <div class="row">
@@ -226,11 +222,7 @@ function eliminarLibro(idLibro, estado) {
     }
   });
 }
-<<<<<<< HEAD
 // Reintegrar LIBRO
-=======
-// Reintegrar libro
->>>>>>> crud_filtros
 function reintegrarLibro(idLibro, estado) {
   console.log(estado);
   Swal.fire({
@@ -272,8 +264,6 @@ function reintegrarLibro(idLibro, estado) {
     }
   });
 }
-<<<<<<< HEAD
-=======
 // BUSQUEDA Y FILTROS
 let btnBuscar = document.querySelector("#crearBusqueda");
 
@@ -428,4 +418,3 @@ btnBuscar.addEventListener("click", () => {
     });
   }
 });
->>>>>>> crud_filtros
