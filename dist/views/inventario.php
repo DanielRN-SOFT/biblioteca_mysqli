@@ -1,4 +1,5 @@
 <?php
+<<<<<<< HEAD
 $pagina = "Inventario";
 
 // ==========================
@@ -11,13 +12,29 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 } else {
   $_SESSION["acceso"] = true;
 }
+=======
+$pagina = "Libros";
+>>>>>>> crud_filtros
 // ==========================
 // Sección: Conexión a la BD
 // ==========================
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
+session_start();
 
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
+  header("location: ./login.php");
+} else {
+  $_SESSION["acceso"] = true;
+}
+
+// ===============================
+// Layout de componentes HTML
+// ===============================
+require_once './layouts/head.php';
+require_once './layouts/nav_bar.php';
+require_once './layouts/aside_bar.php';
 // Instancia de la clase
 $mysql = new MySQL();
 
@@ -27,29 +44,50 @@ $mysql->conectar();
 // Ejecución de la consulta
 $libros = $mysql->efectuarConsulta("SELECT * FROM libro");
 
+<<<<<<< HEAD
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
+=======
+
+>>>>>>> crud_filtros
 // ==========================
 // Fin sección: Conexión a la BD
 // ==========================
 ?>
+<<<<<<< HEAD
 
+=======
+<!-- ========================== -->
+<!-- Sección: Main Content      -->
+<!-- ========================== -->
+>>>>>>> crud_filtros
 <main class="app-main">
   <div class="app-content-header">
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
+<<<<<<< HEAD
           <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-book"></i> Libros</h3>
+=======
+          <h3 class="mb-0 fw-bold">Libros</h3>
+>>>>>>> crud_filtros
         </div>
       </div>
 
       <div class="row my-2">
+<<<<<<< HEAD
         <?php if($tipoUsuario == "Administrador"){ ?>
         <div class="col-sm-12">
           <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
         </div>
         <?php } ?>
+=======
+        <div class="col-sm-12">
+          <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
+          <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
+        </div>
+>>>>>>> crud_filtros
       </div>
     </div>
   </div>
@@ -60,7 +98,11 @@ require_once './layouts/aside_bar.php';
         <div class="col-md-12">
           <div class="card mb-4">
             <div class="card-header">
+<<<<<<< HEAD
               <h5 class="card-title fw-bold fs-5">Lista de libros</h5>
+=======
+              <h5 class="card-title fw-bold fs-5">Lista de ejemplo</h5>
+>>>>>>> crud_filtros
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                   <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -84,9 +126,13 @@ require_once './layouts/aside_bar.php';
                           <th>Disponibilidad</th>
                           <th>Cantidad</th>
                           <th>Estado</th>
+<<<<<<< HEAD
                           <?php if($tipoUsuario == "Administrador"){ ?>
                           <th>Acciones</th>
                           <?php } ?>
+=======
+                          <th>Acciones</th>
+>>>>>>> crud_filtros
                         </tr>
                       </thead>
                       <tbody>
@@ -99,7 +145,10 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td><?php echo $fila["cantidad"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
+<<<<<<< HEAD
                             <?php if ($tipoUsuario == "Administrador"){?>
+=======
+>>>>>>> crud_filtros
                             <td>
                               <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                               <?php if ($fila["estado"] == "Activo") { ?>
@@ -110,7 +159,10 @@ require_once './layouts/aside_bar.php';
 
                               <?php } ?>
                             </td>
+<<<<<<< HEAD
                             <?php } ?>
+=======
+>>>>>>> crud_filtros
                           </tr>
                         <?php endwhile; ?>
                       </tbody>

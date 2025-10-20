@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD
+=======
+session_start();
+>>>>>>> crud_filtros
 // Obtener el nombre del archivo
 $archivoActual = basename($_SERVER["PHP_SELF"]);
 
@@ -62,9 +66,36 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                      
 
                         <li class="nav-item">
+<<<<<<< HEAD
                             <a href="./reservas.php" class="nav-link <?php echo ($archivoActual == "reservas.php" ? 'active' : "") ?>">
                                 <i class="fa-solid fa-calendar-days"></i>
                                 <p>Reservas</p>
+=======
+                            <a href="./usuarios.php" class="nav-link <?php echo ($archivoActual == "usuarios.php" ? "active" : "") ?>">
+                                <i class="fa-solid fa-users"></i>
+                                <p>Usuarios</p>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <?php if($tipoUsuario == "Administrador"){?>
+                        <li class="nav-item">
+                            <a href="./inventario.php" class="nav-link <?php echo ($archivoActual == "inventario.php" ? "active" : "") ?>">
+                                <i class="fa-solid fa-users"></i>
+                                <p>Libros</p>
+                            </a>
+                        </li>
+                        <?php }?>
+                        <li class="nav-item">
+                            <a href="./views/departamentos.php" class="nav-link">
+                                <i class="fa-regular fa-eye"></i>
+                                <p>Departamentos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="./views/cargos.php" class="nav-link">
+                                <i class="fa-regular fa-eye"></i>
+                                <p>Cargos</p>
+>>>>>>> crud_filtros
                             </a>
                         </li>
                     </ul>

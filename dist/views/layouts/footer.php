@@ -79,6 +79,7 @@ if ($archivoActual == "inventario.php") {
     <!-- JS externo  -->
     <script src="../../public/js/gestion_libros.js"></script>
 <?php } ?>
+<<<<<<< HEAD
 
 <?php
 // Incluir el script especifico en caso de que el archivo sea usuarios 
@@ -103,6 +104,8 @@ if ($archivoActual == "dashboard.php") {
 <?php } ?>
 
 
+=======
+>>>>>>> crud_filtros
 
 
 <!-- Datatables Script -->

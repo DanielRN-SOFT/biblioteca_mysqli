@@ -87,8 +87,12 @@ function editarLibro(IDlibro) {
     dataType: "json",
     success: function (data) {
       Swal.fire({
+<<<<<<< HEAD
         title: '<span class="text-primary fw-bold"> Editar Libro </span>',
         title: '<span class="text-primary fw-bold">Editar Libro</span>',
+=======
+        title: '<span class ="text-primary fw-bold"> Editar Libro </span>',
+>>>>>>> crud_filtros
         html: `
          <form action="" method="post" id="frmEditarLibro">
   <div class="row">
@@ -222,7 +226,11 @@ function eliminarLibro(idLibro, estado) {
     }
   });
 }
+<<<<<<< HEAD
 // Reintegrar LIBRO
+=======
+// Reintegrar libro
+>>>>>>> crud_filtros
 function reintegrarLibro(idLibro, estado) {
   console.log(estado);
   Swal.fire({
@@ -264,3 +272,160 @@ function reintegrarLibro(idLibro, estado) {
     }
   });
 }
+<<<<<<< HEAD
+=======
+// BUSQUEDA Y FILTROS
+let btnBuscar = document.querySelector("#crearBusqueda");
+
+btnBuscar.addEventListener("click", () => {
+  Swal.fire({
+    title: '<h2 class="text-primary fw-bolder">Buscar</h2>',
+    html: `
+      <select id="tipoBusqueda" class="form-select swal2-input mb-2">
+        <option value="libros">Libros</option>
+        <option value="reservas">Reservas</option>
+      </select>
+      <input type="text" id="busquedaTexto" class="swal2-input" placeholder="Buscar...">
+      <div style="max-height: 300px; overflow-y: auto;">
+        <table class="table table-bordered" id="tablaResultados" style="font-size:14px;">
+          <thead id="tablaHead"></thead>
+          <tbody id="tablaBody"></tbody>
+        </table>
+      </div>
+    `,
+    width: 800,
+    showConfirmButton: false,
+  });
+
+  const tipoSelect = document.getElementById("tipoBusqueda");
+  const input = document.getElementById("busquedaTexto");
+  const tablaHead = document.getElementById("tablaHead");
+  const tablaBody = document.getElementById("tablaBody");
+
+  // 🔹 función para redibujar las columnas según el tipo
+  function actualizarCabecera() {
+    if (tipoSelect.value === "libros") {
+      tablaHead.innerHTML = `
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>ISBN</th>
+          <th>Categoría</th>
+          <th>Disponibilidad</th>
+          <th>Cantidad</th>
+        </tr>
+      `;
+    } else {
+      tablaHead.innerHTML = `
+        <tr>
+          <th>ID</th>
+          <th>Usuario</th>
+          <th>Fecha Reserva</th>
+          <th>Estado</th>
+        </tr>
+      `;
+    }
+    tablaBody.innerHTML = ""; // limpiar resultados
+  }
+
+  // Inicializa la cabecera por defecto
+  actualizarCabecera();
+
+  // Cuando cambias de tipo de búsqueda
+  tipoSelect.addEventListener("change", () => {
+    input.value = "";
+    actualizarCabecera();
+  });
+
+  // Cuando escribes algo en el input
+  input.addEventListener("keyup", () => {
+    const texto = input.value.trim();
+    const tipo = tipoSelect.value;
+
+    if (texto.length < 2) {
+      tablaBody.innerHTML = "";
+      return;
+    }
+
+    if (tipo === "libros") buscarLibros(texto);
+    else buscarReservas(texto);
+  });
+
+  // 🔹 función para buscar libros
+  function buscarLibros(texto) {
+    if (texto.length < 2) {
+      tablaBody.innerHTML = "";
+      return;
+    }
+
+    $.ajax({
+      url: "../../controllers/buscar_libros.php",
+      type: "POST",
+      data: { query: texto },
+      success: function (response) {
+        const libros = JSON.parse(response);
+        tablaBody.innerHTML = "";
+
+        if (libros.length === 0) {
+          tablaBody.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
+            </tr>`;
+          return;
+        }
+
+        libros.forEach((libro) => {
+          tablaBody.innerHTML += `
+            <tr>
+              <td>${libro.titulo}</td>
+              <td>${libro.autor}</td>
+              <td>${libro.ISBN}</td>
+              <td>${libro.categoria}</td>
+              <td>${libro.disponibilidad}</td>
+              <td>${libro.cantidad}</td>
+            </tr>
+          `;
+        });
+      },
+    });
+  }
+
+  // 🔹 función para buscar reservas
+  function buscarReservas(texto) {
+    $.ajax({
+      url: "../../controllers/buscar_reservas.php",
+      type: "POST",
+      data: { query: texto },
+      success: function (response) {
+        let reservas = [];
+        try {
+          reservas = JSON.parse(response);
+        } catch (e) {
+          console.error(e);
+        }
+
+        tablaBody.innerHTML = "";
+
+        if (reservas.length === 0) {
+          tablaBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No se encontraron reservas</td></tr>`;
+          return;
+        }
+
+        reservas.forEach((res) => {
+          tablaBody.insertAdjacentHTML(
+            "beforeend",
+            `
+            <tr>
+              <td>${res.id}</td>
+              <td>${res.id_usuario}</td>
+              <td>${res.fecha_reserva}</td>
+              <td>${res.estado}</td>
+            </tr>
+          `
+          );
+        });
+      },
+    });
+  }
+});
+>>>>>>> crud_filtros
