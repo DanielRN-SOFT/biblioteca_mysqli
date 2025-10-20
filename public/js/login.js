@@ -1,6 +1,6 @@
 
-let btnCrear = document.querySelector('#btn-acceder');
-btnCrear.addEventListener('click', (e) => {
+let btnAcceder = document.querySelector('#btn-acceder');
+btnAcceder.addEventListener('click', (e) => {
     e.preventDefault();
 
     let formulario = document.querySelector('#frmLogin');

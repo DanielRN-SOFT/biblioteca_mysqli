@@ -81,13 +81,14 @@ btnCrear.addEventListener("click", () => {
 function editarLibro(IDlibro) {
   // Acceder a datos del usuario a editar con AJAX
   $.ajax({
-    url: "../../controllers/datos_editarLibro.php",
+    url: "../../controllers/datos_editar.php",
     type: "POST",
     data: { IDlibro: IDlibro },
     dataType: "json",
     success: function (data) {
       Swal.fire({
         title: '<span class="text-primary fw-bold"> Editar Libro </span>',
+        title: '<span class="text-primary fw-bold">Editar Libro</span>',
         html: `
          <form action="" method="post" id="frmEditarLibro">
   <div class="row">

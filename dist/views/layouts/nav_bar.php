@@ -1,5 +1,6 @@
 <?php
 
+$IDusuario = $_SESSION["IDusuario"];
 $nombreUsuario = $_SESSION["nombreUsuario"];
 $apellidoUsuario = $_SESSION["apellidoUsuario"];
 $tipoUsuario = $_SESSION["tipoUsuario"];
@@ -26,7 +27,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                         </a>
                     </li>
                     <li class="nav-item d-none d-md-block">
-                        <a href="#" class="nav-link">Home</a>
+                        <a href="./dashboard.php" class="nav-link">Home</a>
                     </li>
                 </ul>
                 <!--end::Start Navbar Links-->
@@ -55,26 +56,10 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 </p>
                             </li>
                             <!--end::User Image-->
-                            <!--begin::Menu Body-->
-                            <li class="user-body">
-                                <!--begin::Row-->
-                                <div class="row">
-                                    <div class="col-4 text-center">
-                                        <a href="#">Followers</a>
-                                    </div>
-                                    <div class="col-4 text-center">
-                                        <a href="#">Sales</a>
-                                    </div>
-                                    <div class="col-4 text-center">
-                                        <a href="#">Friends</a>
-                                    </div>
-                                </div>
-                                <!--end::Row-->
-                            </li>
-                            <!--end::Menu Body-->
+                           
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
-                                <a href="#" class="btn btn-success text-light btn-flat">Profile</a>
+                                <a href="#" class="btn btn-success text-light btn-flat w-50">Perfil</a>
                                 <a href="../../controllers/logout.php" class="btn btn-danger text-light btn-flat float-end">Cerrar sesión</a>
                             </li>
                             <!--end::Menu Footer-->

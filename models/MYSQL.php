@@ -3,16 +3,16 @@
 class MySQL
 {
 
-    // Datos de conexión
-    private $ipServidor = "bimgfadlj4mkeidcoq66-mysql.services.clever-cloud.com";
+    // // Datos de conexión
+    // private $ipServidor = "bimgfadlj4mkeidcoq66-mysql.services.clever-cloud.com";
+    // private $usuarioBase = "ueidhxxqptq4fxou";
+    // private $contrasena = "UxxjUzE9KHlkkZBAupKi";
+    // private $nombreBaseDatos = "bimgfadlj4mkeidcoq66";
+
+    private $ipServidor = "bts4vahkrnelqbarqbkj-mysql.services.clever-cloud.com";
     private $usuarioBase = "ueidhxxqptq4fxou";
     private $contrasena = "UxxjUzE9KHlkkZBAupKi";
-    private $nombreBaseDatos = "bimgfadlj4mkeidcoq66";
-
-    // private $ipServidor = "localhost";
-    // private $usuarioBase = "root";
-    // private $contrasena = "";
-    // private $nombreBaseDatos = "biblioteca_mysqli";
+    private $nombreBaseDatos = "bts4vahkrnelqbarqbkj";
 
     private $conexion;
 
@@ -52,5 +52,25 @@ class MySQL
         }
 
         return $resultado;
+    }
+
+    public function ultimoID()
+    {
+        return mysqli_insert_id($this->conexion);
+    }
+
+    public function comenzarTransaccion()
+    {
+        mysqli_begin_transaction($this->conexion);
+    }
+
+    public function confirmarTransaccion()
+    {
+        mysqli_commit($this->conexion);
+    }
+
+    public function cancelarTransaccion()
+    {
+        mysqli_rollback($this->conexion);
     }
 }
