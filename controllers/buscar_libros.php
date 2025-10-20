@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php 
 
 // Requerir el modelo a utilizar
@@ -22,8 +21,6 @@ while($fila = mysqli_fetch_assoc($consulta)){
 // Envio de la info en JSON
 echo json_encode($libros);
 
-=======
-<?php
 require_once '../models/MYSQL.php';
 $mysql= new MySQL();
 $mysql-> conectar();
@@ -34,6 +31,5 @@ while($row = mysqli_fetch_assoc($result)){
     $libros[]=$row;
 }
 echo json_encode($libros);
->>>>>>> crud_filtros
 $mysql->desconectar();
 ?>
