@@ -307,10 +307,10 @@ btnBuscar.addEventListener("click", () => {
     } else {
       tablaHead.innerHTML = `
         <tr>
+          <th>ID</th>
           <th>Usuario</th>
           <th>Fecha Reserva</th>
           <th>Estado</th>
-          <th>Validacion</th>
         </tr>
       `;
     }
@@ -342,16 +342,16 @@ btnBuscar.addEventListener("click", () => {
 
   // 🔹 función para buscar libros
   function buscarLibros(texto) {
-  if (texto.length < 2) {
-    tablaBody.innerHTML = "";
-    return;
-  }
+    if (texto.length < 2) {
+      tablaBody.innerHTML = "";
+      return;
+    }
 
-  $.ajax({
-    url: "../../controllers/buscar_libros.php",
-    type: "POST",
-    data: { query: texto },
-    success: function (response) {
+    $.ajax({
+      url: "../../controllers/buscar_libros.php",
+      type: "POST",
+      data: { query: texto },
+      success: function (response) {
         const libros = JSON.parse(response);
         tablaBody.innerHTML = "";
 
@@ -375,15 +375,14 @@ btnBuscar.addEventListener("click", () => {
             </tr>
           `;
         });
-    },
-  });
-}
-
+      },
+    });
+  }
 
   // 🔹 función para buscar reservas
   function buscarReservas(texto) {
     $.ajax({
-      url: "../../controller/buscar_reservas.php",
+      url: "../../controllers/buscar_reservas.php",
       type: "POST",
       data: { query: texto },
       success: function (response) {
@@ -406,11 +405,10 @@ btnBuscar.addEventListener("click", () => {
             "beforeend",
             `
             <tr>
-              <td>${res.usuario}</td>
-              <td>${res.libro}</td>
+              <td>${res.id}</td>
+              <td>${res.id_usuario}</td>
               <td>${res.fecha_reserva}</td>
               <td>${res.estado}</td>
-              <td><button class="btn btn-danger btn-sm">X</button></td>
             </tr>
           `
           );
