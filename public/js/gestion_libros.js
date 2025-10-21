@@ -379,42 +379,47 @@ btnBuscar.addEventListener("click", () => {
       },
     });
   }
+  // función para buscar reservas
+function buscarReservas(texto) {
+  texto = texto.trim(); // se debe reasignar
 
-  // 🔹 función para buscar reservas
-  function buscarReservas(texto) {
-    $.ajax({
-      url: "../../controllers/buscar_reservas.php",
-      type: "POST",
-      data: { query: texto },
-      success: function (response) {
-        let reservas = [];
-        try {
-          reservas = JSON.parse(response);
-        } catch (e) {
-          console.error(e);
-        }
+  $.ajax({
+    url: "../../controllers/buscar_reservas.php",
+    type: "POST",
+    data: { query: texto },
+    dataType: "json", // jQuery ya convierte la respuesta en JSON automáticamente
 
-        tablaBody.innerHTML = "";
+    success: function (reservas) {
+      // "reservas" ya es un array de objetos, no hace falta JSON.parse()
+      console.log(" Datos recibidos:", reservas);
 
-        if (reservas.length === 0) {
-          tablaBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted">No se encontraron reservas</td></tr>`;
-          return;
-        }
+      tablaBody.innerHTML = "";
 
-        reservas.forEach((res) => {
-          tablaBody.insertAdjacentHTML(
-            "beforeend",
-            `
-            <tr>
-              <td>${res.id}</td>
-              <td>${res.id_usuario}</td>
-              <td>${res.fecha_reserva}</td>
-              <td>${res.estado}</td>
-            </tr>
+      if (!Array.isArray(reservas) || reservas.length === 0) {
+        tablaBody.innerHTML = `
+          <tr>
+            <td colspan="4" class="text-center text-muted">
+              No se encontraron reservas
+            </td>
+          </tr>`;
+        return;
+      }
+
+      reservas.forEach((res) => {
+        tablaBody.insertAdjacentHTML(
+          "beforeend",
           `
-          );
-        });
-      },
-    });
-  }
+          <tr>
+            <td>${res.id}</td>
+            <td>${res.nombre}</td>
+            <td>${res.fecha_reserva}</td>
+            <td>${res.estado}</td>
+          </tr>
+        `
+        );
+      });
+    },
+  });
+}
 });
+
