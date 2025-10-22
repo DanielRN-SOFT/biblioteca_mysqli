@@ -108,7 +108,7 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td><?php echo $fila["cantidad"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
-                            <?php if ($tipoUsuario == "Administrador"){?>
+                            <?php if ($tipoUsuario === "Administrador"){?>
                             <td>
                               <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                               <?php if ($fila["estado"] == "Activo") { ?>
