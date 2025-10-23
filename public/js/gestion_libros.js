@@ -269,80 +269,50 @@ let btnBuscar = document.querySelector("#crearBusqueda");
 
 btnBuscar.addEventListener("click", () => {
   Swal.fire({
-    title: '<h2 class="text-primary fw-bolder">Buscar</h2>',
+    title: '<h2 class="text-primary fw-bolder">Buscar Libro</h2>',
     html: `
-      <select id="tipoBusqueda" class="form-select swal2-input mb-2">
-        <option value="libros">Libros</option>
-        <option value="reservas">Reservas</option>
-      </select>
-      <input type="text" id="busquedaTexto" class="swal2-input" placeholder="Buscar...">
-      <div style="max-height: 300px; overflow-y: auto;">
-        <table class="table table-bordered" id="tablaResultados" style="font-size:14px;">
-          <thead id="tablaHead"></thead>
-          <tbody id="tablaBody"></tbody>
-        </table>
-      </div>
+      <input type="text" id="busquedaLibro" class="swal2-input" placeholder="Buscar Libro...">
+      <div id="sugerencias" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+      <table class="table table-bordered" id="tablaLibro" style="margin-top:10px; font-size:14px;">
+        <thead>
+          <tr>
+            <th>Titulo</th>
+            <th>Autor</th>
+            <th>ISBN</th>
+            <th>Categoria</th>
+            <th>Disponibilidad</th>
+            <th>Cantidad</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
     `,
     width: 800,
     showConfirmButton: false,
+
+    // 🔹 Se ejecuta cuando el modal está completamente renderizado
+    didOpen: () => {
+      const inputBusqueda = document.getElementById("busquedaLibro");
+      const tablaBody = document.querySelector("#tablaLibro tbody");
+
+      inputBusqueda.addEventListener("keyup", function () {
+        const texto = this.value.trim();
+
+        // Si hay menos de 2 caracteres, limpia la tabla
+        if (texto.length < 2) {
+          tablaBody.innerHTML = "";
+          return;
+        }
+
+        buscarPrestamos(texto, tablaBody);
+      });
+    },
   });
+});
 
-  const tipoSelect = document.getElementById("tipoBusqueda");
-  const input = document.getElementById("busquedaTexto");
-  const tablaHead = document.getElementById("tablaHead");
-  const tablaBody = document.getElementById("tablaBody");
-
-  // 🔹 función para redibujar las columnas según el tipo
-  function actualizarCabecera() {
-    if (tipoSelect.value === "libros") {
-      tablaHead.innerHTML = `
-        <tr>
-          <th>Título</th>
-          <th>Autor</th>
-          <th>ISBN</th>
-          <th>Categoría</th>
-          <th>Disponibilidad</th>
-          <th>Cantidad</th>
-        </tr>
-      `;
-    } else {
-      tablaHead.innerHTML = `
-        <tr>
-          <th>ID</th>
-          <th>Usuario</th>
-          <th>Fecha Reserva</th>
-          <th>Estado</th>
-        </tr>
-      `;
-    }
-    tablaBody.innerHTML = ""; // limpiar resultados
-  }
-
-  // Inicializa la cabecera por defecto
-  actualizarCabecera();
-
-  // Cuando cambias de tipo de búsqueda
-  tipoSelect.addEventListener("change", () => {
-    input.value = "";
-    actualizarCabecera();
-  });
-
-  // Cuando escribes algo en el input
-  input.addEventListener("keyup", () => {
-    const texto = input.value.trim();
-    const tipo = tipoSelect.value;
-
-    if (texto.length < 2) {
-      tablaBody.innerHTML = "";
-      return;
-    }
-
-    if (tipo === "libros") buscarLibros(texto);
-    else buscarReservas(texto);
-  });
 
   // 🔹 función para buscar libros
-  function buscarLibros(texto) {
+  function buscarPrestamos(texto, tablaBody) {
     if (texto.length < 2) {
       tablaBody.innerHTML = "";
       return;
@@ -379,47 +349,5 @@ btnBuscar.addEventListener("click", () => {
       },
     });
   }
-  // función para buscar reservas
-function buscarReservas(texto) {
-  texto = texto.trim(); // se debe reasignar
-
-  $.ajax({
-    url: "../../controllers/buscar_reservas.php",
-    type: "POST",
-    data: { query: texto },
-    dataType: "json", // jQuery ya convierte la respuesta en JSON automáticamente
-
-    success: function (reservas) {
-      // "reservas" ya es un array de objetos, no hace falta JSON.parse()
-      console.log(" Datos recibidos:", reservas);
-
-      tablaBody.innerHTML = "";
-
-      if (!Array.isArray(reservas) || reservas.length === 0) {
-        tablaBody.innerHTML = `
-          <tr>
-            <td colspan="4" class="text-center text-muted">
-              No se encontraron reservas
-            </td>
-          </tr>`;
-        return;
-      }
-
-      reservas.forEach((res) => {
-        tablaBody.insertAdjacentHTML(
-          "beforeend",
-          `
-          <tr>
-            <td>${res.id}</td>
-            <td>${res.nombre}</td>
-            <td>${res.fecha_reserva}</td>
-            <td>${res.estado}</td>
-          </tr>
-        `
-        );
-      });
-    },
-  });
-}
-});
+ 
 

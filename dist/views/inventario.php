@@ -17,11 +17,6 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d8e6354a54113f6ecedc16e8d4500541cefcc4a4
 // ===============================
 // Layout de componentes HTML
 // ===============================

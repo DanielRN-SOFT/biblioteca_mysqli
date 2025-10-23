@@ -60,7 +60,7 @@ if ($tipoUsuario == "Administrador") {
                 <div class="col-sm-6">
                     <h3 class="mb-0 fw-bold">
                         <i class="fa-solid fa-calendar-days"></i>
-                        Reservas <span class="text-primary"><?php echo ($tipoUsuario == "Cliente" ? "<span class = 'text-dark'>de: </span>" .$nombreUsuario . " " . $apellidoUsuario : "") ?> </span>
+                        Reservas <span class="text-primary"><?php echo ($tipoUsuario == "Cliente" ? "<span class = 'text-dark'>de: </span>" . $nombreUsuario . " " . $apellidoUsuario : "") ?> </span>
                     </h3>
                 </div>
             </div>
@@ -68,6 +68,7 @@ if ($tipoUsuario == "Administrador") {
             <div class="row mt-3 mb-2">
                 <div class="col-sm-12">
                     <button class="btn btn-success w-100" id="BtnCrearReserva" onclick="crearReserva(<?php echo $IDusuario ?>)">Crear nueva reserva</button>
+                    <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
                 </div>
             </div>
         </div>
