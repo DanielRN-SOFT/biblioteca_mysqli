@@ -92,6 +92,12 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="./pdfPrestamos.php" class="nav-link">
+                                <i class="fa-solid fa-globe"></i>
+                                <p>PDF Prestamos</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="./views/ListadoDepartamentosPDF.php" class="nav-link">
                                 <i class="fa-solid fa-building-user"></i>
                                 <p>PDF por departamento</p>
