@@ -529,10 +529,9 @@ function rechazarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
 }
 //buscar reservas
 let btnBuscar = document.querySelector("#crearBusqueda");
-
 btnBuscar.addEventListener("click", () => {
   Swal.fire({
-    title: '<h2 class="text-primary fw-bolder">Buscar Libro</h2>',
+    title: '<h2 class="text-primary fw-bolder">Buscar Reserva</h2>',
     html: `
       <input type="text" id="busquedaReserva" class="swal2-input" placeholder="Buscar Reserva...">
       <div id="sugerencias" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
@@ -580,8 +579,8 @@ function buscarReservas(texto, tablaBody) {
       url: "../../controllers/buscar_reservas.php",
       type: "POST",
       data: { query: texto },
-      success: function (response) {
-        const reservas = JSON.parse(response);
+      success: function (reservas) {
+        console.log("Datos recibidos:", reservas);
         tablaBody.innerHTML = "";
 
         if (reservas.length === 0) {

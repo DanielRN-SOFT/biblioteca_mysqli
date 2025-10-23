@@ -1,5 +1,6 @@
 <?php
 
+
 // Nombre de la pagina para el title HTML
 $pagina = "Reservas";
 
@@ -68,6 +69,8 @@ if ($tipoUsuario == "Administrador") {
             <div class="row mt-3 mb-2">
                 <div class="col-sm-12">
                     <button class="btn btn-success w-100" id="BtnCrearReserva" onclick="crearReserva(<?php echo $IDusuario ?>)">Crear nueva reserva</button>
+                </div>
+                <div class="col-sm-12">
                     <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
                 </div>
             </div>
@@ -207,5 +210,6 @@ if ($tipoUsuario == "Administrador") {
 <?php
 
 require_once './layouts/footer.php';
+$mysql->desconectar();
 
 ?>
