@@ -21,6 +21,6 @@ btnGenerarPDF.addEventListener("click", async (e) => {
 
 
   // Si todo está correcto, cambiar la acción y enviar el formulario al controlador PHP
-  form.action = "../../controllers/generar_pdf.php"; // Ruta a tu PHP
+  form.action = "../../controllers/generar_pdf.php"; // Ruta al PHP
   form.submit();
 });

@@ -67,8 +67,10 @@
                                 required />
                             <label for="password">Contraseña</label>
                         </div>
-                        <button id="btn-registrarse" class="btn btn-success w-100 fw-bold fs-5">Registrarse</button>
-                        <a href="./login.php" class="btn btn-primary my-3 w-100 px-5 fw-bold fs-5">Volver al login</a>
+                        <button id="btn-registrarse" class="btn btn-success w-100 fw-bold fs-5">
+                            <i class="fa-solid fa-user-plus"></i> Registrarse</button>
+                        <a href="./login.php" class="btn btn-primary my-3 w-100 px-5 fw-bold fs-5">
+                            <i class="fa-solid fa-backward"></i> Volver al login</a>
                     </div>
 
 

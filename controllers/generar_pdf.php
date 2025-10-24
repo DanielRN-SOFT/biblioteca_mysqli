@@ -32,6 +32,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //  RESERVAS
         //  =======================================
         if ($tipoInforme == "Reserva") {
+            // IMG
+            $pdf->Image('../dist/assets/img/biblioteca.png', 10, 6, 20);
+            $pdf->SetFont('Arial', 'B', 14);    
+            $pdf->Cell(0, 40, "Biblioteca");
+            $pdf->SetXY(0, 30);
+
             // Encabezado
             $pdf->SetFont('Arial', 'B', 14);
             $pdf->Cell(0, 10, 'Reporte de reservas', 0, 1, 'C');
@@ -75,6 +81,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //  USUARIOS
         //  =======================================
         if ($tipoInforme == "Usuario") {
+            // IMG
+            $pdf->Image('../dist/assets/img/biblioteca.png', 10, 6, 20);
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 40, "Biblioteca");
+            $pdf->SetXY(0, 30);
+
+            
             // Encabezado
             $pdf->SetFont('Arial', 'B', 14);
             $pdf->Cell(0, 10, 'Reporte de Usuarios', 0, 1, 'C');

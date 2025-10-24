@@ -43,14 +43,14 @@ require_once './layouts/aside_bar.php';
 <!-- ========================== -->
 <!-- Sección: Main Content      -->
 <!-- ========================== -->
-<main class="app-main">
+<main class="app-main bg-light py-4">
     <div class="app-content-header">
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
                     <h3 class="mb-0 fw-bold">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        PDF
+                        <i class="fa-solid fa-file-pdf text-danger"></i>
+                        Generacion de reportes PDF
                     </h3>
                 </div>
             </div>
@@ -63,21 +63,18 @@ require_once './layouts/aside_bar.php';
         <div class="container-fluid">
             <div class="row mt-2">
                 <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h5 class="card-title fw-bold fs-5">Generacion de reportes</h5>
+                    <div class="card rounded-4 mb-4">
+                        <div class="card-header bg-danger rounded-top">
+                            <h5 class="card-title fw-bold fs-5 text-white">Generar nuevo reporte</h5>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                                </button>
+
                             </div>
                         </div>
                         <!-- /.card-header -->
 
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-12" id="">
+                                <div class="col-md-12 mt-1 p-3" id="">
                                     <form method="post" action="" id="frmReportes">
                                         <div class="row">
                                             <div class="col-sm-4">
@@ -101,17 +98,18 @@ require_once './layouts/aside_bar.php';
 
 
                                         </div>
-                                        <button type="submit" class="btn btn-danger mt-4 w-25" id="btnGenerarPDF">
-                                            <i class="fa-solid fa-file-pdf"></i>
-                                            Generar PDF</button>
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-danger mt-4 w-25" id="btnGenerarPDF">
+                                                <i class="fa-solid fa-file-pdf"></i>
+                                                Generar PDF</button>
+                                        </div>
+
                                     </form>
                                 </div>
                             </div>
                         </div>
                         <!-- ./card-body -->
 
-                        <div class="card-footer"></div>
-                        <!-- /.card-footer -->
                     </div>
                 </div>
             </div>
