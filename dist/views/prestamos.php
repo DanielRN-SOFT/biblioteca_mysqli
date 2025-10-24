@@ -1,5 +1,5 @@
 <?php
-$pagina = "Inventario";
+$pagina = "Prestamos";
 
 // ==========================
 // Sección: Inicio de sesion
@@ -17,6 +17,8 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
+
+
 // ===============================
 // Layout de componentes HTML
 // ===============================
@@ -30,7 +32,7 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Ejecución de la consulta
-$libros = $mysql->efectuarConsulta("SELECT * FROM libro");
+$prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
 
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
@@ -44,19 +46,16 @@ require_once './layouts/aside_bar.php';
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
-          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-book"></i> Libros</h3>
+          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-calendar-days"></i>Prestamos</h3>
         </div>
       </div>
 
       <div class="row my-2">
         <?php if($tipoUsuario == "Administrador"){ ?>
-        <div class="col-sm-12">
-          <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
+            <div class="col-sm-12">
+          <button class="btn btn-primary w-100" id="buscarPrestamo">Buscar</button>
         </div>
         <?php } ?>
-        <div class="col-sm-12">
-          <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
-        </div>
       </div>
     </div>
   </div>
@@ -67,7 +66,7 @@ require_once './layouts/aside_bar.php';
         <div class="col-md-12">
           <div class="card mb-4">
             <div class="card-header">
-              <h5 class="card-title fw-bold fs-5">Lista de libros</h5>
+              <h5 class="card-title fw-bold fs-5">Lista de Prestamos</h5>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
                   <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
@@ -84,12 +83,10 @@ require_once './layouts/aside_bar.php';
                     <table class="table table-bordered table-striped" id="tblLibros" width="100%" cellspacing="0">
                       <thead>
                         <tr>
-                          <th>Titulo</th>
-                          <th>Autor</th>
-                          <th>ISBN</th>
-                          <th>Categoria</th>
-                          <th>Disponibilidad</th>
-                          <th>Cantidad</th>
+                          <th>Prestamo</th>
+                          <th>Reserva</th>
+                          <th>Fecha Prestamo</th>
+                          <th>Fecha Devolucion</th>
                           <th>Estado</th>
                           <?php if($tipoUsuario == "Administrador"){ ?>
                           <th>Acciones</th>
@@ -97,24 +94,17 @@ require_once './layouts/aside_bar.php';
                         </tr>
                       </thead>
                       <tbody>
-                        <?php while ($fila = $libros->fetch_assoc()): ?>
+                        <?php while ($fila = $prestamos->fetch_assoc()): ?>
                           <tr>
-                            <td><?php echo $fila["titulo"]; ?></td>
-                            <td><?php echo $fila["autor"]; ?></td>
-                            <td><?php echo $fila["ISBN"]; ?></td>
-                            <td><?php echo $fila["categoria"]; ?></td>
-                            <td><?php echo $fila["disponibilidad"]; ?></td>
-                            <td><?php echo $fila["cantidad"]; ?></td>
+                            <td><?php echo $fila["id"]; ?></td>
+                            <td><?php echo $fila["id_reserva"]; ?></td>
+                            <td><?php echo $fila["fecha_prestamo"]; ?></td>
+                            <td><?php echo $fila["fecha_devolucion"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
-                            <?php if ($tipoUsuario === "Administrador"){?>
+                            <?php if ($tipoUsuario == "Administrador"){?>
                             <td>
-                              <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
-                              <?php if ($fila["estado"] == "Activo") { ?>
-                                <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
-                              <?php } else { ?>
-                                <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
-
-
+                              <?php if ($fila["estado"] == "Vigente") { ?>
+                              <button class="btn btn-success btn-actualizar-prestamo"data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
                               <?php } ?>
                             </td>
                             <?php } ?>

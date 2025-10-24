@@ -1,5 +1,5 @@
 <?php 
-
+/* 
 // Requerir el modelo a utilizar
 require_once '../models/MYSQL.php';
 $mysql = new MySQL();
@@ -19,13 +19,13 @@ while($fila = mysqli_fetch_assoc($consulta)){
 }
 
 // Envio de la info en JSON
-echo json_encode($libros);
+echo json_encode($libros); */
 
 require_once '../models/MYSQL.php';
 $mysql= new MySQL();
 $mysql-> conectar();
 $query= $_POST['query'];
-$result=$mysql->efectuarConsulta("SELECT titulo,autor,ISBN,categoria,disponibilidad,cantidad FROM libro WHERE titulo LIKE '%$query%' OR autor LIKE '%$query%' OR ISBN LIKE '%$query%' OR categoria LIKE '%$query%' OR disponibilidad LIKE '%$query%' LIMIT 10");
+$result=$mysql->efectuarConsulta("SELECT titulo,autor,ISBN,categoria,disponibilidad,cantidad,estado FROM libro WHERE titulo LIKE '%$query%' OR autor LIKE '%$query%' OR ISBN LIKE '%$query%' OR categoria LIKE '%$query%' OR disponibilidad LIKE '%$query%' OR cantidad LIKE '%$query%' OR estado LIKE '%$query%' LIMIT 10");
 $libros=[];
 while($row = mysqli_fetch_assoc($result)){
     $libros[]=$row;

@@ -13,12 +13,8 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-
-<<<<<<< HEAD
 .bg-sombra{
     background-color: rgba(0, 0, 0, 0.6);
-<<<<<<< HEAD
-=======
 .bg-registrar{
 background: url("../../dist/assets/img/registro_biblioteca.jpg");
   background-position: center;
@@ -31,8 +27,6 @@ background: url("../../dist/assets/img/registro_biblioteca.jpg");
   background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
->>>>>>> c3b17f4ff702504ca700a13fa2c4d4df407fd8d9
-=======
->>>>>>> crud_filtros
+
 }
 }

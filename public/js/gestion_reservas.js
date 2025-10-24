@@ -527,3 +527,82 @@ function rechazarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
     }
   });
 }
+//buscar reservas
+let btnBuscar = document.querySelector("#crearBusqueda");
+btnBuscar.addEventListener("click", () => {
+  Swal.fire({
+    title: '<h2 class="text-primary fw-bolder">Buscar Reserva</h2>',
+    html: `
+      <input type="text" id="busquedaReserva" class="swal2-input" placeholder="Buscar Reserva...">
+      <div id="sugerencias" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+      <table class="table table-bordered" id="tablaReserva" style="margin-top:10px; font-size:14px;">
+        <thead>
+          <tr>
+            <th>Reserva</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Fecha Reserva</th>
+            <th>Libro</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    `,
+    width: 800,
+    showConfirmButton: false,
+
+    // 🔹 Se ejecuta cuando el modal está completamente renderizado
+    didOpen: () => {
+      const inputBusqueda = document.getElementById("busquedaReserva");
+      const tablaBody = document.querySelector("#tablaReserva tbody");
+
+      inputBusqueda.addEventListener("keyup", function () {
+        const texto = this.value.trim();
+
+        // Si hay menos de 2 caracteres, limpia la tabla
+        if (texto.length < 2) {
+          tablaBody.innerHTML = "";
+          return;
+        }
+
+        buscarReservas(texto, tablaBody);
+      });
+    },
+  });
+});
+ // función para buscar reservas
+function buscarReservas(texto, tablaBody) {
+  texto = texto.trim(); // se debe reasignar
+
+  $.ajax({
+      url: "../../controllers/buscar_reservas.php",
+      type: "POST",
+      data: { query: texto },
+      success: function (reservas) {
+        console.log("Datos recibidos:", reservas);
+        tablaBody.innerHTML = "";
+
+        if (reservas.length === 0) {
+          tablaBody.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
+            </tr>`;
+          return;
+        }
+
+        reservas.forEach((res) => {
+          tablaBody.innerHTML += `
+            <tr>
+              <td>${res.id}</td>
+              <td>${res.nombre}</td>
+              <td>${res.apellido}</td>
+              <td>${res.fecha_reserva}</td>
+              <td>${res.titulo}</td>
+              <td>${res.estado}</td>
+            </tr>
+          `;
+        });
+      },
+    });
+}

@@ -67,6 +67,12 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 <p>Reservas</p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="./prestamos.php" class="nav-link <?php echo ($archivoActual == "prestamos.php" ? 'active' : "") ?>">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <p>Prestamos</p>
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <!-- Fin menú de información -->
