@@ -46,15 +46,15 @@ require_once './layouts/aside_bar.php';
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
-          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-calendar-days"></i>Prestamos</h3>
+          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-handshake"></i> Prestamos</h3>
         </div>
       </div>
 
       <div class="row my-2">
-        <?php if($tipoUsuario == "Administrador"){ ?>
-            <div class="col-sm-12">
-          <button class="btn btn-primary w-100" id="buscarPrestamo">Buscar</button>
-        </div>
+        <?php if ($tipoUsuario == "Administrador") { ?>
+          <div class="col-sm-12">
+            <button class="btn btn-primary w-100" id="buscarPrestamo">Buscar</button>
+          </div>
         <?php } ?>
       </div>
     </div>
@@ -88,8 +88,8 @@ require_once './layouts/aside_bar.php';
                           <th>Fecha Prestamo</th>
                           <th>Fecha Devolucion</th>
                           <th>Estado</th>
-                          <?php if($tipoUsuario == "Administrador"){ ?>
-                          <th>Acciones</th>
+                          <?php if ($tipoUsuario == "Administrador") { ?>
+                            <th>Acciones</th>
                           <?php } ?>
                         </tr>
                       </thead>
@@ -101,12 +101,12 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["fecha_prestamo"]; ?></td>
                             <td><?php echo $fila["fecha_devolucion"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
-                            <?php if ($tipoUsuario == "Administrador"){?>
-                            <td>
-                              <?php if ($fila["estado"] == "Vigente") { ?>
-                              <button class="btn btn-success btn-actualizar-prestamo"data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
-                              <?php } ?>
-                            </td>
+                            <?php if ($tipoUsuario == "Administrador") { ?>
+                              <td>
+                                <?php if ($fila["estado"] == "Vigente") { ?>
+                                  <button class="btn btn-success btn-actualizar-prestamo" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                                <?php } ?>
+                              </td>
                             <?php } ?>
                           </tr>
                         <?php endwhile; ?>

@@ -319,7 +319,7 @@ btnBuscar.addEventListener("click", () => {
     }
 
     $.ajax({
-      url: "../../controllers/buscar_libros.php",
+      url: "../../controllers/buscar_libros_inventario.php",
       type: "POST",
       data: { query: texto },
       success: function (response) {

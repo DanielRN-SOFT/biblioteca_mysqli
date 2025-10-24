@@ -69,7 +69,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                         </li>
                         <li class="nav-item">
                             <a href="./prestamos.php" class="nav-link <?php echo ($archivoActual == "prestamos.php" ? 'active' : "") ?>">
-                                <i class="fa-solid fa-calendar-days"></i>
+                                <i class="fa-solid fa-handshake"></i>
                                 <p>Prestamos</p>
                             </a>
                         </li>

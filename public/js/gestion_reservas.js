@@ -188,7 +188,7 @@ function buscarProducto(texto) {
   }
 
   $.ajax({
-    url: "../../controllers/buscar_libros.php",
+    url: "../../controllers/buscar_libros_reserva.php",
     type: "POST",
     data: { query: texto },
     success: function (response) {
