@@ -94,6 +94,13 @@ if ($archivoActual == "prestamos.php") {
     <!-- JS externo  -->
     <script src="../../public/js/gestion_prestamos.js"></script>
 <?php } ?>
+<?php
+// Incluir el script especifico en caso de que el archivo sea libros 
+if ($archivoActual == "reportes.php") {
+?>
+    <!-- JS externo  -->
+    <script src="../../public/js/PDF.js"></script>
+<?php } ?>
 
 <?php
 // Incluir el script especifico en caso de que el archivo sea usuarios 

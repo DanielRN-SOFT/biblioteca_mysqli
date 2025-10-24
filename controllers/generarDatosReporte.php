@@ -47,4 +47,33 @@ class generarDatosReporte
 
         return $reservas;
     }
+    //PRESTAMOS
+    public function datosPrestamos($fechaInicio, $fechaFin)
+    {
+        $mysql = new MySQL();
+        $mysql->conectar();
+        $consulta = "SELECT id,id_reserva,fecha_prestamo,fecha_devolucion,estado FROM prestamo WHERE DATE(prestamo.fecha_prestamo) BETWEEN '$fechaInicio' AND '$fechaFin'";
+        $resultado = $mysql->efectuarConsulta($consulta);
+        $prestamos = [];
+
+        while ($fila = $resultado->fetch_assoc()) {
+            $prestamos[] = $fila;
+        }
+
+        return $prestamos;
+    }
+     public function datosInventario($fechaInicio, $fechaFin)
+    {
+        $mysql = new MySQL();
+        $mysql->conectar();
+        $consulta = "SELECT * FROM libro WHERE DATE(libro.fecha_creacion) BETWEEN '$fechaInicio' AND '$fechaFin'";
+        $resultado = $mysql->efectuarConsulta($consulta);
+        $libros = [];
+
+        while ($fila = $resultado->fetch_assoc()) {
+            $libros[] = $fila;
+        }
+
+        return $libros;
+    }
 }

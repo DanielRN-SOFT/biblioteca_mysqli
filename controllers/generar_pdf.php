@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $pdf->AliasNbPages(); // habilita {nb} para total de páginas
         $pdf->AddPage();
 
-      
+
 
 
         $tipoInforme = filter_var($_POST["tipoInforme"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($tipoInforme == "Reserva") {
             // IMG
             $pdf->Image('../dist/assets/img/biblioteca.png', 10, 6, 20);
-            $pdf->SetFont('Arial', 'B', 14);    
+            $pdf->SetFont('Arial', 'B', 14);
             $pdf->Cell(0, 40, "Biblioteca");
             $pdf->SetXY(0, 30);
 
@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Body
             $datos = $datosController->datosReserva($fechaInicio, $fechaFin);
             $pdf->SetFont('Arial', "B", 8);
-           
+
             $pdf->Cell(15, 10, "ID", 1);
             $pdf->Cell(30, 10, "Nombre", 1);
             $pdf->Cell(35, 10, "Apellido", 1);
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdf->Cell(0, 10, utf8_decode('Elaborado por BibliotecaMySqli. Fecha de elaboracion: ') . date('d/m/Y H:i'), 0, 0, 'C');
             $pdf->Cell(0, 10, utf8_decode('Página ') . $pdf->PageNo() . ' de {nb}', 0, 0, 'C');
 
-           
+
 
             $pdf->Output('D', 'reporte_reservas.pdf');
         }
@@ -87,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdf->Cell(0, 40, "Biblioteca");
             $pdf->SetXY(0, 30);
 
-            
+
             // Encabezado
             $pdf->SetFont('Arial', 'B', 14);
             $pdf->Cell(0, 10, 'Reporte de Usuarios', 0, 1, 'C');
@@ -123,10 +123,100 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdf->SetFont('Arial', 'I', 9);
             $pdf->Cell(0, 10, utf8_decode('Elaborado por BibliotecaMySqli. Fecha de elaboracion: ') . date('d/m/Y H:i'), 0, 0, 'C');
             $pdf->Cell(0, 10, utf8_decode('Página ') . $pdf->PageNo() . ' de {nb}', 0, 0, 'C');
-          
+
             $pdf->Output('D', 'reporte_usuarios.pdf');
         }
 
-      
+        //PRESTAMOS
+        if ($tipoInforme == "Prestamo") {
+            // IMG
+            $pdf->Image('../dist/assets/img/biblioteca.png', 10, 6, 20);
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 40, "Biblioteca");
+            $pdf->SetXY(0, 30);
+
+            // Encabezado
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 10, 'Reporte de Prestamos', 0, 1, 'C');
+            $pdf->Ln(5);
+
+            // DATOS DEL PDF
+            $datos = $datosController->datosPrestamos($fechaInicio, $fechaFin);
+
+            // Encabezado
+            $pdf->SetFont('Arial', "B", 8);
+            $pdf->Cell(20, 10, "Prestamo", 1);
+            $pdf->Cell(30, 10, "Reserva", 1);
+            $pdf->Cell(50, 10, "Fecha Prestamo", 1);
+            $pdf->Cell(50, 10, "Fecha Devolucion", 1);
+            $pdf->Cell(30, 10, "Estado", 1);
+
+            $pdf->Ln();
+
+            // BODY DEL PDF
+            $pdf->SetFont("Arial", "", 8);
+            foreach ($datos as $dato) {
+                $pdf->Cell(20, 10, $dato["id"], 1);
+                $pdf->Cell(30, 10,  $dato["id_reserva"], 1);
+                $pdf->Cell(50, 10,  $dato["fecha_prestamo"], 1);
+                $pdf->Cell(50, 10,  $dato["fecha_devolucion"], 1);
+                $pdf->Cell(30, 10,  $dato["estado"], 1);
+                $pdf->Ln();
+            }
+            // Pie de pagina del documento
+            $pdf->SetY(265);
+            $pdf->SetFont('Arial', 'I', 9);
+            $pdf->Cell(0, 10, utf8_decode('Elaborado por BibliotecaMySqli. Fecha de elaboracion: ') . date('d/m/Y H:i'), 0, 0, 'C');
+            $pdf->Cell(0, 10, utf8_decode('Página ') . $pdf->PageNo() . ' de {nb}', 0, 0, 'C');
+
+            $pdf->Output('D', 'reporte_prestamos.pdf');
+        }
+        //INVENTARIO
+        if ($tipoInforme == "Inventario") {
+            // IMG
+            $pdf->Image('../dist/assets/img/biblioteca.png', 10, 6, 20);
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 40, "Biblioteca");
+            $pdf->SetXY(0, 30);
+
+            // Encabezado
+            $pdf->SetFont('Arial', 'B', 14);
+            $pdf->Cell(0, 10, 'Reporte de Inventario', 0, 1, 'C');
+            $pdf->Ln(5);
+
+            // DATOS DEL PDF
+            $datos = $datosController->datosInventario($fechaInicio, $fechaFin);
+
+            // Encabezado
+            $pdf->SetFont('Arial', "B", 8);
+            $pdf->Cell(45, 10, "Titulo", 1);
+            $pdf->Cell(30, 10, "Autor", 1);
+            $pdf->Cell(40, 10, "ISBN", 1);
+            $pdf->Cell(30, 10, "Categoria", 1);
+            $pdf->Cell(20, 10, "Cantidad", 1);
+            $pdf->Cell(30, 10, "Fecha de creacion", 1);
+
+            $pdf->Ln();
+
+            // BODY DEL PDF
+            $pdf->SetFont("Arial", "", 8);
+            foreach ($datos as $dato) {
+                $pdf->Cell(45, 10, $dato["titulo"], 1);
+                $pdf->Cell(30, 10,  $dato["autor"], 1);
+                $pdf->Cell(40, 10,  $dato["ISBN"], 1);
+                $pdf->Cell(30, 10,  $dato["categoria"], 1);
+                $pdf->Cell(20, 10,  $dato["cantidad"], 1);
+                $pdf->Cell(30, 10,  $dato["fecha_creacion"], 1);
+                $pdf->Ln();
+            }
+            // Pie de pagina del documento
+            $pdf->SetY(265);
+            $pdf->SetFont('Arial', 'I', 9);
+            $pdf->Cell(0, 10, utf8_decode('Elaborado por BibliotecaMySqli. Fecha de elaboracion: ') . date('d/m/Y H:i'), 0, 0, 'C');
+            $pdf->Cell(0, 10, utf8_decode('Página ') . $pdf->PageNo() . ' de {nb}', 0, 0, 'C');
+            $pdf->Output('D', 'reporte_Inventario.pdf');
+
     }
 }
+}        
+   
