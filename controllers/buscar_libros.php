@@ -8,7 +8,7 @@ $mysql->conectar();
 // Capturar lo ingresado por el usuario
 $query = $_POST["query"];
 // Consulta para seleccionar todos los libros
-$consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor, categoria FROM libro WHERE disponibilidad = 'Disponible' AND titulo LIKE '%$query%' OR disponibilidad = 'Disponible' AND autor LIKE '%$query%' LIMIT 10");
+$consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor, categoria FROM libro WHERE disponibilidad = 'Disponible' AND titulo LIKE '%$query%' AND estado = 'Activo' OR disponibilidad = 'Disponible' AND autor LIKE '%$query%' AND estado = 'Activo' LIMIT 10");
 
 // Arreglo con todos los resultados de la consulta
 $libros = [];

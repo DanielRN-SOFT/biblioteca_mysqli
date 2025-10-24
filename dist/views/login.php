@@ -16,7 +16,7 @@
             <div class="col-12 bg-sombra">
                 <form class="d-flex justify-content-center align-items-center min-vh-100 flex-column" action="" id="frmLogin" method="post">
                     <div>
-                        
+
                     </div>
                     <img src="../assets/img/biblioteca.png" class="img-fluid" alt="IMG-Biblioteca">
                     <h1 class="fw-bold mb-4 display-5 text-light">Iniciar sesión</h1>
@@ -44,8 +44,10 @@
                             <label for="password">Contraseña</label>
                         </div>
 
-                        <button id="btn-acceder" class="btn btn-success w-100 fw-bold fs-5">Acceder</button>
-                        <a href="./registrarse.php" class="btn btn-primary my-3 w-100 fw-bold fs-5">Registrarse</a>
+                        <button id="btn-acceder" class="btn btn-success w-100 fw-bold fs-5">
+                            <i class="fa-solid fa-right-to-bracket"></i> Acceder</button>
+                        <a href="./registrarse.php" class="btn btn-primary my-3 w-100 fw-bold fs-5">
+                            <i class="fa-solid fa-user-plus"></i>Registrarse</a>
                     </div>
                 </form>
 

@@ -87,6 +87,7 @@ require_once './layouts/aside_bar.php';
                           <th>Email</th>
                           <th>Tipo</th>
                           <th>Estado</th>
+                          <th>Fecha de creacion</th>
                           <th>Acciones</th>
                         </tr>
                       </thead>
@@ -98,6 +99,7 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["email"]; ?></td>
                             <td><?php echo $fila["tipo"]; ?></td>
                             <td><?php echo $fila["estado"] ?></td>
+                            <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td>
                               <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
 

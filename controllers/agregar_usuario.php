@@ -46,7 +46,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Insercion de usuario
-        $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuario(nombre, apellido, email, password, tipo, estado) VALUES('$nombre', '$apellido', '$email', '$password', '$tipo', 'Activo')");
+        $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuario(nombre, apellido, email, password, tipo, estado, fecha_creacion) VALUES('$nombre', '$apellido', '$email', '$password', '$tipo', 'Activo', NOW())");
         if ($insertarUsuario) {
            echo json_encode([
                 "success" => true,
