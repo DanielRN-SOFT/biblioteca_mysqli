@@ -39,12 +39,32 @@ class generarDatosReporte
 
         $resultado = $mysql->efectuarConsulta($consulta);
 
-        $reservas = [];
+        $usuarios = [];
 
         while ($fila = $resultado->fetch_assoc()) {
-            $reservas[] = $fila;
+            $usuarios[] = $fila;
         }
 
-        return $reservas;
+        return $usuarios;
+    }
+
+    public function datosInventario($fechaInicio, $fechaFin)
+    {
+        // Conexion a la BD
+        $mysql = new MySQL();
+        $mysql->conectar();
+
+        $consulta = "SELECT * FROM libro
+            WHERE DATE(libro.fecha_creacion) BETWEEN '$fechaInicio' AND '$fechaFin'";
+
+        $resultado = $mysql->efectuarConsulta($consulta);
+
+        $libros = [];
+
+        while ($fila = $resultado->fetch_assoc()) {
+            $libros[] = $fila;
+        }
+
+        return $libros;
     }
 }

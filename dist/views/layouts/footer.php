@@ -81,7 +81,7 @@ if ($archivoActual == "inventario.php") {
 <?php } ?>
 
 <?php
-// Incluir el script especifico en caso de que el archivo sea usuarios 
+// Incluir el script especifico en caso de que el archivo sea reservas 
 if ($archivoActual == "reservas.php") {
 ?>
     <!-- JS externo  -->
@@ -89,7 +89,15 @@ if ($archivoActual == "reservas.php") {
 <?php } ?>
 
 <?php
-// Incluir el script especifico en caso de que el archivo sea usuarios 
+// Incluir el script especifico en caso de que el archivo sea reportes 
+if ($archivoActual == "reportes.php") {
+?>
+    <!-- JS externo  -->
+    <script src="../../public/js/PDF.js"></script>
+<?php } ?>
+
+<?php
+// Incluir el script especifico en caso de que el archivo sea el dashboard 
 if ($archivoActual == "dashboard.php") {
 ?>
     <!-- JS externo  -->
@@ -99,7 +107,7 @@ if ($archivoActual == "dashboard.php") {
         <script src="../../public/js/grafico_usuarios.js"></script>
     <?php } ?>
 
- 
+
 <?php } ?>
 
 

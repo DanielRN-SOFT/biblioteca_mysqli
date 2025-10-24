@@ -106,7 +106,7 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["categoria"]; ?></td>
                             <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td><?php echo $fila["cantidad"]; ?></td>
-                            <td><?php echo $fila["fecha_creacionZ"]; ?></td>
+                            <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
                             <?php if ($tipoUsuario == "Administrador") { ?>
                               <td>

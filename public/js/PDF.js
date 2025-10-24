@@ -1,5 +1,5 @@
 const btnGenerarPDF = document.querySelector("#btnGenerarPDF");
-btnGenerarPDF.addEventListener("click", async (e) => {
+btnGenerarPDF.addEventListener("click", (e) => {
   e.preventDefault();
 
   // Datos del formulario
