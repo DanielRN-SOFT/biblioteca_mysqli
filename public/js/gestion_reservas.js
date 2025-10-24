@@ -192,8 +192,15 @@ function buscarProducto(texto) {
     type: "POST",
     data: { query: texto },
     success: function (response) {
-      console.log(response);
       const libros = JSON.parse(response);
+
+      if (libros.length === 0) {
+        tablaBody.innerHTML = `
+            <tr>
+              <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
+            </tr>`;
+        return;
+      }
 
       let html = `<ul class="list-group">`;
 
@@ -337,11 +344,7 @@ async function editarReserva(IDreservaBD, IDlibroBD, estadoBD, tipoUsuarioBD) {
 }
 
 // Cancelar reserva
-function cancelarReserva(
-  IDreservaBD,
-  IDlibroBD,
-  estadoBD
-) {
+function cancelarReserva(IDreservaBD, IDlibroBD, estadoBD) {
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Cancelar reserva </span>',
     html: `¿Esta seguro de cancelar esta reserva?: <br>
@@ -389,11 +392,7 @@ function cancelarReserva(
 }
 
 // Reintegrar reserva
-function reintegrarReserva(
-  IDreservaBD,
-  IDlibroBD,
-  estadoBD
-) {
+function reintegrarReserva(IDreservaBD, IDlibroBD, estadoBD) {
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Reactivar reserva </span>',
     html: `¿Esta seguro de volver a activar esta reserva?: <br>

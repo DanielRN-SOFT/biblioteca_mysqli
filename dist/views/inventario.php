@@ -49,10 +49,10 @@ require_once './layouts/aside_bar.php';
       </div>
 
       <div class="row my-2">
-        <?php if($tipoUsuario == "Administrador"){ ?>
-        <div class="col-sm-12">
-          <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
-        </div>
+        <?php if ($tipoUsuario == "Administrador") { ?>
+          <div class="col-sm-12">
+            <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
+          </div>
         <?php } ?>
         <div class="col-sm-12">
           <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
@@ -90,9 +90,10 @@ require_once './layouts/aside_bar.php';
                           <th>Categoria</th>
                           <th>Disponibilidad</th>
                           <th>Cantidad</th>
+                          <th>Fecha de creacion</th>
                           <th>Estado</th>
-                          <?php if($tipoUsuario == "Administrador"){ ?>
-                          <th>Acciones</th>
+                          <?php if ($tipoUsuario == "Administrador") { ?>
+                            <th>Acciones</th>
                           <?php } ?>
                         </tr>
                       </thead>
@@ -105,18 +106,19 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["categoria"]; ?></td>
                             <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td><?php echo $fila["cantidad"]; ?></td>
+                            <td><?php echo $fila["fecha_creacionZ"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
-                            <?php if ($tipoUsuario == "Administrador"){?>
-                            <td>
-                              <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
-                              <?php if ($fila["estado"] == "Activo") { ?>
-                                <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
-                              <?php } else { ?>
-                                <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                            <?php if ($tipoUsuario == "Administrador") { ?>
+                              <td>
+                                <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <?php if ($fila["estado"] == "Activo") { ?>
+                                  <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                <?php } else { ?>
+                                  <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
 
 
-                              <?php } ?>
-                            </td>
+                                <?php } ?>
+                              </td>
                             <?php } ?>
                           </tr>
                         <?php endwhile; ?>
