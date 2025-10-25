@@ -103,7 +103,7 @@ async function crearReserva(IDcliente) {
             <th>Acción</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="t-body"></tbody>
       </table>
     `,
     width: 800,
@@ -187,6 +187,8 @@ function buscarProducto(texto) {
     return;
   }
 
+  let tablaBody = document.querySelector("#t-body");
+
   $.ajax({
     url: "../../controllers/buscar_libros_reserva.php",
     type: "POST",
@@ -200,6 +202,8 @@ function buscarProducto(texto) {
               <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
             </tr>`;
         return;
+      }else{
+         tablaBody.innerHTML = "";
       }
 
       let html = `<ul class="list-group">`;

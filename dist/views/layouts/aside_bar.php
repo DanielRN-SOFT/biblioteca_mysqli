@@ -80,22 +80,20 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 <!-- Menú de reportes -->
                 <li class="nav-header">REPORTES</li>
                 <li class="nav-item">
-                    <a href="./reportes.php" class="nav-link <?php echo ($archivoActual == "reportes.php" ? 'active' : "") ?>">
+                    <a href="./pdf.php" class="nav-link <?php echo ($archivoActual == "pdf.php" ? 'active' : "") ?>">
                         <i class="fa-solid fa-file-pdf"></i>
                         <p>PDF</p>
                     </a>
                 </li>
-                <!-- Fin menú de reportes -->
-
-                <!-- Menú de gráficos -->
-                <li class="nav-header">GRÁFICOS</li>
                 <li class="nav-item">
-                    <a href="./views/graficoBarras.php" class="nav-link">
-                        <i class="fa-solid fa-signal"></i>
-                        <p>Empleados</p>
+                    <a href="./excel.php" class="nav-link <?php echo ($archivoActual == "excel.php" ? 'active' : "") ?>">
+                        <i class="fa-solid fa-file-excel"></i>
+                        <p>Excel</p>
                     </a>
                 </li>
-                <!-- Fin menú de gráficos -->
+                <!-- Fin menú de reportes -->
+
+             
             </ul>
             <!--end::Sidebar Menu-->
         </nav>

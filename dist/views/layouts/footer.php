@@ -96,11 +96,19 @@ if ($archivoActual == "prestamos.php") {
 <?php } ?>
 
 <?php
-// Incluir el script especifico en caso de que el archivo sea reportes 
-if ($archivoActual == "reportes.php") {
+// Incluir el script especifico en caso de que el archivo sea PDF 
+if ($archivoActual == "pdf.php") {
 ?>
     <!-- JS externo  -->
     <script src="../../public/js/PDF.js"></script>
+<?php } ?>
+
+<?php
+// Incluir el script especifico en caso de que el archivo sea excel 
+if ($archivoActual == "excel.php") {
+?>
+    <!-- JS externo  -->
+    <script src="../../public/js/excel.js"></script>
 <?php } ?>
 
 <?php

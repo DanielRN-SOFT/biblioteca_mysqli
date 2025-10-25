@@ -169,6 +169,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $pdf->Cell(20, 10,  $dato["estado"], 1);
                 $pdf->Ln();
             }
+            
             // Pie de pagina del documento
             $pdf->SetY(265);
             $pdf->SetFont('Arial', 'I', 9);
