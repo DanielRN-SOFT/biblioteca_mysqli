@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado, fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$categoria', '$disponibilidad', '$cantidad','Activo', now())");
+        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$categoria', '$disponibilidad', '$cantidad','Activo',NOW())");
         if ($agregarLibro) {
             echo json_encode([
                 "success" => true,
