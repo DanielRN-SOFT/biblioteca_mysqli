@@ -125,8 +125,12 @@ if ($archivoActual == "dashboard.php") {
     <!-- JS externo  -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <?php if ($tipoUsuario == "Administrador") { ?>
-        <script src="../../public/js/grafico_libros.js"></script>
+        <script src="../../public/js/grafico_libros_admin.js"></script>
         <script src="../../public/js/grafico_usuarios.js"></script>
+    <?php } ?>
+
+    <?php if ($tipoUsuario == "Cliente") { ?>
+        <script src="../../public/js/grafico_libros_cli.js"></script>
     <?php } ?>
 
 

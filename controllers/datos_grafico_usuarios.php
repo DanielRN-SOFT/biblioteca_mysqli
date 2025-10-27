@@ -11,7 +11,7 @@ $mysql->conectar();
 $consultaTotalPrestamos = $mysql->efectuarConsulta("SELECT COUNT(*) as conteo FROM prestamo");
 $conteoTotalPrestamos = $consultaTotalPrestamos->fetch_assoc()["conteo"];
 
-$consultaPrestamosUsuario = $mysql->efectuarConsulta("SELECT CONCAT(usuario.nombre, ' ', usuario.apellido) as nombre_completo, (COUNT(prestamo.id) / $conteoTotalPrestamos) * 100 as cantidad FROM usuario JOIN reserva ON reserva.id_usuario = usuario.id JOIN prestamo ON prestamo.id_reserva = reserva.id WHERE prestamo.estado = 'Vigente' GROUP BY nombre_completo ORDER BY cantidad DESC LIMIT 5; ");
+$consultaPrestamosUsuario = $mysql->efectuarConsulta("SELECT CONCAT(usuario.nombre, ' ', usuario.apellido) as nombre_completo, (COUNT(prestamo.id) / $conteoTotalPrestamos) * 100 as cantidad FROM usuario JOIN reserva ON reserva.id_usuario = usuario.id JOIN prestamo ON prestamo.id_reserva = reserva.id  GROUP BY nombre_completo ORDER BY cantidad DESC LIMIT 5; ");
 
 $data = [];
 

@@ -5,7 +5,7 @@ require_once '../models/MYSQL.php';
 $mysql = new MySQL();
 $mysql->conectar();
 
-// Consulta para seleccionar todos los libros par EDITAR reserva
+// Consulta para seleccionar todos los libros para EDITAR reserva
 $consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor, categoria FROM libro WHERE disponibilidad = 'Disponible'");
 
 $libros = [];

@@ -1,4 +1,4 @@
-fetch("../../controllers/datos_grafico_libros.php")
+fetch("../../controllers/datos_grafico_libros_admin.php")
   .then((Response) => {
     return Response.json();
   })

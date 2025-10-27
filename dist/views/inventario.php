@@ -50,7 +50,7 @@ require_once './layouts/aside_bar.php';
             <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
           </div>
         <?php } ?>
-        <div class="col-sm-12">
+        <div class="col-sm-12 mt-2">
           <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
         </div>
       </div>
@@ -77,7 +77,7 @@ require_once './layouts/aside_bar.php';
               <div class="row">
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="tblLibros" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-striped" id="tblGeneral" width="100%" cellspacing="0">
                       <thead>
                         <tr>
                           <th>Titulo</th>
