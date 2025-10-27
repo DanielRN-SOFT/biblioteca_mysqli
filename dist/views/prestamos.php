@@ -67,11 +67,9 @@ require_once './layouts/aside_bar.php';
       </div>
 
       <div class="row my-2">
-        <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-sm-12">
             <button class="btn btn-primary w-100" id="buscarPrestamo">Buscar</button>
           </div>
-        <?php } ?>
       </div>
     </div>
   </div>
