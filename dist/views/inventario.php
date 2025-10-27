@@ -17,12 +17,6 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
-// ===============================
-// Layout de componentes HTML
-// ===============================
-require_once './layouts/head.php';
-require_once './layouts/nav_bar.php';
-require_once './layouts/aside_bar.php';
 // Instancia de la clase
 $mysql = new MySQL();
 
@@ -31,7 +25,9 @@ $mysql->conectar();
 
 // Ejecución de la consulta
 $libros = $mysql->efectuarConsulta("SELECT * FROM libro");
-
+// ===============================
+// Layout de componentes HTML
+// ===============================
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
@@ -108,8 +104,8 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["cantidad"]; ?></td>
                             <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
-                            <?php if ($tipoUsuario === "Administrador") { ?>
-                              <td>
+                            <td>
+                            <?php if ($tipoUsuario == "Administrador") { ?>
                                 <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <?php if ($fila["estado"] == "Activo") { ?>
                                   <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
@@ -118,8 +114,8 @@ require_once './layouts/aside_bar.php';
 
 
                                 <?php } ?>
-                              </td>
                             <?php } ?>
+                            </td>
                           </tr>
                         <?php endwhile; ?>
                       </tbody>
