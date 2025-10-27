@@ -82,7 +82,7 @@ class generarDatosReporte
 
         return $prestamos;
     }
-     public function datosInventario($fechaInicio, $fechaFin)
+    /*  public function datosInventario($fechaInicio, $fechaFin)
     {
         $mysql = new MySQL();
         $mysql->conectar();
@@ -95,5 +95,5 @@ class generarDatosReporte
         }
 
         return $libros;
-    }
+    } */
 }
