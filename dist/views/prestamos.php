@@ -31,8 +31,24 @@ $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
 
-// Ejecución de la consulta
+// Ejecución de la consulta si es Cliente
+if($tipoUsuario == "Cliente"){
+$prestamos = $mysql->efectuarConsulta("SELECT 
+    prestamo.id,
+    prestamo.id_reserva,
+    prestamo.fecha_prestamo,
+    prestamo.fecha_devolucion,
+    prestamo.estado
+FROM prestamo
+JOIN reserva ON prestamo.id_reserva = reserva.id
+WHERE reserva.id_usuario = $IDusuario
+ORDER BY prestamo.id DESC;
+");
+}
+// Ejecución de la consulta si es administrador
+if($tipoUsuario == "Administrador"){
 $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
+}
 
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
