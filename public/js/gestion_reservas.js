@@ -338,7 +338,8 @@ async function editarReserva(IDreservaBD, IDlibroBD, estadoBD, tipoUsuarioBD) {
 }
 
 // Cancelar reserva
-function cancelarReserva(IDreservaBD, IDlibroBD, estadoBD) {
+function cancelarReserva(IDreservaBD, estadoBD) {
+   console.log(estadoBD);
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Cancelar reserva </span>',
     html: `¿Esta seguro de cancelar esta reserva?: <br>
@@ -356,7 +357,6 @@ function cancelarReserva(IDreservaBD, IDlibroBD, estadoBD) {
     width: 700,
     preConfirm: async () => {
       const formData = new FormData();
-      formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
 
@@ -386,7 +386,7 @@ function cancelarReserva(IDreservaBD, IDlibroBD, estadoBD) {
 }
 
 // Reintegrar reserva
-function reintegrarReserva(IDreservaBD, IDlibroBD, estadoBD) {
+function reintegrarReserva(IDreservaBD, estadoBD) {
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Reactivar reserva </span>',
     html: `¿Esta seguro de volver a activar esta reserva?: <br>
@@ -404,7 +404,6 @@ function reintegrarReserva(IDreservaBD, IDlibroBD, estadoBD) {
     width: 700,
     preConfirm: async () => {
       const formData = new FormData();
-      formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
 
@@ -479,6 +478,7 @@ function aprobarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
 
 // Rechazar reserva
 function rechazarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
+ 
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Rechazar reserva </span>',
     html: `¿Esta seguro de aprobar esta reserva?: <br>
@@ -564,28 +564,28 @@ btnBuscar.addEventListener("click", () => {
     },
   });
 });
- // función para buscar reservas
+// función para buscar reservas
 function buscarReservas(texto, tablaBody) {
   texto = texto.trim(); // se debe reasignar
 
   $.ajax({
-      url: "../../controllers/buscar_reservas.php",
-      type: "POST",
-      data: { query: texto },
-      success: function (reservas) {
-        console.log("Datos recibidos:", reservas);
-        tablaBody.innerHTML = "";
+    url: "../../controllers/buscar_reservas.php",
+    type: "POST",
+    data: { query: texto },
+    success: function (reservas) {
+      console.log("Datos recibidos:", reservas);
+      tablaBody.innerHTML = "";
 
-        if (reservas.length === 0) {
-          tablaBody.innerHTML = `
+      if (reservas.length === 0) {
+        tablaBody.innerHTML = `
             <tr>
               <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
             </tr>`;
-          return;
-        }
+        return;
+      }
 
-        reservas.forEach((res) => {
-          tablaBody.innerHTML += `
+      reservas.forEach((res) => {
+        tablaBody.innerHTML += `
             <tr>
               <td>${res.id}</td>
               <td>${res.nombre}</td>
@@ -595,7 +595,58 @@ function buscarReservas(texto, tablaBody) {
               <td>${res.estado}</td>
             </tr>
           `;
-        });
-      },
+      });
+    },
+  });
+}
+
+//  Funcion para ver el detalle de la reserva
+async function verDetalle(IDreserva) {
+  const formData = new FormData();
+  formData.append("IDreserva", IDreserva);
+  const response = await fetch("../../controllers/detalle_reserva.php", {
+    method: "POST",
+    body: formData,
+  });
+
+  const resultado = await response.json();
+
+  if (resultado.success) {
+    let tabla = `
+                    <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
+                        <thead>
+                            <tr>
+                                <th>Libro</th>
+                                <th>Autor</th>
+                                <th>ISBN</th>
+                                <th>Categoria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+    resultado.detalle.forEach((item) => {
+      tabla += `
+                        <tr class="p-5">
+                            <td>${item.titulo}</td>
+                            <td>${item.autor}</td>
+                            <td>${item.ISBN}</td>
+                            <td>${item.categoria}</td>
+                        </tr>
+                    `;
     });
+
+    tabla += `
+                </tbody>
+                </table>
+                `;
+
+    Swal.fire({
+      title: "Detalle reserva #" + IDreserva,
+      html: tabla,
+      icon: "info",
+      confirmButtonText: "Cerrar",
+      width: 800,
+    });
+  }
 }

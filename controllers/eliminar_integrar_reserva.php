@@ -3,7 +3,6 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         isset($_POST["IDreserva"]) && !empty($_POST["IDreserva"])
-        && isset($_POST["IDlibro"]) && !empty($_POST["IDreserva"])
     ) {
         //====================
         // Conexion a la base de datos
@@ -14,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Captura de datos
         $IDreserva = filter_var($_POST["IDreserva"], FILTER_SANITIZE_NUMBER_INT);
-        $IDlibro = filter_var($_POST["IDlibro"], FILTER_SANITIZE_NUMBER_INT);
         $estado = filter_var($_POST["estado"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         // Realizar una accion dependiendo del estado
@@ -29,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Ejecucion de la consulta
             $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva SET estado ='$nuevoEstado' WHERE id = $IDreserva");
-        
+
             // Si la consulta fue exitosa TRUE
             if ($cambiarEstado) {
                 echo json_encode([
