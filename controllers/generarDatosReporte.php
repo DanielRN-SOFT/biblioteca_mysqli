@@ -82,17 +82,17 @@ class generarDatosReporte
 
         return $prestamos;
     }
-    /*  public function datosInventario($fechaInicio, $fechaFin)
-    {
-        $mysql = new MySQL();
-        $mysql->conectar();
-        $consulta = "SELECT * FROM libro WHERE DATE(libro.fecha_creacion) BETWEEN '$fechaInicio' AND '$fechaFin'";
-        $resultado = $mysql->efectuarConsulta($consulta);
-        $libros = [];
+    /* //  public function datosInventario($fechaInicio, $fechaFin)
+    // {
+    //     $mysql = new MySQL();
+    //     $mysql->conectar();
+    //     $consulta = "SELECT * FROM libro WHERE DATE(libro.fecha_creacion) BETWEEN '$fechaInicio' AND '$fechaFin'";
+    //     $resultado = $mysql->efectuarConsulta($consulta);
+    //     $libros = [];
 
-        while ($fila = $resultado->fetch_assoc()) {
-            $libros[] = $fila;
-        }
+    //     while ($fila = $resultado->fetch_assoc()) {
+    //         $libros[] = $fila;
+    //     }
 
         return $libros;
     } */

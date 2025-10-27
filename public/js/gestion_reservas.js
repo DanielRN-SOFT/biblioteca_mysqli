@@ -196,16 +196,6 @@ function buscarProducto(texto) {
     success: function (response) {
       const libros = JSON.parse(response);
 
-      if (libros.length === 0) {
-        tablaBody.innerHTML = `
-            <tr>
-              <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
-            </tr>`;
-        return;
-      }else{
-         tablaBody.innerHTML = "";
-      }
-
       let html = `<ul class="list-group">`;
 
       libros.forEach((libro) => {

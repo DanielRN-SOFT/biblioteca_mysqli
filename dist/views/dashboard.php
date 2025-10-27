@@ -70,15 +70,11 @@ function contarInfoCliente($estadoReserva, $ID)
   return $conteoAprobadas;
 }
 
-// =========================
-// Funciones
-//  =======================
 
-
-// conteo de libros
-$conteoLibros = contarInfo("libro", "conteoLibros");
 
 if ($tipoUsuario == "Administrador") {
+  // conteo de libros
+  $conteoLibros = contarInfo("libro", "conteoLibros");
   // conteo de usuarios
   $conteoUsuarios = contarInfo("usuario", "conteoUsuarios");
   // conteo de reservas
@@ -88,6 +84,8 @@ if ($tipoUsuario == "Administrador") {
 }
 
 if ($tipoUsuario == "Cliente") {
+  // conteo de libros
+  $conteoLibros = contarInfo("libro", "conteoLibros");
   // Consulta de reservas por usuario
   $consultaReservas = $mysql->efectuarConsulta("SELECT COUNT(*) as conteoReservas FROM reserva JOIN usuario ON usuario.id  = reserva.id_usuario WHERE usuario.id = $IDusuario");
   $conteoReserva = $consultaReservas->fetch_assoc()["conteoReservas"];
@@ -96,23 +94,14 @@ if ($tipoUsuario == "Cliente") {
   $consultaPrestamos = $mysql->efectuarConsulta("SELECT COUNT(*) as conteoPrestamos FROM prestamo JOIN reserva ON reserva.id = prestamo.id_reserva JOIN usuario ON usuario.id  = reserva.id_usuario WHERE usuario.id = $IDusuario");
   $conteoPrestamos = $consultaPrestamos->fetch_assoc()["conteoPrestamos"];
 
-  // Consultas de libros prestados de usuario
-  $consultaLibros = $mysql->efectuarConsulta("SELECT libro.titulo, COUNT(reserva_has_libro.libro_id) AS cantidad FROM reserva_has_libro JOIN libro ON libro.id = reserva_has_libro.libro_id JOIN reserva ON reserva.id = reserva_has_libro.reserva_id WHERE reserva.id_usuario = $IDusuario GROUP BY reserva_has_libro.libro_id  
-ORDER BY cantidad DESC LIMIT 5;");
-
-
   // Total de reservas por usuario
   $consultaTotalReservas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.id_usuario = $IDusuario");
   $conteoTotal = $consultaTotalReservas->fetch_assoc()["conteo"];
 
   // Conteo de reservas segun su estado 
-
   $conteoAprobadas = contarInfoCliente("Aprobada", $IDusuario);
-
   $conteoRechazadas = contarInfoCliente("Rechazada", $IDusuario);
-
   $conteoPendientes = contarInfoCliente("Pendiente", $IDusuario);
-
   $conteoCancelada = contarInfoCliente("Cancelada", $IDusuario);
 }
 
@@ -238,7 +227,7 @@ ORDER BY cantidad DESC LIMIT 5;");
         <div class="col-lg-6 connectedSortable mx-auto">
           <div class="card mb-4">
             <div class="card-header">
-              <h3 class="card-title"><?php echo ($tipoUsuario == "Administrador" ? "Libros más prestados" : "Libros más <span class = 'fw-bold'> reservados </span> de: " . $nombreUsuario . " " . $apellidoUsuario) ?></h3>
+              <h2 class="card-title text-center"><?php echo ($tipoUsuario == "Administrador" ? "Libros más prestados" : "Mis libros más <span class = 'fw-bold'> reservados </span>") ?></h2>
             </div>
 
             <div class="card-body">
@@ -247,17 +236,7 @@ ORDER BY cantidad DESC LIMIT 5;");
               <?php } ?>
 
               <?php if ($tipoUsuario == "Cliente") { ?>
-                <ul class="list-group">
-                  <?php while ($fila = $consultaLibros->fetch_assoc()): ?>
-                    <li class="list-group-item">
-                      <i class="fa-solid fa-book text-primary"></i>
-                      <span class="fw-bold">Libro: </span>
-                      <?php echo $fila["titulo"] ?>
-                      - <i class="fa-solid fa-circle-plus text-info"></i>
-                      <span class="fw-bold">Cantidad</span> <?php echo $fila["cantidad"] ?>
-                    </li>
-                  <?php endwhile ?>
-                </ul>
+                <canvas width="350" height="350" id="graficoLibros"></canvas>
               <?php } ?>
             </div>
           </div>
@@ -272,7 +251,7 @@ ORDER BY cantidad DESC LIMIT 5;");
         <div class="col-lg-6 connectedSortable">
           <div class="card mb-4">
             <div class="card-header">
-              <h3 class="card-title"><?php echo ($tipoUsuario == "Administrador" ? "Usuarios con mayor cantidad de prestamos %" : "Total de <span class = 'fw-bold'>reservas </span> de: " . $nombreUsuario . " " . $apellidoUsuario) ?> </h3>
+              <h2 class="card-title text-center"><?php echo ($tipoUsuario == "Administrador" ? "Usuarios con mayor cantidad de prestamos %" : "Cantidad total de mis <span class = 'fw-bold'>reservas </span>") ?> </h2>
             </div>
 
             <div class="card-body">
@@ -282,31 +261,43 @@ ORDER BY cantidad DESC LIMIT 5;");
                 <?php } ?>
 
                 <?php if ($tipoUsuario == "Cliente") { ?>
-                  <ul class="list-group">
-                    <li class="list-group-item"> 
-                      <i class="fa-solid fa-plus"></i>
-                      <span class="fw-bold">Total: </span>
-                      <?php echo $conteoTotal ?>
+                  <ul class="list-group p-4 mt-1">
+                    <li class="list-group-item p-4">
+                      <h4>
+                        <i class="fa-solid fa-plus"></i>
+                        <span class="fw-bold">Total: </span>
+                        <?php echo $conteoTotal ?>
+                      </h4>
+
                     </li>
-                    <li class="list-group-item">
-                      <i class="fa-solid fa-pause text-primary"></i>
-                      <span class="fw-bold text-primary">Pendientes: </span>
-                      <?php echo $conteoPendientes ?>
+                    <li class="list-group-item p-4">
+                      <h4>
+                        <i class="fa-solid fa-pause text-primary"></i>
+                        <span class="fw-bold text-primary">Pendientes: </span>
+                        <?php echo $conteoPendientes ?>
+                      </h4>
+
                     </li>
-                    <li class="list-group-item">
-                      <i class="fa-solid fa-circle-exclamation text-warning"></i>
-                      <span class="fw-bold text-warning">Canceladas: </span>
-                      <?php echo $conteoCancelada ?>
+                    <li class="list-group-item p-4">
+                      <h4>
+                        <i class="fa-solid fa-circle-exclamation text-warning"></i>
+                        <span class="fw-bold text-warning">Canceladas: </span>
+                        <?php echo $conteoCancelada ?>
+                      </h4>
                     </li>
-                    <li class="list-group-item">
-                      <i class="fa-solid fa-square-check text-success"></i>
-                      <span class="fw-bold text-success">Aprobadas: </span>
-                      <?php echo $conteoAprobadas ?>
+                    <li class="list-group-item p-4">
+                      <h4>
+                        <i class="fa-solid fa-square-check text-success"></i>
+                        <span class="fw-bold text-success">Aprobadas: </span>
+                        <?php echo $conteoAprobadas ?>
+                      </h4>
                     </li>
-                    <li class="list-group-item">
-                      <i class="fa-solid fa-circle-xmark text-danger"></i>
-                      <span class="fw-bold text-danger">Rechazadas: </span>
-                      <?php echo $conteoRechazadas ?>
+                    <li class="list-group-item p-4">
+                      <h4>
+                        <i class="fa-solid fa-circle-xmark text-danger"></i>
+                        <span class="fw-bold text-danger">Rechazadas: </span>
+                        <?php echo $conteoRechazadas ?>
+                      </h4>
                     </li>
 
                   </ul>

@@ -79,7 +79,7 @@ require_once './layouts/aside_bar.php';
               <div class="row">
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
-                    <table class="table table-bordered table-striped nowrap" id="tblUsuarios" width="100%" cellspacing="0">
+                    <table class="table table-bordered table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
                       <thead>
                         <tr>
                           <th>Nombre</th>
