@@ -39,7 +39,6 @@ $mysql->conectar();
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
     $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.fecha_reserva, reserva_has_libro.reserva_id, reserva_has_libro.libro_id, libro.titulo, reserva.estado FROM usuario JOIN reserva ON usuario.id = reserva.id_usuario JOIN reserva_has_libro ON reserva.id = reserva_has_libro.reserva_id JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE usuario.id = $IDusuario ORDER BY reserva_has_libro.reserva_id ASC");
-
 }
 
 // Si es administrador puede ver todas las reservas 
@@ -106,7 +105,7 @@ if ($tipoUsuario == "Administrador") {
                                                     <?php } ?>
                                                     <th>Reserva</th>
                                                     <th>Fecha</th>
-                                                    
+
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
                                                     <?php if ($tipoUsuario == "Administrador") { ?>
@@ -122,7 +121,7 @@ if ($tipoUsuario == "Administrador") {
                                                         <?php } ?>
                                                         <td> <?php echo $fila["reserva_id"] ?></td>
                                                         <td> <?php echo $fila["fecha_reserva"] ?></td>
-                                                       
+
                                                         <!-- Estilos para el estado -->
                                                         <?php if ($fila["estado"] == "Aprobada") { ?>
                                                             <td class="text-success fw-bold"> <?php echo $fila["estado"] ?></td>
@@ -163,18 +162,24 @@ if ($tipoUsuario == "Administrador") {
                                                         <!-- OPCIONES DE RESERVA -->
                                                         <?php if ($tipoUsuario == "Administrador") { ?>
                                                             <td>
-                                                                <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Rechazada") { ?>
-                                                                    <button class="btn btn-success" onclick="aprobarReserva(<?php echo $fila['reserva_id'] ?>, 
-                                                                    <?php echo $fila['libro_id'] ?>, 
-                                                                    
+                                                                <?php if (
+                                                                    $fila["estado"] == "Pendiente" ||
+                                                                    $fila["estado"] == "Rechazada"
+                                                                ) { ?>
+                                                                    <button class="btn btn-success" onclick="aprobarReserva(
+                                                                    <?php echo $fila['reserva_id'] ?>, 
                                                                     '<?php echo $fila['estado'] ?>', 
-                                                                    '<?php echo 'Aprobar' ?>')"><i class="fa-solid fa-thumbs-up"></i></button>
+                                                                    '<?php echo 'Aprobar' ?>')">
+                                                                        <i class="fa-solid fa-thumbs-up"></i>
+                                                                    </button>
                                                                 <?php } ?>
 
-                                                                <?php if ($fila["estado"] == "Pendiente" || $fila["estado"] == "Aprobada") { ?>
-                                                                    <button class="btn btn-danger" onclick="rechazarReserva(<?php echo $fila['reserva_id'] ?>, 
-                                                                    <?php echo $fila['libro_id'] ?>, 
-                                                                    
+                                                                <?php if (
+                                                                    $fila["estado"] == "Pendiente" ||
+                                                                    $fila["estado"] == "Aprobada"
+                                                                ) { ?>
+                                                                    <button class="btn btn-danger" onclick="rechazarReserva(
+                                                                    <?php echo $fila['reserva_id'] ?>, 
                                                                     '<?php echo $fila['estado'] ?>', 
                                                                     '<?php echo 'Rechazar' ?>')">
                                                                         <i class="fa-solid fa-circle-xmark"></i>

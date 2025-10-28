@@ -1,94 +1,4 @@
-// // Crear reserva
-// function crearReserva(IDcliente) {
-//   Swal.fire({
-//     title: '<span class = "text-success fw-bold"> Crear reserva </span>',
-//     html: `
-//         <input type="text" id="busquedaProducto" class="swal2-input" placeholder="Buscar libro..." onkeyup="buscarProducto(this.value)">
-//           <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
-//           <table class = "table table-bordered" id="tablaProductos" style="margin-top:10px; font-size:14px;">
-//             <thead>
-//               <tr>
-//                 <th>Titulo</th>
-//                 <th>Autor</th>
-//                 <th>Categoria</th>
-//                 <th>Accion</th>
-//               </tr>
-//             <tbody></tbody>
-//             </table>
-//         `,
-//         width:800,
-//     showCancelButton: true,
-//     confirmButtonText: "Guardar reserva",
-//     cancelButtonText: "Cancelar",
-//     customClass: {
-//       confirmButton: "btn btn-success",
-//       cancelButton: "btn btn-danger",
-//     },
-//     preConfirm: () => {
-//       return new Promise((resolve, reject) => {
-
-//         $.ajax({
-//           url: "../../controllers/contar_reservas.php",
-//           type: "POST",
-//           data: {"IDcliente": IDcliente},
-//           dataType: "json",
-//           success: (resultado) =>{
-//             if(!resultado.success){
-//               reject(resultado.message)
-//               return
-//             }
-//           }
-//         })
-
-//         const productos = [];
-
-//         document.querySelectorAll('#tablaProductos tbody tr').forEach(row => {
-//           const IDlibro = parseInt(row.getAttribute("data-id"));
-
-//           if (IDlibro > 0) {
-//             productos.push(IDlibro);
-//           }
-//         })
-
-//         if(productos.length === 0){
-//           reject('Agregue al menos un libro para completar la reserva');
-//           return;
-//         }
-
-//         $.ajax({
-//           url: '../../controllers/agregar_reserva.php',
-//           type: "POST",
-//           data:{
-//             libros: JSON.stringify(productos),
-//             IDcliente: IDcliente
-//           },
-//           success: function(response){
-//             const res = JSON.parse(response);
-//             console.log(res);
-//             if(res.success){
-//               resolve(res.message);
-//             }else{
-//               reject(res.message);
-//             }
-//           },
-//           error: function(){
-//             reject('No se pudo guardar a venta.');
-//           }
-//         })
-//       }).catch(error =>{
-//         Swal.showValidationMessage(error);
-//       })
-//     },
-//   }).then((resultado) => {
-//     if (resultado.isConfirmed && resultado.value) {
-//       Swal.fire("¡Exito!", resultado.value, "success").then(() => {
-//         location.reload();
-//       });
-//     }
-//   });
-// }
-
-async function crearReserva(IDcliente) {
+async function crearReserva(IDcliente, tipoUsuarioBD) {
   Swal.fire({
     title: '<span class="text-success fw-bold">Crear reserva</span>',
     html: `
@@ -133,19 +43,21 @@ async function crearReserva(IDcliente) {
           return false;
         }
 
-        // Validar límite o condiciones en el servidor
-        const validar = await fetch("../../controllers/contar_reservas.php", {
-          method: "POST",
-          body: new URLSearchParams({
-            IDcliente: IDcliente,
-            librosSeleccionados: JSON.stringify(productos),
-          }),
-        });
-        const resultado = await validar.json();
+        if (tipoUsuarioBD === "Cliente") {
+          // Validar límite o condiciones en el servidor
+          const validar = await fetch("../../controllers/contar_reservas.php", {
+            method: "POST",
+            body: new URLSearchParams({
+              IDcliente: IDcliente,
+              librosSeleccionados: JSON.stringify(productos),
+            }),
+          });
+          const resultado = await validar.json();
 
-        if (!resultado.success) {
-          Swal.showValidationMessage(resultado.message);
-          return false; // Detiene el flujo
+          if (!resultado.success) {
+            Swal.showValidationMessage(resultado.message);
+            return false; // Detiene el flujo
+          }
         }
 
         // Enviar datos al servidor para guardar la reserva
@@ -339,12 +251,11 @@ async function editarReserva(IDreservaBD, IDlibroBD, estadoBD, tipoUsuarioBD) {
 
 // Cancelar reserva
 function cancelarReserva(IDreservaBD, estadoBD) {
-   console.log(estadoBD);
+  console.log(estadoBD);
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Cancelar reserva </span>',
     html: `¿Esta seguro de cancelar esta reserva?: <br>
-    <strong>No. de reserva: </strong> ${IDreservaBD} <br>
-    (Se cancelaran todas las reservas con dicho numero) <br> 
+    <strong>No. de reserva: </strong> ${IDreservaBD}
     `,
     icon: "warning",
     showCancelButton: true,
@@ -390,8 +301,7 @@ function reintegrarReserva(IDreservaBD, estadoBD) {
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Reactivar reserva </span>',
     html: `¿Esta seguro de volver a activar esta reserva?: <br>
-    <strong>No. de reserva: </strong> ${IDreservaBD} <br>
-    (Se reactivaran todas las reservas con dicho numero) <br>
+    <strong>No. de reserva: </strong> ${IDreservaBD}
     `,
     icon: "warning",
     showCancelButton: true,
@@ -433,7 +343,7 @@ function reintegrarReserva(IDreservaBD, estadoBD) {
 }
 
 // Aprobar reserva
-function aprobarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
+function aprobarReserva(IDreservaBD, estadoBD, opcionBD) {
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Aprobar reserva </span>',
     html: `¿Esta seguro de aprobar esta reserva?: <br>
@@ -449,7 +359,6 @@ function aprobarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
     },
     preConfirm: async () => {
       const formData = new FormData();
-      formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
       formData.append("opcion", opcionBD);
@@ -477,8 +386,7 @@ function aprobarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
 }
 
 // Rechazar reserva
-function rechazarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
- 
+function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Rechazar reserva </span>',
     html: `¿Esta seguro de aprobar esta reserva?: <br>
@@ -494,7 +402,6 @@ function rechazarReserva(IDreservaBD, IDlibroBD, estadoBD, opcionBD) {
     },
     preConfirm: async () => {
       const formData = new FormData();
-      formData.append("IDlibro", IDlibroBD);
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
       formData.append("opcion", opcionBD);
@@ -577,6 +484,7 @@ function buscarReservas(texto, tablaBody) {
       tablaBody.innerHTML = "";
 
       if (reservas.length === 0) {
+        console.log(reservas.length);
         tablaBody.innerHTML = `
             <tr>
               <td colspan="5" class="text-center text-muted">No se encontraron resultados</td>
