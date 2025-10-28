@@ -54,9 +54,6 @@ require_once './layouts/aside_bar.php';
             <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
           </div>
         <?php } ?>
-        <div class="col-sm-12 mt-2">
-          <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
-        </div>
       </div>
     </div>
   </div>
