@@ -1,9 +1,18 @@
 :root {
-  --azul-nav-bar: #2b1300;
+  --nav-bar: #2b1300;
 }
 
 .bg-nav-bar {
-  background-color: var(--azul-nav-bar);
+  background-color: var(--nav-bar);
+}
+
+.bg-card-reservas{
+  color: #fff !important;
+  background-color: #d56000 !important;
+}
+
+.bg-card-prestamos{
+  background-color: #00cab9 !important;
 }
 
 .bg-login {

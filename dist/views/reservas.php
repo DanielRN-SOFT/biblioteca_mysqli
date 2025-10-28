@@ -140,25 +140,28 @@ if ($tipoUsuario == "Administrador") {
                                                         <td> <?php echo $fila["fecha_reserva"] ?></td>
 
                                                         <!-- Estilos para el estado -->
-                                                         <?php if($fila["estado"] == "Aprobada"){
+                                                        <?php if ($fila["estado"] == "Aprobada") {
                                                             $estado = "text-bg-success";
-                                                         } else if($fila["estado"] == "Rechazada"){ 
+                                                        } else if ($fila["estado"] == "Rechazada") {
                                                             $estado = "text-bg-danger";
-                                                         } else if ($fila["estado"] == "Pendiente") {
-                                                                $estado = "text-bg-primary";
-                                                            } else if ($fila["estado"] == "Cancelada") {
-                                                                $estado = "text-bg-warning";
-                                                            }?>
-                                                            <td class="">
-                                                                <span class="badge <?php echo $estado ?>">
-                                                                    <?php echo $fila["estado"] ?>
-                                                                </span>
-                                                            </td>
-                                                    
-                                                        
+                                                        } else if ($fila["estado"] == "Pendiente") {
+                                                            $estado = "text-bg-primary";
+                                                        } else if ($fila["estado"] == "Cancelada") {
+                                                            $estado = "text-bg-warning";
+                                                        } ?>
+                                                        <td class="">
+                                                            <span class="badge <?php echo $estado ?>">
+                                                                <?php echo $fila["estado"] ?>
+                                                            </span>
+                                                        </td>
+
+
                                                         <td>
                                                             <button
-                                                                onclick="verDetalle(<?php echo $fila['id'] ?>)" class="btn btn-info">
+                                                                onclick="verDetalle(
+                                                                <?php echo $fila['id'] ?> ,
+                                                                '<?php echo $fila['nombre'] ?>' ,
+                                                                '<?php echo $fila['apellido'] ?>')" class="btn btn-info">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
 

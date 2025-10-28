@@ -89,10 +89,10 @@ require_once './layouts/aside_bar.php';
                           <th>ISBN</th>
                           <th>Categoria</th>
                           <th>Disponibilidad</th>
-                          <th>Cantidad</th>
-                          <th>Fecha de creacion</th>
-                          <th>Estado</th>
+                          <th class="text-center">Cantidad</th>
                           <?php if ($tipoUsuario == "Administrador") { ?>
+                            <th>Estado</th>
+                            <th>Fecha de creacion</th>
                             <th>Acciones</th>
                           <?php } ?>
                         </tr>
@@ -105,10 +105,10 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["ISBN"]; ?></td>
                             <td><?php echo $fila["categoria"]; ?></td>
                             <td><?php echo $fila["disponibilidad"]; ?></td>
-                            <td><?php echo $fila["cantidad"]; ?></td>
-                            <td><?php echo $fila["fecha_creacion"]; ?></td>
-                            <td><?php echo $fila["estado"]; ?></td>
+                            <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
                             <?php if ($tipoUsuario === "Administrador") { ?>
+                              <td><?php echo $fila["estado"]; ?></td>
+                              <td><?php echo $fila["fecha_creacion"]; ?></td>
                               <td>
                                 <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <?php if ($fila["estado"] == "Activo") { ?>

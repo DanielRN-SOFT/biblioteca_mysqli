@@ -34,23 +34,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $mensaje = "Reintegracion de reserva completada";
 
                 // Seleccionar libros a descontar 
-                $libros = $mysql->efectuarConsulta("SELECT libro_id FROM reserva_has_libro WHERE reserva_id = $IDreserva");
+                $libros = $mysql->efectuarConsulta("SELECT libro_id, libro.titulo, libro.cantidad FROM reserva_has_libro JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE reserva_id = $IDreserva");
 
-
-              
                 while ($fila = $libros->fetch_assoc()) {
                     // ID de libro
                     $IDlibro = $fila["libro_id"];
 
-                    // Seleccionar libros para saber su stock 
-                    $libros = $mysql->efectuarConsulta("SELECT cantidad FROM libro WHERE id = $IDlibro");
-                    $cantidad = $libros->fetch_assoc()["cantidad"];
+                    // // Seleccionar libros para saber su stock 
+                    // $libros = $mysql->efectuarConsulta("SELECT titulo, cantidad FROM libro WHERE id = $IDlibro");
+                    
+                    $cantidad = $fila["cantidad"];
+                    $nombre = $fila["titulo"];
                     // Validar si hay inventario
                     if ($cantidad == 0) {
                         if ($libros) {
                             echo json_encode([
                                 "success" => false,
-                                "message" => "No hay existencias por el momento en ese libro"
+                                "message" => "No hay existencias por el momento en el libro: " . $nombre
                             ]);
                             exit();
                         }

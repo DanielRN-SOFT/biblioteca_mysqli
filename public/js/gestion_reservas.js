@@ -389,7 +389,7 @@ function aprobarReserva(IDreservaBD, estadoBD, opcionBD) {
 function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
   Swal.fire({
     title: '<span class="text-danger mb-3 fw-bold"> Rechazar reserva </span>',
-    html: `¿Esta seguro de aprobar esta reserva?: <br>
+    html: `¿Esta seguro de rechazar esta reserva? <br>
     <strong>No. de reserva: </strong> ${IDreservaBD} <br>
     `,
     icon: "error",
@@ -400,6 +400,7 @@ function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
       confirmButton: "btn btn-success",
       cancelButton: "btn btn-danger",
     },
+    width: 600,
     preConfirm: async () => {
       const formData = new FormData();
       formData.append("IDreserva", IDreservaBD);
@@ -421,7 +422,7 @@ function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
     },
   }).then((resultado) => {
     if (resultado.isConfirmed && resultado.value.success) {
-      Swal.fire("Exito", resultado.value.message, "success").then(() => {
+      Swal.fire("¡Exito!", resultado.value.message, "success").then(() => {
         location.reload();
       });
     }
@@ -509,7 +510,7 @@ function buscarReservas(texto, tablaBody) {
 }
 
 //  Funcion para ver el detalle de la reserva
-async function verDetalle(IDreserva) {
+async function verDetalle(IDreserva, nombre, apellido) {
   const formData = new FormData();
   formData.append("IDreserva", IDreserva);
   const response = await fetch("../../controllers/detalle_reserva.php", {
@@ -550,7 +551,8 @@ async function verDetalle(IDreserva) {
                 `;
 
     Swal.fire({
-      title: "Detalle reserva #" + IDreserva,
+      title: `Detalle de la reserva <span class="fw-bold m-0"> #${IDreserva}</span>
+      <br> <h5 class = ""> Propietario: <span class='fw-bold'> ${nombre} ${apellido} </span> </h5>`,
       html: tabla,
       icon: "info",
       confirmButtonText: "Cerrar",
