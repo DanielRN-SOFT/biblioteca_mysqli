@@ -17,12 +17,6 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
-// ===============================
-// Layout de componentes HTML
-// ===============================
-require_once './layouts/head.php';
-require_once './layouts/nav_bar.php';
-require_once './layouts/aside_bar.php';
 // Instancia de la clase
 $mysql = new MySQL();
 
@@ -31,7 +25,9 @@ $mysql->conectar();
 
 // Ejecución de la consulta
 $libros = $mysql->efectuarConsulta("SELECT * FROM libro");
-
+// ===============================
+// Layout de componentes HTML
+// ===============================
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
@@ -115,8 +111,8 @@ require_once './layouts/aside_bar.php';
 
 
                                 <?php } ?>
-                              </td>
                             <?php } ?>
+                            </td>
                           </tr>
                         <?php endwhile; ?>
                       </tbody>
