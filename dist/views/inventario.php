@@ -104,8 +104,8 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["cantidad"]; ?></td>
                             <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td><?php echo $fila["estado"]; ?></td>
-                            <td>
                             <?php if ($tipoUsuario == "Administrador") { ?>
+                              <td>
                                 <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                                 <?php if ($fila["estado"] == "Activo") { ?>
                                   <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
@@ -114,8 +114,8 @@ require_once './layouts/aside_bar.php';
 
 
                                 <?php } ?>
+                                </td>
                             <?php } ?>
-                            </td>
                           </tr>
                         <?php endwhile; ?>
                       </tbody>
