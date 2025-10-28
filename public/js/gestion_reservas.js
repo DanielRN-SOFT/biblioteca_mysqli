@@ -4,7 +4,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
     html: `
       <input type="text" id="busquedaProducto" class="swal2-input" placeholder="Buscar libro..." onkeyup="buscarProducto(this.value)">
       <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
-      <table class="table table-bordered" id="tablaProductos" style="margin-top:10px; font-size:14px;">
+      <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaProductos">
         <thead>
           <tr> 
             <th>Título</th>
@@ -114,9 +114,9 @@ function buscarProducto(texto) {
         html += `
             <li class = "list-group-item list-group-item-action"
               onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}', '${libro.categoria}')">
-                <strong> Titulo:  </strong>${libro.titulo} 
-              - <strong> Autor:  </strong> ${libro.autor} 
-              - <strong> Categoria:  </strong> ${libro.categoria}
+                <strong> 📙 Titulo:  </strong>${libro.titulo} 
+              - <strong> ✒️ Autor:  </strong> ${libro.autor} 
+              - <strong> 📚 Categoria:  </strong> ${libro.categoria}
             </li>
         `;
       });
