@@ -59,7 +59,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                            
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
-                                <a href="#" class="btn btn-success text-light btn-flat w-50">Perfil</a>
+                                <a href="/biblioteca_mysqli/dist/views/ingresarPerfil.php" class="btn btn-success text-light btn-flat w-50">Perfil</a>
                                 <a href="../../controllers/logout.php" class="btn btn-danger text-light btn-flat float-end">Cerrar sesión</a>
                             </li>
                             <!--end::Menu Footer-->
