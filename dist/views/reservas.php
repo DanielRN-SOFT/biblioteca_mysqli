@@ -88,9 +88,6 @@ if ($tipoUsuario == "Administrador") {
                     <?php echo $IDusuario ?> , 
                     '<?php echo $tipoUsuario ?>')">Crear nueva reserva</button>
                 </div>
-                <div class="col-sm-12 mt-2">
-                    <button class="btn btn-primary w-100" id="crearBusqueda">Buscar</button>
-                </div>
             </div>
         </div>
     </div>
