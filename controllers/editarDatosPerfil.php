@@ -62,6 +62,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $cambiarPassword = true;
             $newPassword = password_hash($_POST["newPassword"], PASSWORD_BCRYPT);
         }
+
+        if (empty($_POST["oldPassword"])) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Ingresa tu password actual para actualizar el perfil"
+            ]);
+            exit();
+        }
         // Si quiere cambiar contraseña, verificar que la antigua sea correcta
         if (!password_verify($_POST["oldPassword"], $passwordBD)) {
             echo json_encode([
