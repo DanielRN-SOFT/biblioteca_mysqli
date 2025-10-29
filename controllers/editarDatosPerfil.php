@@ -66,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($_POST["oldPassword"])) {
             echo json_encode([
                 "success" => false,
-                "message" => "Ingresa tu password actual para actualizar el perfil"
+                "message" => "Ingrese su contraseña actual para actualizar su perfil"
             ]);
             exit();
         }
@@ -92,6 +92,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
             }
         }
+    }else{
+        echo json_encode([
+            "success" => false,
+            "message" => "Faltan campos por rellenar, Intentelo de nuevo"
+        ]);
+        exit();
     }
 
 

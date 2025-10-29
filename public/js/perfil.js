@@ -1,4 +1,4 @@
-console.log("✅ perfil.js cargado correctamente");
+console.log("perfil.js cargado correctamente");
 
 //funcion para habilitar el campo de nuevo password cuando se selecciona el checkbox
 document

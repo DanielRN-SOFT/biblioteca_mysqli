@@ -36,8 +36,8 @@ $usuario = mysqli_fetch_assoc($sql);
 // ==========================
 ?>
 <main class="app-main">
-    <div class="container-fluid">
-        <div class="row">
+    <div class="container-fluid mt-sm-5">
+        <div class="row mt-5">
             <div class="col-md-4 mb-4 d-flex justify-content-center">
                 <div class="card mt-3 text-center" style="width: 18rem;">
                     <div class="card-body d-flex flex-column align-items-center">
@@ -100,7 +100,7 @@ $usuario = mysqli_fetch_assoc($sql);
 </div>
         </div>
     </div>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-end m-4">
         <button type="button" class="btn btn-primary me-2" id="btnGuardar">Guardar</button>
         <button type="button" class="btn btn-success">Volver a Mi Perfil</button>
     </div>
