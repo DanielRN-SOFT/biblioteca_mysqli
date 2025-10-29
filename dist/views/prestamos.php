@@ -17,6 +17,11 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 
 // Llamar el modelo MYSQL
 require_once '../../models/MYSQL.php';
+// Instancia de la clase
+$mysql = new MySQL();
+
+// Conexión con la base de datos
+$mysql->conectar();
 
 
 // ===============================
@@ -25,11 +30,9 @@ require_once '../../models/MYSQL.php';
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
-// Instancia de la clase
-$mysql = new MySQL();
 
-// Conexión con la base de datos
-$mysql->conectar();
+
+
 
 // Ejecución de la consulta si es Cliente
 if ($tipoUsuario == "Cliente") {
@@ -47,7 +50,12 @@ ORDER BY prestamo.id DESC;
 }
 // Ejecución de la consulta si es administrador
 if ($tipoUsuario == "Administrador") {
-  $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
+  $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo 
+  ORDER BY CASE
+  WHEN prestamo.estado = 'Prestado' THEN 1
+  WHEN prestamo.estado = 'Devuelto' THEN 2
+  ELSE 3
+  END");
 }
 
 // Fecha actual
@@ -171,7 +179,7 @@ require_once './layouts/aside_bar.php';
             </div>
             <!-- ./card-body -->
 
-            <div class="card-footer bg-card-general"></div>
+            <div class="card-footer"></div>
             <!-- /.card-footer -->
           </div>
         </div>

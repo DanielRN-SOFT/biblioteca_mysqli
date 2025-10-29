@@ -15,14 +15,6 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
     $_SESSION["acceso"] = true;
 }
 
-// ===============================
-// Layout de componentes HTML
-// ===============================
-require_once './layouts/head.php';
-require_once './layouts/nav_bar.php';
-require_once './layouts/aside_bar.php';
-
-
 // ==========================
 // Seccion: Conexion a la base de datos
 // ==========================
@@ -35,6 +27,16 @@ $mysql = new MySQL();
 
 // Conexion a la BD
 $mysql->conectar();
+
+// ===============================
+// Layout de componentes HTML
+// ===============================
+require_once './layouts/head.php';
+require_once './layouts/nav_bar.php';
+require_once './layouts/aside_bar.php';
+
+
+
 
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
@@ -219,7 +221,7 @@ if ($tipoUsuario == "Administrador") {
                         </div>
                         <!-- ./card-body -->
 
-                        <div class="card-footer bg-card-general"></div>
+                        <div class="card-footer"></div>
                         <!-- /.card-footer -->
                     </div>
                 </div>

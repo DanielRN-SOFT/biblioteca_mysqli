@@ -119,7 +119,7 @@ require_once './layouts/aside_bar.php';
             </div>
             <!-- ./card-body -->
 
-            <div class="card-footer bg-card-general"></div>
+            <div class="card-footer"></div>
             <!-- /.card-footer -->
           </div>
         </div>

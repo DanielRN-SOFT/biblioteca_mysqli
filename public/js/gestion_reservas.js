@@ -259,6 +259,8 @@ function aprobarReserva(IDreservaBD, estadoBD, opcionBD) {
       confirmButton: "btn btn-success",
       cancelButton: "btn btn-danger",
     },
+    timer: 2000,
+    width: 600,
     preConfirm: async () => {
       const formData = new FormData();
       formData.append("IDreserva", IDreservaBD);
@@ -302,6 +304,7 @@ function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
       confirmButton: "btn btn-success",
       cancelButton: "btn btn-danger",
     },
+    timer: 2000,
     width: 600,
     preConfirm: async () => {
       const formData = new FormData();
