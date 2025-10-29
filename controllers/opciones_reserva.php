@@ -3,7 +3,6 @@
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         isset($_POST["IDreserva"]) && !empty($_POST["IDreserva"])
-        && isset($_POST["IDlibro"]) && !empty($_POST["IDreserva"])
     ) {
         //====================
         // Conexion a la base de datos
@@ -14,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Captura de datos
         $IDreserva = filter_var($_POST["IDreserva"], FILTER_SANITIZE_NUMBER_INT);
-        $IDlibro = filter_var($_POST["IDlibro"], FILTER_SANITIZE_NUMBER_INT);
+        $estadoBD = filter_var($_POST["estado"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $opcion = filter_var($_POST["opcion"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         // Arreglo de errores
@@ -27,40 +26,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Insertar en prestamo la reserva aprobada
             $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY), 'Vigente')");
-            if(!$insertPrestamo){
+
+            if ($estadoBD === "Rechazada") {
+                // Seleccionar libros a restar 
+                $libros = $mysql->efectuarConsulta("SELECT libro_id FROM reserva_has_libro WHERE reserva_id = $IDreserva");
+
+                // restar de nuevo al inventario en caso de aprobar la reserva que fue rechazada
+                while ($fila = $libros->fetch_assoc()) {
+                    $ID = $fila["libro_id"];
+                    $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $ID");
+
+                    if (!$updateInventario) {
+                        $errores = "Error al restar inventario";
+                    }
+                }
+            }
+
+            if (!$insertPrestamo) {
                 $errores = "Error al insertar PRESTAMO";
             }
         }
 
         // Si la opcion es rechazar
         if ($opcion == "Rechazar") {
-            $deletePrestamo = $mysql->efectuarConsulta("UPDATE prestamo set estado = 'Cancelado' WHERE id_reserva = $IDreserva");
+            // $deletePrestamo = $mysql->efectuarConsulta("UPDATE prestamo set estado = 'Cancelado' WHERE id_reserva = $IDreserva");
 
-            if(!$deletePrestamo){
+            // Eliminar prestamo
+            $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
+            if (!$deletePrestamo) {
                 $errores = "Error al eliminar PRESTAMO";
             }
-            // $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
+
+            // Asignar nuevo el nuevo estado
             $nuevoEstado = "Rechazada";
             $mensaje = "Rechazo de reserva completada";
+
+
+            // Seleccionar libros a sumar 
+            $libros = $mysql->efectuarConsulta("SELECT libro_id FROM reserva_has_libro WHERE reserva_id = $IDreserva");
+
+            // Sumar de nuevo al inventario en caso de rechazar la reserva
+            while ($fila = $libros->fetch_assoc()) {
+                $ID = $fila["libro_id"];
+                $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad + 1 WHERE libro.id = $ID");
+            }
         }
 
-        // Ejecucion de la consulta
+        // Actualizar el estado de la reserva
         $cambiarEstado = $mysql->efectuarConsulta("UPDATE reserva SET estado ='$nuevoEstado' WHERE id = $IDreserva");
 
-        if(!$cambiarEstado){
-            $errores = "Errro al cambiar estado de la RESERVA";
+        if (!$cambiarEstado) {
+            $errores = "Error al cambiar estado de la RESERVA";
         }
+
+        $mysql->desconectar();
 
         if (count($errores) == 0) {
             echo json_encode([
                 "success" => true,
                 "message" => $mensaje
             ]);
+            exit();
         } else {
             echo json_encode([
                 "success" => true,
                 "message" => "Ocurrio un error..."
             ]);
+            exit();
         }
     }
 }
