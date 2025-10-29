@@ -44,11 +44,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $IDlibro = filter_var($libro, FILTER_SANITIZE_NUMBER_INT);
             $queryPivote = "INSERT INTO reserva_has_libro(reserva_id,libro_id) VALUES($ultimoID, $IDlibro)";
 
+            // Descontar del inventario
+            $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $IDlibro");
+
+            // Seleccionar libros para saber su stock 
+            $libros = $mysql->efectuarConsulta("SELECT cantidad FROM libro WHERE id = $IDlibro");
+            $cantidad = $libros->fetch_assoc()["cantidad"];
+            if ($cantidad == 0) {
+                $updateDisponibilidad = $mysql->efectuarConsulta("UPDATE libro set disponibilidad = 'No disponible' WHERE libro.id = $IDlibro");
+
+                if (!$updateDisponibilidad) {
+                    $errores =  "Error en disponibilidad de inventario";
+                }
+            }
+
+
+
+            if (!$updateInventario) {
+                $errores =  "Error en UPDATE de inventario";
+            }
+
             if (!$mysql->efectuarConsulta($queryPivote)) {
                 $errores = "Error con el libro ID $IDlibro";
             }
-
-          
         }
 
         // Desconexion de la base de datos

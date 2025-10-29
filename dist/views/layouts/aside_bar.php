@@ -12,7 +12,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
     <div class="sidebar-brand">
         <a href="./dashboard.php" class="brand-link">
             <img src="../assets/img/biblioteca.png" alt="Biblioteca LOGO" class="brand-image opacity-75 shadow" />
-            <span class="brand-text fw-light">Biblioteca</span>
+            <span class="brand-text fw-light fw-bold">Biblioteca</span>
         </a>
     </div>
     <!--end::Sidebar Brand-->

@@ -139,11 +139,11 @@ if ($tipoUsuario == "Cliente") {
         <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-lg-3 col-6">
             <!-- small box -->
-            <a href="./usuarios.php" class="small-box text-bg-primary">
+            <a href="./usuarios.php" class="small-box text-bg-primary nav-link">
               <div class="inner">
                 <h3><?php echo $conteoUsuarios ?></h3>
 
-                <p>Total de usuarios</p>
+                <p class="fw-bold">Total de usuarios</p>
               </div>
               <svg
                 class="small-box-icon"
@@ -157,78 +157,200 @@ if ($tipoUsuario == "Cliente") {
 
             </a>
           </div>
+
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./inventario.php" class="small-box text-bg-success nav-link">
+              <div class="inner">
+                <h3><?php echo $conteoLibros ?></h3>
+
+                <p class="fw-bold">Total de libros</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path
+                  d="M3 4.5A1.5 1.5 0 014.5 3H15a1.5 1.5 0 011.5 1.5V19.5A1.5 1.5 0 0115 21H4.5A1.5 1.5 0 013 19.5V4.5zm2.25 0v15h9V4.5h-9zM18 5.25a.75.75 0 01.75-.75h1.5A1.75 1.75 0 0122 6.25v12a1.75 1.75 0 01-1.75 1.75h-1.5a.75.75 0 01-.75-.75V5.25zm1.5.75v12h.75a.25.25 0 00.25-.25v-11.5a.25.25 0 00-.25-.25h-.75zM6 7.5h6a.75.75 0 010 1.5H6a.75.75 0 010-1.5zm0 3h6a.75.75 0 010 1.5H6a.75.75 0 010-1.5zm0 3h6a.75.75 0 010 1.5H6a.75.75 0 010-1.5z" />
+              </svg>
+            </a>
+          </div>
+          <!-- ./col -->
+
+
+
         <?php } ?>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <a href="./inventario.php" class="small-box text-bg-success">
-            <div class="inner">
-              <h3><?php echo $conteoLibros ?></h3>
 
-              <p>Total de libros</p>
-            </div>
-            <svg
-              class="small-box-icon"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true">
-              <path
-                d="M3 4.5A1.5 1.5 0 014.5 3H15a1.5 1.5 0 011.5 1.5V19.5A1.5 1.5 0 0115 21H4.5A1.5 1.5 0 013 19.5V4.5zm2.25 0v15h9V4.5h-9zM18 5.25a.75.75 0 01.75-.75h1.5A1.75 1.75 0 0122 6.25v12a1.75 1.75 0 01-1.75 1.75h-1.5a.75.75 0 01-.75-.75V5.25zm1.5.75v12h.75a.25.25 0 00.25-.25v-11.5a.25.25 0 00-.25-.25h-.75zM6 7.5h6a.75.75 0 010 1.5H6a.75.75 0 010-1.5zm0 3h6a.75.75 0 010 1.5H6a.75.75 0 010-1.5zm0 3h6a.75.75 0 010 1.5H6a.75.75 0 010-1.5z" />
-            </svg>
-          </a>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <a href="./reservas.php" class="small-box text-bg-warning">
-            <div class="inner">
-              <h3><?php echo $conteoReserva ?></h3>
 
-              <p>Total de reservas</p>
-            </div>
-            <svg
-              class="small-box-icon"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true">
-              <path
-                d="M6.75 2.25a.75.75 0 01.75.75v1.5h9V3a.75.75 0 011.5 0v1.5h.75A2.25 2.25 0 0121 6.75v12A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75v-12A2.25 2.25 0 015.25 4.5H6V3a.75.75 0 01.75-.75zM4.5 9v9.75c0 .414.336.75.75.75h13.5a.75.75 0 00.75-.75V9H4.5zm1.5 2.25h3v3h-3v-3zm4.5 0h3v3h-3v-3zm4.5 0h3v3h-3v-3z" />
-            </svg>
-          </a>
-        </div>
-        <!-- ./col -->
-        <div class="col-lg-3 col-6">
-          <!-- small box -->
-          <a href="./prestamos.php" class="small-box text-bg-danger">
-            <div class="inner">
-              <h3><?php echo $conteoPrestamos ?></h3>
+        <?php if ($tipoUsuario == "Cliente") { ?>
+          <!-- col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./reservas.php" class="small-box text-bg-primary nav-link">
+              <div class="inner">
+                <h3><?php echo $conteoPendientes ?></h3>
 
-              <p>Total de prestamos</p>
-            </div>
-            <svg
-              class="small-box-icon"
-              fill="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-              aria-hidden="true">
-              <path
-                d="M7 3a1 1 0 00-1 1v7a1 1 0 001 1h4a1 1 0 001-1V4a1 1 0 00-1-1H7zm7.75 1.5a.75.75 0 00-.75.75V10a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 101.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H14V5.25a.75.75 0 00-.75-.75zM4.25 13.5a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 001.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H5a.75.75 0 00-.75.75v1.5zm7.25 1.5a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 00-1-1h-4z" />
-            </svg>
-          </a>
-        </div>
-        <!-- ./col -->
+                <p class="fw-bold">Reservas pendientes</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                fill="currentColor">
+                <title>Reserva pendiente</title>
+                <path d="M6.75 2.25a.75.75 0 0 1 .75.75v1.5h9V3a.75.75 0 0 1 1.5 0v1.5h.75A2.25 2.25 0 0 1 21 6.75v12A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75v-12A2.25 2.25 0 0 1 5.25 4.5H6V3a.75.75 0 0 1 .75-.75zM4.5 8.25V18.75c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75V8.25H4.5z" />
+                <path d="M12 11a3.75 3.75 0 1 0 0 7.5A3.75 3.75 0 0 0 12 11zm0 1.5a.75.75 0 0 1 .75.75v1.5l1.25.75a.75.75 0 1 1-.75 1.3l-1.5-.9A.75.75 0 0 1 11.25 15v-1.75a.75.75 0 0 1 .75-.75z" />
+              </svg>
+
+            </a>
+          </div>
+          <!-- ./col -->
+
+          <!-- col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./reservas.php" class="small-box text-bg-warning nav-link">
+              <div class="inner">
+                <h3 class="text-white"><?php echo $conteoCancelada ?></h3>
+
+                <p class="fw-bold text-white">Reservas canceladas</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                fill="currentColor">
+                <title>Cancelar reserva</title>
+                <path d="M6.75 2.25a.75.75 0 0 1 .75.75v1.5h9V3a.75.75 0 0 1 1.5 0v1.5h.75A2.25 2.25 0 0 1 21 6.75v12A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75v-12A2.25 2.25 0 0 1 5.25 4.5H6V3a.75.75 0 0 1 .75-.75zm-2.25 6v10.5c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75V8.25H4.5z" />
+                <path d="M9.53 11.47a.75.75 0 0 1 1.06 0L12 12.88l1.41-1.41a.75.75 0 1 1 1.06 1.06L13.06 13.94l1.41 1.41a.75.75 0 0 1-1.06 1.06L12 15l-1.41 1.41a.75.75 0 0 1-1.06-1.06l1.41-1.41-1.41-1.41a.75.75 0 0 1 0-1.06z" />
+              </svg>
+
+            </a>
+          </div>
+          <!-- ./col -->
+
+          <!-- col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./reservas.php" class="small-box text-bg-success nav-link">
+              <div class="inner">
+                <h3><?php echo $conteoAprobadas ?></h3>
+
+                <p class="fw-bold">Reservas aprobadas</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                fill="currentColor">
+                <title>Reserva aprobada</title>
+                <path d="M6.75 2.25a.75.75 0 0 1 .75.75v1.5h9V3a.75.75 0 0 1 1.5 0v1.5h.75A2.25 2.25 0 0 1 21 6.75v12A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75v-12A2.25 2.25 0 0 1 5.25 4.5H6V3a.75.75 0 0 1 .75-.75zM4.5 8.25V18.75c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75V8.25H4.5z" />
+                <path d="M9.47 13.53a.75.75 0 0 1 1.06 0L12 14.94l2.47-2.47a.75.75 0 0 1 1.06 1.06l-3 3a.75.75 0 0 1-1.06 0l-2-2a.75.75 0 0 1 0-1.06z" />
+              </svg>
+
+            </a>
+          </div>
+          <!-- ./col -->
+
+          <!-- col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./reservas.php" class="small-box text-bg-danger nav-link">
+              <div class="inner">
+                <h3><?php echo $conteoRechazadas ?></h3>
+
+                <p class="fw-bold">Reservas rechazadas</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true"
+                fill="currentColor">
+                <title>Reserva rechazada</title>
+
+                <!-- Base del calendario -->
+                <path d="M6.75 2.25a.75.75 0 0 1 .75.75v1.5h9V3a.75.75 0 0 1 1.5 0v1.5h.75A2.25 2.25 0 0 1 21 6.75v12A2.25 2.25 0 0 1 18.75 21H5.25A2.25 2.25 0 0 1 3 18.75v-12A2.25 2.25 0 0 1 5.25 4.5H6V3a.75.75 0 0 1 .75-.75zM4.5 8.25V18.75c0 .414.336.75.75.75h13.5a.75.75 0 0 0 .75-.75V8.25H4.5z" />
+
+                <!-- Símbolo de prohibición centrado (todo con currentColor) -->
+                <circle cx="12" cy="14.75" r="3.25" fill="none" stroke="currentColor" stroke-width="1.5" />
+                <path
+                  d="M9.75 12.5a.75.75 0 0 1 1.06 0l3.69 3.69a.75.75 0 0 1-1.06 1.06L9.75 13.56a.75.75 0 0 1 0-1.06z"
+                  fill="currentColor" />
+              </svg>
+
+
+
+            </a>
+          </div>
+          <!-- ./col -->
+        <?php } ?>
+
+        <?php if ($tipoUsuario == "Cliente") { ?>
+          <div class="row d-flex justify-content-center align-items-center">
+          <?php } ?>
+          <!-- col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./reservas.php" class="small-box bg-card-reservas nav-link">
+              <div class="inner">
+                <h3><?php echo $conteoReserva ?></h3>
+
+                <p class="fw-bold">Total de reservas</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path
+                  d="M6.75 2.25a.75.75 0 01.75.75v1.5h9V3a.75.75 0 011.5 0v1.5h.75A2.25 2.25 0 0121 6.75v12A2.25 2.25 0 0118.75 21H5.25A2.25 2.25 0 013 18.75v-12A2.25 2.25 0 015.25 4.5H6V3a.75.75 0 01.75-.75zM4.5 9v9.75c0 .414.336.75.75.75h13.5a.75.75 0 00.75-.75V9H4.5zm1.5 2.25h3v3h-3v-3zm4.5 0h3v3h-3v-3zm4.5 0h3v3h-3v-3z" />
+              </svg>
+            </a>
+          </div>
+          <!-- ./col -->
+
+          <!-- col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <a href="./prestamos.php" class="small-box <?php echo ($tipoUsuario == "Administrador") ? "text-bg-danger" : "bg-card-prestamos" ?> nav-link">
+              <div class="inner">
+                <h3 class="text-light"><?php echo $conteoPrestamos ?></h3>
+
+                <p class="fw-bold text-light">Total de prestamos</p>
+              </div>
+              <svg
+                class="small-box-icon"
+                fill="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                aria-hidden="true">
+                <path
+                  d="M7 3a1 1 0 00-1 1v7a1 1 0 001 1h4a1 1 0 001-1V4a1 1 0 00-1-1H7zm7.75 1.5a.75.75 0 00-.75.75V10a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 101.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H14V5.25a.75.75 0 00-.75-.75zM4.25 13.5a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 001.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H5a.75.75 0 00-.75.75v1.5zm7.25 1.5a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 00-1-1h-4z" />
+              </svg>
+            </a>
+          </div>
+          <!-- ./col -->
+          <?php if ($tipoUsuario == "Cliente") { ?>
+          </div>
+        <?php } ?>
+
+
+
       </div>
       <!-- /.row -->
 
       <div class="row mt-3">
         <!-- Start col -->
-        <div class="col-lg-6 connectedSortable mx-auto">
+        <div class="col-lg-6 <?php echo ($tipoUsuario == "Administrador" ? "col-lg-6" : "col-lg-12") ?> connectedSortable mx-auto">
           <div class="card mb-4">
-            <div class="card-header">
-              <h2 class="card-title text-center"><?php echo ($tipoUsuario == "Administrador" ? "Libros más prestados" : "Mis libros más <span class = 'fw-bold'> reservados </span>") ?></h2>
-            </div>
 
             <div class="card-body">
               <?php if ($tipoUsuario == "Administrador") { ?>
@@ -236,7 +358,7 @@ if ($tipoUsuario == "Cliente") {
               <?php } ?>
 
               <?php if ($tipoUsuario == "Cliente") { ?>
-                <canvas width="350" height="350" id="graficoLibros"></canvas>
+                <canvas width="150" height="50" id="graficoLibros"></canvas>
               <?php } ?>
             </div>
           </div>
@@ -248,66 +370,19 @@ if ($tipoUsuario == "Cliente") {
 
 
         <!-- Start col -->
-        <div class="col-lg-6 connectedSortable">
-          <div class="card mb-4">
-            <div class="card-header">
-              <h2 class="card-title text-center"><?php echo ($tipoUsuario == "Administrador" ? "Usuarios con mayor cantidad de prestamos %" : "Cantidad total de mis <span class = 'fw-bold'>reservas </span>") ?> </h2>
-            </div>
-
-            <div class="card-body">
-              <div>
-                <?php if ($tipoUsuario == "Administrador") { ?>
+        <?php if ($tipoUsuario == "Administrador") { ?>
+          <div class="col-lg-6 connectedSortable">
+            <div class="card mb-4">
+              <div class="card-body">
+                <div>
                   <canvas width="450" height="450" id="graficoUsuarios"></canvas>
-                <?php } ?>
+                </div>
 
-                <?php if ($tipoUsuario == "Cliente") { ?>
-                  <ul class="list-group p-4 mt-1">
-                    <li class="list-group-item p-4">
-                      <h4>
-                        <i class="fa-solid fa-plus"></i>
-                        <span class="fw-bold">Total: </span>
-                        <?php echo $conteoTotal ?>
-                      </h4>
-
-                    </li>
-                    <li class="list-group-item p-4">
-                      <h4>
-                        <i class="fa-solid fa-pause text-primary"></i>
-                        <span class="fw-bold text-primary">Pendientes: </span>
-                        <?php echo $conteoPendientes ?>
-                      </h4>
-
-                    </li>
-                    <li class="list-group-item p-4">
-                      <h4>
-                        <i class="fa-solid fa-circle-exclamation text-warning"></i>
-                        <span class="fw-bold text-warning">Canceladas: </span>
-                        <?php echo $conteoCancelada ?>
-                      </h4>
-                    </li>
-                    <li class="list-group-item p-4">
-                      <h4>
-                        <i class="fa-solid fa-square-check text-success"></i>
-                        <span class="fw-bold text-success">Aprobadas: </span>
-                        <?php echo $conteoAprobadas ?>
-                      </h4>
-                    </li>
-                    <li class="list-group-item p-4">
-                      <h4>
-                        <i class="fa-solid fa-circle-xmark text-danger"></i>
-                        <span class="fw-bold text-danger">Rechazadas: </span>
-                        <?php echo $conteoRechazadas ?>
-                      </h4>
-                    </li>
-
-                  </ul>
-                <?php } ?>
               </div>
-
             </div>
+            <!-- /.card -->
           </div>
-          <!-- /.card -->
-        </div>
+        <?php } ?>
 
         <!-- /.Start col -->
 

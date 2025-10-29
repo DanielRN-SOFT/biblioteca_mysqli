@@ -32,8 +32,8 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Ejecución de la consulta si es Cliente
-if($tipoUsuario == "Cliente"){
-$prestamos = $mysql->efectuarConsulta("SELECT 
+if ($tipoUsuario == "Cliente") {
+  $prestamos = $mysql->efectuarConsulta("SELECT 
     prestamo.id,
     prestamo.id_reserva,
     prestamo.fecha_prestamo,
@@ -46,9 +46,13 @@ ORDER BY prestamo.id DESC;
 ");
 }
 // Ejecución de la consulta si es administrador
-if($tipoUsuario == "Administrador"){
-$prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
+if ($tipoUsuario == "Administrador") {
+  $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
 }
+
+// Fecha actual
+$consultaFecha = $mysql->efectuarConsulta("SELECT DATE(NOW())");
+$fechaActual = $consultaFecha->fetch_assoc();
 
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
@@ -64,12 +68,6 @@ require_once './layouts/aside_bar.php';
         <div class="col-sm-6">
           <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-handshake"></i> Prestamos</h3>
         </div>
-      </div>
-
-      <div class="row my-2">
-          <div class="col-sm-12">
-            <button class="btn btn-primary w-100" id="buscarPrestamo">Buscar</button>
-          </div>
       </div>
     </div>
   </div>
@@ -113,7 +111,17 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["id"]; ?></td>
                             <td><?php echo $fila["id_reserva"]; ?></td>
                             <td><?php echo $fila["fecha_prestamo"]; ?></td>
-                            <td><?php echo $fila["fecha_devolucion"]; ?></td>
+
+                            <?php if ($fila["fecha_devolucion"] > $fechaActual  && $fila["estado"] == "Vigente") {
+                              $clase = "badge text-bg-danger";
+                            } else {
+                              $clase = "";
+                            } ?>
+                            <td>
+                              <span class="<?php echo $clase ?>">
+                                <?php echo $fila["fecha_devolucion"]; ?>
+                              </span>
+                            </td>
                             <td><?php echo $fila["estado"]; ?></td>
                             <?php if ($tipoUsuario == "Administrador") { ?>
                               <td>
