@@ -24,7 +24,7 @@ require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
 //CONSULTAR USUARIO LOGEADO
-$sql = $mysql->efectuarConsulta("SELECT nombre, apellido, email FROM usuario WHERE id='$IDusuario'");
+$sql = $mysql->efectuarConsulta("SELECT nombre, apellido, email,tipo FROM usuario WHERE id='$IDusuario'");
 
 if (mysqli_num_rows($sql) == 0) {
     die("No se encontró el usuario con ID: $IDusuario");
@@ -48,10 +48,10 @@ $usuario = mysqli_fetch_assoc($sql);
                         <h3 class="card-title mb-0">
                             <?php echo $nombreUsuario . " " . $apellidoUsuario; ?>
                         </h3>
+                        <span><?php echo $usuario['tipo']?></span>
                     </div>
                 </div>
             </div>
-
             <div class="col-md-8 align-self-center">
     <div class="profile-card">
         <h3 class="fw-bold-card">Detalles Perfil</h3>
