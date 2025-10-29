@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Descontar del inventario
             $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $IDlibro");
 
-            // Seleccionar libros para saber su stock 
+            // TODO Seleccionar libros para saber su stock 
             $libros = $mysql->efectuarConsulta("SELECT cantidad FROM libro WHERE id = $IDlibro");
             $cantidad = $libros->fetch_assoc()["cantidad"];
             if ($cantidad == 0) {

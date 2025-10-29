@@ -16,18 +16,18 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
         <!-- ========================== -->
         <!-- Sección: Header / Navbar   -->
         <!-- ========================== -->
-        <nav class="app-header navbar navbar-expand bg-body">
+        <nav class="app-header navbar navbar-expand bg-head-bar">
             <!--begin::Container-->
             <div class="container-fluid">
                 <!--begin::Start Navbar Links-->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                        <a class="nav-link text-light" data-lte-toggle="sidebar" href="#" role="button">
                             <i class="bi bi-list"></i>
                         </a>
                     </li>
                     <li class="nav-item d-none d-md-block">
-                        <a href="./dashboard.php" class="nav-link">Home</a>
+                        <a href="./dashboard.php" class="nav-link fw-bold text-light">Home</a>
                     </li>
                 </ul>
                 <!--end::Start Navbar Links-->
@@ -41,7 +41,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 src="../assets/img/profile.png"
                                 class="user-image rounded-circle"
                                 alt="User Image" />
-                            <span class="d-none d-md-inline"><?php echo $nombreUsuario . " " . $apellidoUsuario  ?></span>
+                            <span class="d-none d-md-inline text-light fw-bold"><?php echo $nombreUsuario . " " . $apellidoUsuario  ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->

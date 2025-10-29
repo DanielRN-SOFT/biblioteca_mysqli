@@ -11,6 +11,17 @@
   background-color: #d56000 !important;
 }
 
+.bg-head-bar{
+  color: #fff !important;
+  background-color: #904508  !important;
+}
+
+
+.bg-card-general{
+  color: #fff !important;
+  background-color: #9f4700 !important;
+}
+
 .bg-card-prestamos{
   background-color: #00cab9 !important;
 }

@@ -77,7 +77,7 @@ require_once './layouts/aside_bar.php';
       <div class="row">
         <div class="col-md-12">
           <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header bg-card-general">
               <h5 class="card-title fw-bold fs-5">Lista de Prestamos</h5>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
@@ -96,7 +96,6 @@ require_once './layouts/aside_bar.php';
                       <thead>
                         <tr>
                           <th>Prestamo</th>
-                          <th>Reserva</th>
                           <th>Fecha Prestamo</th>
                           <th>Fecha Devolucion</th>
                           <th>Estado</th>
@@ -109,24 +108,56 @@ require_once './layouts/aside_bar.php';
                         <?php while ($fila = $prestamos->fetch_assoc()): ?>
                           <tr>
                             <td><?php echo $fila["id"]; ?></td>
-                            <td><?php echo $fila["id_reserva"]; ?></td>
                             <td><?php echo $fila["fecha_prestamo"]; ?></td>
 
-                            <?php if ($fila["fecha_devolucion"] > $fechaActual  && $fila["estado"] == "Vigente") {
-                              $clase = "badge text-bg-danger";
+                            <!-- Alerta de fecha de prestamos que ya pasaron -->
+                            <?php if ($fila["fecha_devolucion"] > $fechaActual  && $fila["estado"] == "Prestado") {
+                              $claseFecha = "badge text-bg-danger";
                             } else {
-                              $clase = "";
+                              $claseFecha = "badge text-bg-success";
                             } ?>
                             <td>
-                              <span class="<?php echo $clase ?>">
+                              <span class="<?php echo $claseFecha ?>">
                                 <?php echo $fila["fecha_devolucion"]; ?>
                               </span>
                             </td>
-                            <td><?php echo $fila["estado"]; ?></td>
+
+                            <?php if ($fila["estado"] == "Prestado") {
+                              $claseEstado = "badge text-bg-warning";
+                            } else if ($fila["estado"] == "Devuelto") {
+                              $claseEstado = "badge text-bg-primary";
+                            } ?>
+                            <td>
+                              <span class="<?php echo $claseEstado ?>">
+                                <?php echo $fila["estado"]; ?>
+                              </span>
+                            </td>
                             <?php if ($tipoUsuario == "Administrador") { ?>
                               <td>
-                                <?php if ($fila["estado"] == "Vigente") { ?>
-                                  <button class="btn btn-success btn-actualizar-prestamo" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+
+                                <button
+                                  onclick="verDetalle(
+                                      <?php echo $fila['id'] ?> ,
+                                      <?php echo $fila['id_reserva'] ?>
+                                     )" class="btn btn-info">
+                                  <i class="fa-solid fa-eye"></i>
+                                </button>
+
+                                <?php if ($fila["estado"] == "Prestado") { ?>
+                                  <button class="btn btn-primary btn-actualizar-prestamo" onclick="registrarDevolucion(
+                                  <?php echo $fila['id'] ?> , 
+                                  <?php echo $fila['id_reserva'] ?>,
+                                  '<?php echo $fila['estado'] ?>')">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                  </button>
+                                <?php } else if ($fila["estado"] == "Devuelto") { ?>
+                                  <button class="btn btn-warning btn-actualizar-prestamo" onclick="registrarRenovacion(
+                                  <?php echo $fila['id'] ?> , 
+                                  <?php echo $fila['id_reserva'] ?>,
+                                  '<?php echo $fila['estado'] ?>')">
+                                    <i class="fa-solid fa-handshake"></i>
+                                  </button>
+
                                 <?php } ?>
                               </td>
                             <?php } ?>
@@ -140,7 +171,7 @@ require_once './layouts/aside_bar.php';
             </div>
             <!-- ./card-body -->
 
-            <div class="card-footer"></div>
+            <div class="card-footer bg-card-general"></div>
             <!-- /.card-footer -->
           </div>
         </div>

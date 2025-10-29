@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $mensaje = "Aprobacion de reserva completada";
 
             // Insertar en prestamo la reserva aprobada
-            $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY), 'Vigente')");
+            $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY), 'Prestado')");
 
             if ($estadoBD === "Rechazada") {
                 // Seleccionar libros a restar 

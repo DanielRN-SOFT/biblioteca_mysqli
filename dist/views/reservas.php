@@ -97,7 +97,7 @@ if ($tipoUsuario == "Administrador") {
             <div class="row">
                 <div class="col-md-12">
                     <div class="card mb-4">
-                        <div class="card-header">
+                        <div class="card-header bg-card-general">
                             <h5 class="card-title fw-bold fs-5">Lista de reservas</h5>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
@@ -219,7 +219,7 @@ if ($tipoUsuario == "Administrador") {
                         </div>
                         <!-- ./card-body -->
 
-                        <div class="card-footer"></div>
+                        <div class="card-footer bg-card-general"></div>
                         <!-- /.card-footer -->
                     </div>
                 </div>
