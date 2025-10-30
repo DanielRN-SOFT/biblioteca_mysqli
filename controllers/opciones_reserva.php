@@ -4,6 +4,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         isset($_POST["IDreserva"]) && !empty($_POST["IDreserva"])
     ) {
+        // ENVIAR EMAIL
+        require_once './phpMailer.php';
         //====================
         // Conexion a la base de datos
         //===================
@@ -23,6 +25,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($opcion == "Aprobar") {
             $nuevoEstado = "Aprobada";
             $mensaje = "Aprobacion de reserva completada";
+
+            $IDusuario = filter_var($_POST["IDusuario"], FILTER_SANITIZE_NUMBER_INT);
+
+            // Seleccionar los datos del usuario para el envio del email
+            $consultaUsuario = $mysql->efectuarConsulta("SELECT id, nombre, apellido, email FROM usuario WHERE id = $IDusuario");
+            $datosUsuario = $consultaUsuario->fetch_assoc();
+
+            // Fechas de prestamo
+            $consultaFechas = $mysql->efectuarConsulta("SELECT NOW() as hoy, DATE_ADD(NOW(), INTERVAL 5 DAY) as diasPosteriores");
+            $fechas = $consultaFechas->fetch_assoc();
+
 
             // Insertar en prestamo la reserva aprobada
             $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY), 'Prestado')");
@@ -45,6 +58,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!$insertPrestamo) {
                 $errores = "Error al insertar PRESTAMO";
             }
+
+                enviarCorreo($datosUsuario["email"], $datosUsuario["nombre"], $datosUsuario["apellido"], $fechas["hoy"], $fechas["diasPosteriores"]);
+            
         }
 
         // Si la opcion es rechazar
@@ -89,7 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         } else {
             echo json_encode([
-                "success" => true,
+                "success" => false,
                 "message" => "Ocurrio un error..."
             ]);
             exit();

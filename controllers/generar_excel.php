@@ -1,6 +1,6 @@
 <?php
 
-require '../libs/vendor/autoload.php';
+require '../libs/excel/vendor/autoload.php';
 require './generarDatosReporte.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
