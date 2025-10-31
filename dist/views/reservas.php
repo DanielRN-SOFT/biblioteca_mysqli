@@ -160,7 +160,10 @@ if ($tipoUsuario == "Administrador") {
                                                                 onclick="verDetalle(
                                                                 <?php echo $fila['id'] ?> ,
                                                                 '<?php echo $fila['nombre'] ?>' ,
-                                                                '<?php echo $fila['apellido'] ?>')" class="btn btn-info">
+                                                                '<?php echo $fila['apellido'] ?>',
+                                                                '<?php echo $tipoUsuario ?>' ,
+                                                                '<?php echo $fila['estado'] ?>' ,
+                                                                <?php echo $fila['id_usuario'] ?>)" class="btn btn-info">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
 
@@ -190,7 +193,7 @@ if ($tipoUsuario == "Administrador") {
                                                                     <?php echo $fila['id'] ?>, 
                                                                     '<?php echo $fila['estado'] ?>', 
                                                                     '<?php echo 'Aprobar' ?>' ,
-                                                                    <?php echo $fila['id_usuario']?>)">
+                                                                    <?php echo $fila['id_usuario'] ?>)">
                                                                         <i class="fa-solid fa-thumbs-up"></i>
                                                                     </button>
                                                                 <?php } ?>

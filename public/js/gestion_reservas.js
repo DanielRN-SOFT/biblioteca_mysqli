@@ -244,49 +244,44 @@ function reintegrarReserva(IDreservaBD, estadoBD) {
 }
 
 // Aprobar reserva
-function aprobarReserva(IDreservaBD, estadoBD, opcionBD, IDusuario) {
-  console.log(IDusuario);
+async function aprobarReserva(IDreservaBD, estadoBD, opcionBD, IDusuario) {
   Swal.fire({
-    title: '<span class="text-success mb-3 fw-bold"> Aprobar reserva </span>',
-    html: `¿Esta seguro de aprobar esta reserva?: <br>
-    <strong>No. de reserva: </strong> ${IDreservaBD} <br>
-    `,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Si, aprobar reserva",
-    cancelButtonText: "No, volver al listado",
-    customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+    title: "Procesando...",
+    text: "Por favor espera un momento.",
+    allowOutsideClick: false,
+    didOpen: () => {
+      Swal.showLoading();
     },
-    width: 600,
-    preConfirm: async () => {
-      const formData = new FormData();
-      formData.append("IDreserva", IDreservaBD);
-      formData.append("estado", estadoBD);
-      formData.append("opcion", opcionBD);
-      formData.append("IDusuario", IDusuario);
-
-      const response = await fetch("../../controllers/opciones_reserva.php", {
-        method: "POST",
-        body: formData,
-      });
-
-      const respuesta = await response.json();
-
-      if (!respuesta.success) {
-        Swal.showValidationMessage(respuesta.message);
-      }
-
-      return respuesta;
-    },
-  }).then((resultado) => {
-    if (resultado.isConfirmed && resultado.value.success) {
-      Swal.fire("Exito", resultado.value.message, "success").then(() => {
-        location.reload();
-      });
-    }
   });
+
+  const formData = new FormData();
+  formData.append("IDreserva", IDreservaBD);
+  formData.append("estado", estadoBD);
+  formData.append("opcion", opcionBD);
+  formData.append("IDusuario", IDusuario);
+
+  const response = await fetch("../../controllers/opciones_reserva.php", {
+    method: "POST",
+    body: formData,
+  });
+
+  const respuesta = await response.json();
+
+  if (respuesta.success) {
+    Swal.fire({
+      title: "¡Exito!",
+      text: respuesta.message,
+      icon: "success",
+    }).then(() => {
+      location.reload();
+    });
+  } else {
+    Swal.fire({
+      title: "¡Error!",
+      text: respuesta.message,
+      icon: "error",
+    });
+  }
 }
 
 // Rechazar reserva
@@ -334,7 +329,15 @@ function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
 }
 
 //  Funcion para ver el detalle de la reserva
-async function verDetalle(IDreserva, nombre, apellido) {
+async function verDetalle(
+  IDreserva,
+  nombre,
+  apellido,
+  tipoUsuarioBD,
+  estadoBD,
+  IDusuario
+) {
+  console.log(estadoBD);
   const formData = new FormData();
   formData.append("IDreserva", IDreserva);
   const response = await fetch("../../controllers/detalle_reserva.php", {
@@ -345,7 +348,8 @@ async function verDetalle(IDreserva, nombre, apellido) {
   const resultado = await response.json();
 
   if (resultado.success) {
-    let tabla = `
+    let tabla = `<h4 class="mt-2"> Propietario: <span class="fw-bold"> ${nombre} ${apellido} </span> </h4>`;
+    tabla += `
                     <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
                         <thead>
                             <tr>
@@ -374,13 +378,54 @@ async function verDetalle(IDreserva, nombre, apellido) {
                 </table>
                 `;
 
+    if (tipoUsuarioBD == "Administrador") {
+      if (estadoBD == "Pendiente" || estadoBD == "Rechazada") {
+        tabla += `
+        <div class = "mt-3">`;
+
+        tabla += `
+                  <button class="btn btn-success fw-bold" onclick="aprobarReserva(
+                     ${IDreserva}, 
+                      '${estadoBD}', 
+                      'Aprobar',
+                      ${IDusuario} )">
+                      <i class="fa-solid fa-thumbs-up"></i>
+                      Aprobar reserva
+                  </button>
+              
+          `;
+      }
+
+      if (estadoBD == "Pendiente" || estadoBD == "Aprobada") {
+        tabla += `
+                  <button class="btn btn-danger fw-bold" onclick="rechazarReserva(
+                     ${IDreserva}, 
+                      '${estadoBD}', 
+                      'Rechazar')">
+                      <i class="fa-solid fa-circle-xmark"></i>
+                      Rechazar reserva
+                  </button>
+          `;
+      }
+
+      tabla += `
+        <button id="btn-cancelar" class="btn btn-primary fw-bold">Cancelar</button>
+      </div>
+      `;
+    }
+
     Swal.fire({
-      title: `Detalle de la reserva <span class="fw-bold m-0"> #${IDreserva}</span>
-      <br> <h5 class = ""> Propietario: <span class='fw-bold'> ${nombre} ${apellido} </span> </h5>`,
+      title: `Detalle de la reserva <span class="fw-bold m-0"> #${IDreserva}</span>`,
       html: tabla,
       icon: "info",
-      confirmButtonText: "Cerrar",
+      showConfirmButton: false,
       width: 800,
+      didOpen: () => {
+        const popup = Swal.getPopup();
+        popup
+          .querySelector("#btn-cancelar")
+          .addEventListener("click", () => Swal.close("cancelar"));
+      },
     });
   }
 }
