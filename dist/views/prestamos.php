@@ -108,9 +108,7 @@ require_once './layouts/aside_bar.php';
                           <th>Fecha Prestamo</th>
                           <th>Fecha Devolucion</th>
                           <th>Estado</th>
-                          <?php if ($tipoUsuario == "Administrador") { ?>
-                            <th>Acciones</th>
-                          <?php } ?>
+                          <th>Acciones</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -121,9 +119,9 @@ require_once './layouts/aside_bar.php';
 
                             <!-- Alerta de fecha de prestamos que ya pasaron -->
                             <?php if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado") {
-                              $claseFecha = "badge text-bg-danger";   
+                              $claseFecha = "badge text-bg-danger";
                             } else {
-                           
+
                               $claseFecha = "badge text-bg-success";
                             } ?>
                             <td>
@@ -142,16 +140,17 @@ require_once './layouts/aside_bar.php';
                                 <?php echo $fila["estado"]; ?>
                               </span>
                             </td>
-                            <?php if ($tipoUsuario == "Administrador") { ?>
-                              <td>
-
-                                <button
-                                  onclick="verDetalle(
+                            <td>
+                              <button
+                                onclick="verDetalle(
                                       <?php echo $fila['id'] ?> ,
                                       <?php echo $fila['id_reserva'] ?>
                                      )" class="btn btn-info">
-                                  <i class="fa-solid fa-eye"></i>
-                                </button>
+                                <i class="fa-solid fa-eye"></i>
+                              </button>
+                              <?php if ($tipoUsuario == "Administrador") { ?>
+
+
 
                                 <?php if ($fila["estado"] == "Prestado") { ?>
                                   <button class="btn btn-primary btn-actualizar-prestamo" onclick="registrarDevolucion(
@@ -169,8 +168,9 @@ require_once './layouts/aside_bar.php';
                                   </button>
 
                                 <?php } ?>
-                              </td>
-                            <?php } ?>
+
+                              <?php } ?>
+                            </td>
                           </tr>
                         <?php endwhile; ?>
                       </tbody>

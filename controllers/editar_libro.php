@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
         isset($_POST["categoria"]) && !empty($_POST["categoria"]) &&
         isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
-        isset($_POST["cantidad"])
+        isset($_POST["cantidad"]) && !empty($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
         require_once '../controllers/validar_isbn.php';
@@ -55,5 +55,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
         }
         $mysql->desconectar();
+    }else{
+        if (!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Ingrese un valor valido en la cantidad"
+            ]);
+            exit();
+        }
+        echo json_encode([
+            "success" => false,
+            "message" => "Todos los campos son obligatorios"
+        ]);
     }
 }
