@@ -14,6 +14,20 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
     $_SESSION["acceso"] = true;
 }
 
+// ==========================
+// Seccion: Conexion a la base de datos
+// ==========================
+
+// Modelo a utilizar
+require_once '../../models/MYSQL.php';
+
+// Instanciar la clase
+$mysql = new MySQL();
+
+// Conexion a la BD
+$mysql->conectar();
+
+
 // ===============================
 // Layout de componentes HTML
 // ===============================
@@ -22,18 +36,7 @@ require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
 
 
-// ==========================
-// Seccion: Conexion a la base de datos
-// ==========================
 
-// // Modelo a utilizar
-// require_once '../../models/MYSQL.php';
-
-// // Instanciar la clase
-// $mysql = new MySQL();
-
-// // Conexion a la BD
-// $mysql->conectar();
 
 
 

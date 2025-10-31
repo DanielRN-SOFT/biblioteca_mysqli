@@ -12,15 +12,6 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
 } else {
   $_SESSION["acceso"] = true;
 }
-
-// ==========================
-// Layout de componentes HTML
-// ==========================
-require_once './layouts/head.php';
-require_once './layouts/nav_bar.php';
-require_once './layouts/aside_bar.php';
-
-
 // ==========================
 // Sección: Conexión a la BD
 // ==========================
@@ -31,6 +22,16 @@ require_once '../../models/MYSQL.php';
 $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
+
+
+// ==========================
+// Layout de componentes HTML
+// ==========================
+require_once './layouts/head.php';
+require_once './layouts/nav_bar.php';
+require_once './layouts/aside_bar.php';
+
+
 
 // =========================
 // Funciones

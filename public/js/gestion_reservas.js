@@ -150,7 +150,6 @@ function agregarLibro(id, titulo, autor, categoria) {
   document.getElementById("busquedaProducto").value = "";
 }
 
-
 // Cancelar reserva
 function cancelarReserva(IDreservaBD, estadoBD) {
   console.log(estadoBD);
@@ -245,7 +244,8 @@ function reintegrarReserva(IDreservaBD, estadoBD) {
 }
 
 // Aprobar reserva
-function aprobarReserva(IDreservaBD, estadoBD, opcionBD) {
+function aprobarReserva(IDreservaBD, estadoBD, opcionBD, IDusuario) {
+  console.log(IDusuario);
   Swal.fire({
     title: '<span class="text-success mb-3 fw-bold"> Aprobar reserva </span>',
     html: `¿Esta seguro de aprobar esta reserva?: <br>
@@ -259,11 +259,13 @@ function aprobarReserva(IDreservaBD, estadoBD, opcionBD) {
       confirmButton: "btn btn-success",
       cancelButton: "btn btn-danger",
     },
+    width: 600,
     preConfirm: async () => {
       const formData = new FormData();
       formData.append("IDreserva", IDreservaBD);
       formData.append("estado", estadoBD);
       formData.append("opcion", opcionBD);
+      formData.append("IDusuario", IDusuario);
 
       const response = await fetch("../../controllers/opciones_reserva.php", {
         method: "POST",

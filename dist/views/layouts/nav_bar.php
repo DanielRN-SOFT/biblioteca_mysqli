@@ -5,6 +5,10 @@ $nombreUsuario = $_SESSION["nombreUsuario"];
 $apellidoUsuario = $_SESSION["apellidoUsuario"];
 $tipoUsuario = $_SESSION["tipoUsuario"];
 
+//CONSULTAR USUARIO LOGEADO
+$sql = $mysql->efectuarConsulta("SELECT nombre, apellido, email,tipo FROM usuario WHERE id='$IDusuario'");
+$usuario = mysqli_fetch_assoc($sql);
+
 ?>
 
 
@@ -16,18 +20,18 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
         <!-- ========================== -->
         <!-- Sección: Header / Navbar   -->
         <!-- ========================== -->
-        <nav class="app-header navbar navbar-expand bg-body">
+        <nav class="app-header navbar navbar-expand bg-head-bar">
             <!--begin::Container-->
             <div class="container-fluid">
                 <!--begin::Start Navbar Links-->
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" data-lte-toggle="sidebar" href="#" role="button">
+                        <a class="nav-link text-light" data-lte-toggle="sidebar" href="#" role="button">
                             <i class="bi bi-list"></i>
                         </a>
                     </li>
                     <li class="nav-item d-none d-md-block">
-                        <a href="./dashboard.php" class="nav-link">Home</a>
+                        <a href="./dashboard.php" class="nav-link fw-bold text-light">Home</a>
                     </li>
                 </ul>
                 <!--end::Start Navbar Links-->
@@ -41,7 +45,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                 src="../assets/img/profile.png"
                                 class="user-image rounded-circle"
                                 alt="User Image" />
-                            <span class="d-none d-md-inline"><?php echo $nombreUsuario . " " . $apellidoUsuario  ?></span>
+                            <span class="d-none d-md-inline text-light fw-bold"><?php echo $usuario["nombre"] . " " . $usuario["apellido"]  ?></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                             <!--begin::User Image-->
@@ -51,12 +55,12 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                                     class="rounded-circle shadow"
                                     alt="User Image" />
                                 <p>
-                                    <?php echo $nombreUsuario . " " . $apellidoUsuario  ?>
-                                    <small><?php echo $tipoUsuario ?></small>
+                                    <?php echo $usuario["nombre"] . " " . $usuario["apellido"]  ?>
+                                    <small><?php echo $usuario["tipo"]?></small>
                                 </p>
                             </li>
                             <!--end::User Image-->
-                           
+
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
                                 <a href="/biblioteca_mysqli/dist/views/ingresarPerfil.php" class="btn btn-success text-light btn-flat w-50">Perfil</a>

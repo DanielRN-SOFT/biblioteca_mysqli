@@ -33,7 +33,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 <li class="nav-item">
                     <a href="./dashboard.php" class="nav-link <?php echo ($archivoActual == "dashboard.php" ? "active" : "") ?>">
                         <i class="fa-solid fa-business-time"></i>
-                        <p>Dashboard</p>
+                        <p class="fw-bold">Dashboard</p>
                     </a>
                 </li>
                 <!-- Fin de dasboard principal -->
@@ -41,7 +41,7 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="fa-solid fa-table-list"></i>
-                        <p>Información <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        <p class="fw-bold">Información <i class="nav-arrow bi bi-chevron-right"></i></p>
                     </a>
                     <ul class="nav nav-treeview">
                         <?php if ($tipoUsuario == "Administrador") { ?>
@@ -77,23 +77,24 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 </li>
                 <!-- Fin menú de información -->
 
+                <?php if($tipoUsuario === "Administrador"){ ?>
                 <!-- Menú de reportes -->
                 <li class="nav-header">REPORTES</li>
                 <li class="nav-item">
                     <a href="./pdf.php" class="nav-link <?php echo ($archivoActual == "pdf.php" ? 'active' : "") ?>">
                         <i class="fa-solid fa-file-pdf"></i>
-                        <p>PDF</p>
+                        <p class="fw-bold">PDF</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="./excel.php" class="nav-link <?php echo ($archivoActual == "excel.php" ? 'active' : "") ?>">
                         <i class="fa-solid fa-file-excel"></i>
-                        <p>Excel</p>
+                        <p class="fw-bold">Excel</p>
                     </a>
                 </li>
                 <!-- Fin menú de reportes -->
+<?php }?>
 
-             
             </ul>
             <!--end::Sidebar Menu-->
         </nav>

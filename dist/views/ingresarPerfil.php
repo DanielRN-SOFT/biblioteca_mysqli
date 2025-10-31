@@ -46,7 +46,7 @@ $usuario = mysqli_fetch_assoc($sql);
                             alt="User Image"
                             style="width: 150px; height: 150px; object-fit: cover;">
                         <h3 class="card-title mb-0">
-                            <?php echo $nombreUsuario . " " . $apellidoUsuario; ?>
+                            <?php echo $usuario["nombre"] . " " . $usuario["apellido"]; ?>
                         </h3>
                         <span><?php echo $usuario['tipo'] ?></span>
                     </div>
@@ -105,10 +105,6 @@ $usuario = mysqli_fetch_assoc($sql);
         <a href="./dashboard.php" class="btn btn-success">Volver a Inicio</a>
     </div>
     </form>
-    </div>
-    </div>
-    </div>
-    </div>
 </main>
 <?php
 

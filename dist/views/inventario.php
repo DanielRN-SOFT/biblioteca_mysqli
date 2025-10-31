@@ -47,7 +47,7 @@ require_once './layouts/aside_bar.php';
       <div class="row my-2">
         <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-sm-12">
-            <button class="btn btn-success w-100" id="crearLibro">Añadir Libro</button>
+            <button class="btn btn-success w-100" id="crearLibro">Crear nuevo libro</button>
           </div>
         <?php } ?>
       </div>
@@ -59,7 +59,7 @@ require_once './layouts/aside_bar.php';
       <div class="row">
         <div class="col-md-12">
           <div class="card mb-4">
-            <div class="card-header">
+            <div class="card-header bg-card-general">
               <h5 class="card-title fw-bold fs-5">Lista de libros</h5>
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
@@ -111,7 +111,7 @@ require_once './layouts/aside_bar.php';
 
 
                                 <?php } ?>
-                                </td>
+                              </td>
                             <?php } ?>
                           </tr>
                         <?php endwhile; ?>

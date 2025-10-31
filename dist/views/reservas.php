@@ -15,14 +15,6 @@ if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
     $_SESSION["acceso"] = true;
 }
 
-// ===============================
-// Layout de componentes HTML
-// ===============================
-require_once './layouts/head.php';
-require_once './layouts/nav_bar.php';
-require_once './layouts/aside_bar.php';
-
-
 // ==========================
 // Seccion: Conexion a la base de datos
 // ==========================
@@ -36,9 +28,19 @@ $mysql = new MySQL();
 // Conexion a la BD
 $mysql->conectar();
 
+// ===============================
+// Layout de componentes HTML
+// ===============================
+require_once './layouts/head.php';
+require_once './layouts/nav_bar.php';
+require_once './layouts/aside_bar.php';
+
+
+
+
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario WHERE usuario.id = $IDusuario ORDER BY CASE 
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario WHERE usuario.id = $IDusuario ORDER BY CASE 
     WHEN reserva.estado = 'Pendiente' THEN 1
     WHEN reserva.estado = 'Cancelada' THEN 2
     WHEN reserva.estado = 'Aprobada' THEN 3
@@ -50,7 +52,7 @@ if ($tipoUsuario == "Cliente") {
 
 // Si es administrador puede ver todas las reservas 
 if ($tipoUsuario == "Administrador") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id,  usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario
     ORDER BY CASE 
             WHEN reserva.estado = 'Pendiente' THEN 1
             WHEN reserva.estado = 'Cancelada' THEN 2
@@ -97,7 +99,7 @@ if ($tipoUsuario == "Administrador") {
             <div class="row">
                 <div class="col-md-12">
                     <div class="card mb-4">
-                        <div class="card-header">
+                        <div class="card-header bg-card-general">
                             <h5 class="card-title fw-bold fs-5">Lista de reservas</h5>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
@@ -165,14 +167,12 @@ if ($tipoUsuario == "Administrador") {
                                                             <?php if ($fila["estado"] == "Pendiente") { ?>
                                                                 <button class="btn btn-danger mx-auto" onclick="cancelarReserva(
                                                                 <?php echo $fila['id'] ?> , 
-                                                               
                                                                 '<?php echo $fila['estado'] ?>')">
                                                                     <i class="fa-solid fa-trash"></i>
                                                                 </button>
                                                             <?php } else if ($fila["estado"] == "Cancelada") { ?>
                                                                 <button class="btn btn-success mx-auto" onclick="reintegrarReserva(
                                                                 <?php echo $fila['id'] ?>, 
-                                                             
                                                                 '<?php echo $fila['estado'] ?>')">
                                                                     <i class="fa-solid fa-check"></i>
                                                                 </button>
@@ -189,7 +189,8 @@ if ($tipoUsuario == "Administrador") {
                                                                     <button class="btn btn-success" onclick="aprobarReserva(
                                                                     <?php echo $fila['id'] ?>, 
                                                                     '<?php echo $fila['estado'] ?>', 
-                                                                    '<?php echo 'Aprobar' ?>')">
+                                                                    '<?php echo 'Aprobar' ?>' ,
+                                                                    <?php echo $fila['id_usuario']?>)">
                                                                         <i class="fa-solid fa-thumbs-up"></i>
                                                                     </button>
                                                                 <?php } ?>
