@@ -8,10 +8,7 @@ $(document).ready(function () {
     fixedHeader: true,
     scrollY: 300,
     columnControl: ["order", "colVisDropdown"],
-    ordering: {
-      indicators: false,
-      handler: false,
-    },
+    ordering: false,
     searching: true,
     language: {
 

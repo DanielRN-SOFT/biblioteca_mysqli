@@ -6,7 +6,7 @@ $pagina = "Prestamos";
 // ==========================
 session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
   header("location: ./login.php");
 } else {
   $_SESSION["acceso"] = true;
@@ -54,13 +54,14 @@ if ($tipoUsuario == "Administrador") {
   ORDER BY CASE
   WHEN prestamo.estado = 'Prestado' THEN 1
   WHEN prestamo.estado = 'Devuelto' THEN 2
-  ELSE 3
-  END");
+  ELSE 3 
+  END,
+  prestamo.fecha_devolucion ASC;");
 }
 
 // Fecha actual
-$consultaFecha = $mysql->efectuarConsulta("SELECT DATE(NOW())");
-$fechaActual = $consultaFecha->fetch_assoc();
+$consultaFecha = $mysql->efectuarConsulta("SELECT DATE(NOW()) AS fecha_actual");
+$fechaActual = $consultaFecha->fetch_assoc()["fecha_actual"];
 
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
@@ -119,9 +120,10 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["fecha_prestamo"]; ?></td>
 
                             <!-- Alerta de fecha de prestamos que ya pasaron -->
-                            <?php if ($fila["fecha_devolucion"] > $fechaActual  && $fila["estado"] == "Prestado") {
-                              $claseFecha = "badge text-bg-danger";
+                            <?php if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado") {
+                              $claseFecha = "badge text-bg-danger";   
                             } else {
+                           
                               $claseFecha = "badge text-bg-success";
                             } ?>
                             <td>
