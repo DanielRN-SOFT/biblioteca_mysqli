@@ -78,8 +78,8 @@ require_once './layouts/aside_bar.php';
                                     <form method="post" action="" id="frmReportes">
                                         <div class="row">
                                             <div class="col-sm-4">
-                                                <label class="form-label fw-semibold" for="tipoInforme">Tipo de informe</label>
-                                                <select class="form-select" name="tipoInforme" id="tipoInforme">
+                                                <label class="form-label fw-semibold" for="tipoInforme">Categoria</label>
+                                                <select class="form-select" name="tipoInforme" id="tipoInforme" onchange="actualizarTipoInforme()">
                                                     <option value="Usuario">Usuarios</option>
                                                     <option value="Inventario">Inventario</option>
                                                     <option value="Reserva">Reservas</option>
@@ -94,6 +94,12 @@ require_once './layouts/aside_bar.php';
                                             <div class="col-sm-4">
                                                 <label class="form-label fw-semibold" for="fechaFin">Fecha de fin</label>
                                                 <input class="form-control" type="date" name="fechaFin" id="fechaFin">
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <label class="form-label fw-semibold" for="tipoInforme">Tipo de informe</label>
+                                                <select class="form-select" name="tipoInformeCategoria" id="tipoInformeCategoria">
+                                                    <option value="">Selecciona un tipo</option>
+                                                </select>
                                             </div>
 
 

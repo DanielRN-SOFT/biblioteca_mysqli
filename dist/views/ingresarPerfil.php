@@ -48,61 +48,61 @@ $usuario = mysqli_fetch_assoc($sql);
                         <h3 class="card-title mb-0">
                             <?php echo $nombreUsuario . " " . $apellidoUsuario; ?>
                         </h3>
-                        <span><?php echo $usuario['tipo']?></span>
+                        <span><?php echo $usuario['tipo'] ?></span>
                     </div>
                 </div>
             </div>
             <div class="col-md-8 align-self-center">
-    <div class="profile-card">
-        <h3 class="fw-bold-card">Detalles Perfil</h3>
-        <form method="post">
-            <!-- Información Personal -->
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="form-label">Nombre</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $usuario['nombre']; ?>">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $usuario['apellido'] ?>">
+                <div class="profile-card">
+                    <h3 class="fw-bold-card">Detalles Perfil</h3>
+                    <form method="post">
+                        <!-- Información Personal -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="<?php echo $usuario['nombre']; ?>">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Apellido</label>
+                                <input type="text" class="form-control" id="apellido" name="apellido" value="<?php echo $usuario['apellido'] ?>">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-12">
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="<?php echo $usuario['email'] ?>">
+                            </div>
+                        </div>
+
+                        <!-- Separador visual -->
+                        <hr class="my-4">
+
+                        <!-- Cambio de contraseña -->
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Password Actual</label>
+                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Ingresa tu contraseña actual">
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Nuevo Password</label>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled placeholder="Ingresa nueva contraseña">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="checkbox" id="cambiarPassword">
+                                    <label class="form-check-label" for="cambiarPassword">
+                                        ¿Deseas cambiar tu contraseña?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="row mb-3">
-                <div class="col-md-12">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php echo $usuario['email'] ?>">
-                </div>
-            </div>
-
-            <!-- Separador visual -->
-            <hr class="my-4">
-
-            <!-- Cambio de contraseña -->
-            <div class="row mb-3">
-                <div class="col-md-6">
-                    <label class="form-label">Password Actual</label>
-                    <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Ingresa tu contraseña actual">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">Nuevo Password</label>
-                    <input type="password" class="form-control" id="newPassword" name="newPassword" disabled placeholder="Ingresa nueva contraseña">
-                    <div class="form-check mb-2">
-                        <input class="form-check-input" type="checkbox" id="cambiarPassword">
-                        <label class="form-check-label" for="cambiarPassword">
-                            ¿Deseas cambiar tu contraseña?
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
         </div>
     </div>
     <div class="d-flex justify-content-end m-4">
         <button type="button" class="btn btn-primary me-2" id="btnGuardar">Guardar</button>
-        <button type="button" class="btn btn-success">Volver a Mi Perfil</button>
+        <a href="./dashboard.php" class="btn btn-success">Volver a Inicio</a>
     </div>
     </form>
     </div>

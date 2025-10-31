@@ -92,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]);
             }
         }
-    }else{
+    } else {
         echo json_encode([
             "success" => false,
             "message" => "Faltan campos por rellenar, Intentelo de nuevo"

@@ -127,6 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $pdf->Output('D', 'reporte_usuarios.pdf');
         }
 
+
         //PRESTAMOS
         if ($tipoInforme == "Prestamo") {
             // IMG
@@ -171,8 +172,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             $pdf->Output('D', 'reporte_prestamos.pdf');
         }
-        
-   
+
+
         //  =======================================
         //  INVENTARIO
         //  =======================================
@@ -215,15 +216,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $pdf->Cell(20, 10,  $dato["estado"], 1);
                 $pdf->Ln();
             }
-            
+
             // Pie de pagina del documento
             $pdf->SetY(265);
             $pdf->SetFont('Arial', 'I', 9);
             $pdf->Cell(0, 10, utf8_decode('Elaborado por BibliotecaMySqli. Fecha de elaboracion: ') . date('d/m/Y H:i'), 0, 0, 'C');
             $pdf->Cell(0, 10, utf8_decode('Página ') . $pdf->PageNo() . ' de {nb}', 0, 0, 'C');
 
-            $pdf->Output('D', 'reporte_usuarios.pdf');
+            $pdf->Output('D', 'reporte_inventario.pdf');
         }
     }
-
 }
