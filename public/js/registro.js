@@ -1,10 +1,19 @@
+function cargandoAlerta(mensaje) {
+  Swal.fire({
+    title: mensaje,
+    text: "Por favor espere un momento.",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+}
+
 let btnRegistrar = document.querySelector("#btn-registrarse");
 btnRegistrar.addEventListener("click", async (e) => {
   e.preventDefault();
 
   const form = document.querySelector("#frmRegistrarse");
   const formData = new FormData(form);
-
+  cargandoAlerta("Registrando Usuario...");
   const response = await fetch("../../controllers/login_registro.php", {
     method: "POST",
     body: formData,

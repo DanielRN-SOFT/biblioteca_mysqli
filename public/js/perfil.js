@@ -1,4 +1,12 @@
-console.log("perfil.js cargado correctamente");
+function cargandoAlerta(mensaje) {
+  Swal.fire({
+    title: mensaje,
+    text: "Por favor espere un momento.",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+}
+
 
 //funcion para habilitar el campo de nuevo password cuando se selecciona el checkbox
 document
@@ -35,6 +43,8 @@ function actualizar() {
   formData.append("email", email);
   formData.append("oldPassword", oldPassword);
   formData.append("newPassword", newPassword);
+
+cargandoAlerta("Actualizando Información...");
 
   fetch("../../controllers/editarDatosPerfil.php", {
     method: "POST",
