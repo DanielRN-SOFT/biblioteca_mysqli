@@ -80,6 +80,7 @@ require_once './layouts/aside_bar.php';
                                             <div class="col-sm-4">
                                                 <label class="form-label fw-semibold" for="tipoInforme">Categoria</label>
                                                 <select class="form-select" name="tipoInforme" id="tipoInforme" onchange="actualizarTipoInforme()">
+                                                    <option value="">Selecciona un tipo</option>
                                                     <option value="usuarios">Usuarios</option>
                                                     <option value="inventario">Inventario</option>
                                                     <option value="reservas">Reservas</option>

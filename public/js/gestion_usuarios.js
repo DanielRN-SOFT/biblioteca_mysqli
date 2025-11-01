@@ -1,3 +1,12 @@
+function cargandoAlerta(mensaje) {
+  Swal.fire({
+    title: mensaje,
+    text: "Por favor espere un momento.",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+}
+
 // CREAR empleado
 let btnCrear = document.querySelector("#BtnCrearUsuario");
 btnCrear.addEventListener("click", () => {
@@ -69,6 +78,7 @@ btnCrear.addEventListener("click", () => {
     preConfirm: () => {
       const form = document.getElementById("frmCrearUsuario");
       const formData = new FormData(form);
+      cargandoAlerta("Registrando Usurio...");
       return $.ajax({
         url: "../../controllers/agregar_usuario.php",
         type: "POST",
@@ -209,6 +219,7 @@ function editarUsuario(IDuser) {
           // Acceder a los datos ingresados en el formulario
           const formulario = document.getElementById("frmEditarUsuario");
           const formData = new FormData(formulario);
+          cargandoAlerta("Actualizando Información...");
           // Esperar un retorno de respuesta en JSON por via AJAX
           return $.ajax({
             url: "../../controllers/editar_usuario.php",
@@ -256,6 +267,7 @@ function eliminarUsuario(IDusuario, estado) {
       cancelButton: "btn btn-danger",
     },
     preConfirm: () => {
+      cargandoAlerta("Removiendo Registro...");
       return $.ajax({
         url: "../../controllers/eliminar_integrar_usuario.php",
         type: "POST",
@@ -299,6 +311,7 @@ function reintegrarUsuario(IDusuario, estado) {
       cancelButton: "btn btn-danger",
     },
     preConfirm: () => {
+      cargandoAlerta("Reintegrando Usuario...");
       return $.ajax({
         url: "../../controllers/eliminar_integrar_usuario.php",
         type: "POST",

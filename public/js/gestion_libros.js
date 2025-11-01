@@ -1,3 +1,12 @@
+function cargandoAlerta(mensaje) {
+  Swal.fire({
+    title: mensaje,
+    text: "Por favor espere un momento.",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+}
+
 // Agregar Libro
 let btnCrear = document.querySelector("#crearLibro");
 btnCrear.addEventListener("click", () => {
@@ -55,6 +64,7 @@ btnCrear.addEventListener("click", () => {
     preConfirm: () => {
       const form = document.getElementById("frmCrearLibro");
       const formData = new FormData(form);
+      cargandoAlerta("Agregando Libro...");
       return $.ajax({
         url: "../../controllers/agregar_libro.php",
         type: "POST",
@@ -150,6 +160,7 @@ function editarLibro(IDlibro) {
           const formulario = document.getElementById("frmEditarLibro");
           const formData = new FormData(formulario);
           // Esperar un retorno de respuesta en JSON por via AJAX
+          cargandoAlerta("Actualizando Información...");
           return $.ajax({
             url: "../../controllers/editar_libro.php",
             type: "POST",
@@ -195,6 +206,7 @@ function eliminarLibro(idLibro, estado) {
       cancelButton: "btn btn-danger",
     },
     preConfirm: () => {
+      cargandoAlerta("Removiendo Registro...");
       return $.ajax({
         url: "../../controllers/eliminar_reintegrar_libro.php",
         type: "POST",
@@ -237,6 +249,7 @@ function reintegrarLibro(idLibro, estado) {
       cancelButton: "btn btn-danger",
     },
     preConfirm: () => {
+      cargandoAlerta("Reintegrando Registro...");
       return $.ajax({
         url: "../../controllers/eliminar_reintegrar_libro.php",
         type: "POST",
