@@ -78,7 +78,7 @@ btnCrear.addEventListener("click", () => {
     preConfirm: () => {
       const form = document.getElementById("frmCrearUsuario");
       const formData = new FormData(form);
-      cargandoAlerta("Registrando Usurio...");
+      cargandoAlerta("Registrando Usuario...");
       return $.ajax({
         url: "../../controllers/agregar_usuario.php",
         type: "POST",
