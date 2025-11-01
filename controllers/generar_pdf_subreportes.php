@@ -275,6 +275,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }
 
                 $nombreArchivo = 'reporte_reservas_pendientes.pdf';
+            }elseif ($tipoInformeDatos === "Reservas Canceladas") {
+                $pdf->Cell(0, 10, utf8_decode("Reporte: Reservas Pendientes"), 0, 1, 'C');
+                $pdf->Ln(5);
+
+                // Encabezado de tabla
+                $pdf->SetFont('Arial', 'B', 10);
+                $pdf->Cell(20, 10, "Reserva", 1);
+                $pdf->Cell(60, 10, "Usuario", 1);
+                $pdf->Cell(60, 10, "Libro", 1);
+                $pdf->Cell(40, 10, "Fecha Reserva", 1);
+                $pdf->Ln();
+
+                // Datos del reporte
+                $pdf->SetFont('Arial', '', 10);
+                foreach ($datos as $dato) {
+                    $pdf->Cell(20, 10, ($dato['id']), 1);
+                    $pdf->Cell(60, 10, ($dato['usuario']), 1);
+                    $pdf->Cell(60, 10, ($dato['titulo']), 1);
+                    $pdf->Cell(40, 10, ($dato['fecha_reserva']), 1);
+                    $pdf->Ln();
+                }
+
+                $nombreArchivo = 'reporte_reservas_canceladas.pdf';
             }
 
             // Pie de página
@@ -293,8 +316,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($tipoInforme === "Prestamo") {
             $datos = $datosController->datosTipoPrestamos($fechaInicio, $fechaFin, $tipoInformeDatos);
             // Encabezado dinámico según el tipo de subreporte
-            if ($tipoInformeDatos === "Prestamos Vigente") {
-                $pdf->Cell(0, 10, utf8_decode("Reporte: Prestamos Vigente"), 0, 1, 'C');
+            if ($tipoInformeDatos === "Prestamos Activo") {
+                $pdf->Cell(0, 10, utf8_decode("Reporte: Prestamos Activos"), 0, 1, 'C');
                 $pdf->Ln(5);
 
                 // Encabezado de tabla
@@ -317,9 +340,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $pdf->Ln();
                 }
 
-                $nombreArchivo = 'reporte_prestamos_vigentes.pdf';
-            } elseif ($tipoInformeDatos === "Prestamos Cancelado") { {
-                    $pdf->Cell(0, 10, utf8_decode("Reporte: Prestamos Cancelados"), 0, 1, 'C');
+                $nombreArchivo = 'reporte_prestamos_activos.pdf';
+            } elseif ($tipoInformeDatos === "Prestamos Devuelto") { {
+                    $pdf->Cell(0, 10, utf8_decode("Reporte: Prestamos Devueltos"), 0, 1, 'C');
                     $pdf->Ln(5);
 
                     // Encabezado de tabla
@@ -342,7 +365,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $pdf->Ln();
                     }
 
-                    $nombreArchivo = 'reporte_prestamos_cancelados.pdf';
+                    $nombreArchivo = 'reporte_prestamos_devueltos.pdf';
                 }
             } elseif ($tipoInformeDatos === "Libros mas Prestados") {
                 $pdf->Cell(0, 10, utf8_decode("Reporte: Libros mas Prestados"), 0, 1, 'C');

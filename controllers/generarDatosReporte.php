@@ -145,6 +145,9 @@ class generarDatosReporte
             $consulta ="SELECT reserva.id,CONCAT(usuario.nombre,' ',usuario.apellido) AS usuario,libro.titulo,reserva.fecha_reserva FROM reserva INNER JOIN usuario ON reserva.id_usuario=usuario.id INNER JOIN reserva_has_libro ON reserva.id=reserva_has_libro.reserva_id INNER JOIN libro ON reserva_has_libro.libro_id=libro.id WHERE reserva.estado='Rechazada' AND DATE(reserva.fecha_reserva) BETWEEN '$fechaInicio' AND '$fechaFin'";
         }elseif($tipoInformeDatos === "Reservas Pendientes"){
             $consulta ="SELECT reserva.id,CONCAT(usuario.nombre,' ',usuario.apellido) AS usuario,libro.titulo,reserva.fecha_reserva FROM reserva INNER JOIN usuario ON reserva.id_usuario=usuario.id INNER JOIN reserva_has_libro ON reserva.id=reserva_has_libro.reserva_id INNER JOIN libro ON reserva_has_libro.libro_id=libro.id WHERE reserva.estado='Pendiente' AND DATE(reserva.fecha_reserva) BETWEEN '$fechaInicio' AND '$fechaFin'";
+        }elseif($tipoInformeDatos === "Reservas Canceladas"){
+            $consulta ="SELECT reserva.id,CONCAT(usuario.nombre,' ',usuario.apellido) AS usuario,libro.titulo,reserva.fecha_reserva FROM reserva INNER JOIN usuario ON reserva.id_usuario=usuario.id INNER JOIN reserva_has_libro ON reserva.id=reserva_has_libro.reserva_id INNER JOIN libro ON reserva_has_libro.libro_id=libro.id WHERE reserva.estado='Cancelada' AND DATE(reserva.fecha_reserva) BETWEEN '$fechaInicio' AND '$fechaFin'";
+
         }
         $resultado = $mysql->efectuarConsulta($consulta);
         $reservasTipo = [];
@@ -160,9 +163,9 @@ class generarDatosReporte
     {
         $mysql = new MySQL();
         $mysql->conectar();
-        if($tipoInformeDatos === "Prestamos Vigente"){
+        if($tipoInformeDatos === "Prestamos Activo"){
             $consulta="SELECT prestamo.id,CONCAT(usuario.nombre,' ',usuario.apellido) AS usuario,libro.titulo,prestamo.fecha_prestamo,prestamo.fecha_devolucion, prestamo.estado FROM prestamo INNER JOIN reserva ON prestamo.id_reserva=reserva.id INNER JOIN usuario ON reserva.id_usuario=usuario.id INNER JOIN reserva_has_libro ON reserva.id=reserva_has_libro.reserva_id INNER JOIN libro ON reserva_has_libro.libro_id=libro.id WHERE prestamo.estado='Prestado' AND DATE(prestamo.fecha_prestamo) BETWEEN '$fechaInicio' AND '$fechaFin'";
-        }elseif($tipoInformeDatos === "Prestamos Cancelado"){
+        }elseif($tipoInformeDatos === "Prestamos Devuelto"){
             $consulta="SELECT prestamo.id,CONCAT(usuario.nombre,' ',usuario.apellido) AS usuario,libro.titulo,prestamo.fecha_prestamo,prestamo.fecha_devolucion, prestamo.estado FROM prestamo INNER JOIN reserva ON prestamo.id_reserva=reserva.id INNER JOIN usuario ON reserva.id_usuario=usuario.id INNER JOIN reserva_has_libro ON reserva.id=reserva_has_libro.reserva_id INNER JOIN libro ON reserva_has_libro.libro_id=libro.id WHERE prestamo.estado='Devuelto' AND DATE(prestamo.fecha_prestamo) BETWEEN '$fechaInicio' AND '$fechaFin'";
         }elseif($tipoInformeDatos === "Libros mas Prestados"){
             $consulta="SELECT libro.titulo,COUNT(prestamo.id) AS total_prestamos FROM prestamo INNER JOIN reserva ON prestamo.id_reserva=reserva.id INNER JOIN reserva_has_libro ON reserva.id=reserva_has_libro.reserva_id INNER JOIN libro ON reserva_has_libro.libro_id=libro.id WHERE DATE(prestamo.fecha_prestamo) BETWEEN '$fechaInicio' AND '$fechaFin' GROUP BY libro.id ORDER BY total_prestamos DESC LIMIT 10";

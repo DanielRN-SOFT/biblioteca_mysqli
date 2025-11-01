@@ -56,11 +56,12 @@ function actualizarTipoInforme() {
       "Reservas Aprobadas",
       "Reservas Rechazadas",
       "Reservas Pendientes",
+      "Reservas Canceladas",
     ];
   } else if (categoria === "Prestamo") {
     opciones = [
-      "Prestamos Vigente",
-      "Prestamos Cancelado",
+      "Prestamos Activo",
+      "Prestamos Devuelto",
       "Libros mas Prestados",
     ];
   }
@@ -101,15 +102,16 @@ function definirAccionFormulario() {
     categoria === "Reserva" &&
     (tipoInforme === "Reservas Aprobadas" ||
       tipoInforme === "Reservas Rechazadas" ||
-      tipoInforme === "Reservas Pendientes")
+      tipoInforme === "Reservas Pendientes" ||
+      tipoInforme === "Reservas Canceladas")
   ) {
     form.action = "../../controllers/generar_pdf_subreportes.php";
 
     //SUBREPORTES DE PRÉSTAMOS
   } else if (
     categoria === "Prestamo" &&
-    (tipoInforme === "Prestamos Vigente" ||
-      tipoInforme === "Prestamos Cancelado" ||
+    (tipoInforme === "Prestamos Activo" ||
+      tipoInforme === "Prestamos Devuelto" ||
       tipoInforme === "Libros mas Prestados")
   ) {
     form.action = "../../controllers/generar_pdf_subreportes.php";
