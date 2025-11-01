@@ -15,8 +15,8 @@ function enviarCorreo($correoDestinatario, $nombreDestinatario, $apellidoDestina
         $mail->isSMTP();
         $mail->Host       = 'smtp.gmail.com';        // Servidor SMTP de Gmail
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'daniel20ramirez06@gmail.com';   // Tu correo
-        $mail->Password   = 'kbgc mnvy bpqk ijes'; // Contraseña o App Password
+        $mail->Username   = 'bibliotecamysqli551@gmail.com';   // Tu correo
+        $mail->Password   = 'lncz klqn cmeh mypr'; // Contraseña o App Password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // TLS
         $mail->Port       = 587;
 

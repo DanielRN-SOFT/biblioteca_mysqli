@@ -177,7 +177,6 @@ function cancelarReserva(IDreservaBD, estadoBD) {
       confirmButton: "btn btn-success fw-bold",
       cancelButton: "btn btn-danger fw-bold",
     },
-    width: 700,
     preConfirm: async () => {
       const formData = new FormData();
       formData.append("IDreserva", IDreservaBD);
@@ -224,7 +223,6 @@ function reintegrarReserva(IDreservaBD, estadoBD) {
       confirmButton: "btn btn-success fw-bold",
       cancelButton: "btn btn-danger fw-bold",
     },
-    width: 700,
     preConfirm: async () => {
       const formData = new FormData();
       formData.append("IDreserva", IDreservaBD);

@@ -23,9 +23,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Si la opcion es aprobar
         if ($opcion == "Aprobar") {
+            // Asignacion de variables
             $nuevoEstado = "Aprobada";
             $mensaje = "Aprobacion de reserva completada";
-
             $IDusuario = filter_var($_POST["IDusuario"], FILTER_SANITIZE_NUMBER_INT);
 
             // Seleccionar los datos del usuario para el envio del email
@@ -40,21 +40,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Insertar en prestamo la reserva aprobada
             $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY), 'Prestado')");
 
-            if ($estadoBD === "Rechazada") {
-                // Seleccionar libros a restar 
-                $libros = $mysql->efectuarConsulta("SELECT libro_id FROM reserva_has_libro WHERE reserva_id = $IDreserva");
+            // Seleccionar libros a descontar 
+            $libros = $mysql->efectuarConsulta("SELECT libro_id, libro.titulo, libro.cantidad FROM reserva_has_libro JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE reserva_id = $IDreserva");
 
-                // restar de nuevo al inventario en caso de aprobar la reserva que fue rechazada
-                while ($fila = $libros->fetch_assoc()) {
-                    $ID = $fila["libro_id"];
-                    $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $ID");
-
-                    if (!$updateInventario) {
-                        $errores = "Error al restar inventario";
+            while ($fila = $libros->fetch_assoc()) {
+                // Captura de variables
+                $IDlibro = $fila["libro_id"];
+                $cantidad = $fila["cantidad"];
+                $nombre = $fila["titulo"];
+                // Validar si hay inventario
+                if ($cantidad == 0) {
+                    if ($libros) {
+                        echo json_encode([
+                            "success" => false,
+                            "message" => "No hay existencias por el momento en el libro: " . $nombre
+                        ]);
+                        exit();
                     }
                 }
-            }
 
+                // restar del inventario en caso de aprobar la reserva 
+                $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $IDlibro");
+
+                // Verificar que no hayan errores
+                if(!$updateInventario){
+                    $errores = "Error al restar inventario en el libro: " . $IDlibro;
+                }
+            }
+           
+
+            // Verificar que no haya error en el insert de prestamos
             if (!$insertPrestamo) {
                 $errores = "Error al insertar PRESTAMO";
             }
@@ -65,8 +80,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Si la opcion es rechazar
         if ($opcion == "Rechazar") {
-            // $deletePrestamo = $mysql->efectuarConsulta("UPDATE prestamo set estado = 'Cancelado' WHERE id_reserva = $IDreserva");
-
             // Eliminar prestamo
             $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
             if (!$deletePrestamo) {
