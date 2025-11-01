@@ -26,7 +26,11 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Ejecución de la consulta
-$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario");
+$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario 
+ORDER BY CASE WHEN usuario.estado = 'Activo' THEN 1
+  WHEN usuario.estado = 'Inactivo' THEN 2
+  ELSE 3
+  END");
 
 // ==========================
 // Layout de componentes HTML
@@ -93,12 +97,18 @@ require_once './layouts/aside_bar.php';
                       </thead>
                       <tbody>
                         <?php while ($fila = $usuarios->fetch_assoc()): ?>
+
+                          <?php if ($fila["estado"] == "Activo") {
+                            $claseEstado = "badge text-bg-success";
+                          } else {
+                            $claseEstado = "badge text-bg-danger";
+                          } ?>
                           <tr>
                             <td><?php echo $fila["nombre"]; ?></td>
                             <td><?php echo $fila["apellido"]; ?></td>
                             <td><?php echo $fila["email"]; ?></td>
                             <td><?php echo $fila["tipo"]; ?></td>
-                            <td><?php echo $fila["estado"] ?></td>
+                            <td> <span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"] ?></span></td>
                             <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td>
                               <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>

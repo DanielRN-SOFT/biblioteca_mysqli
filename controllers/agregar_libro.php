@@ -61,5 +61,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
         }
         $mysql->desconectar();
+    }else{
+        if(!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)){
+            echo json_encode([
+                "success" => false,
+                "message" => "Ingrese un valor valido en la cantidad"
+            ]);
+            exit();
+        }
+        echo json_encode([
+            "success" => false,
+            "message" => "Todos los campos son obligatorios"
+        ]);
     }
 }

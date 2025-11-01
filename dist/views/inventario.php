@@ -24,7 +24,12 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Ejecución de la consulta
-$libros = $mysql->efectuarConsulta("SELECT * FROM libro");
+$libros = $mysql->efectuarConsulta("SELECT * FROM libro
+ORDER BY CASE
+WHEN libro.estado = 'Activo' THEN 1
+WHEN libro.estado = 'Inactivo' THEN 2
+ELSE 3
+END");
 // ===============================
 // Layout de componentes HTML
 // ===============================
@@ -92,6 +97,11 @@ require_once './layouts/aside_bar.php';
                       </thead>
                       <tbody>
                         <?php while ($fila = $libros->fetch_assoc()): ?>
+                          <?php if ($fila["estado"] == "Activo") {
+                            $claseEstado = "badge text-bg-success";
+                          } else {
+                            $claseEstado = "badge text-bg-danger";
+                          } ?>
                           <tr>
                             <td><?php echo $fila["titulo"]; ?></td>
                             <td><?php echo $fila["autor"]; ?></td>
@@ -100,7 +110,7 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
                             <?php if ($tipoUsuario === "Administrador") { ?>
-                              <td><?php echo $fila["estado"]; ?></td>
+                              <td><span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"]; ?></span></td>
                               <td><?php echo $fila["fecha_creacion"]; ?></td>
                               <td>
                                 <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>

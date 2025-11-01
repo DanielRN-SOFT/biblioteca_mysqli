@@ -97,5 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Desconectamos la conexion
         $mysql->desconectar();
+    }else{
+        echo json_encode([
+            "success" => false,
+            "message" => "Todos los campos son obligatorios"
+        ]);
     }
 }

@@ -124,9 +124,6 @@ if ($tipoUsuario == "Administrador") {
                                                     <th>Fecha</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
-                                                    <?php if ($tipoUsuario == "Administrador") { ?>
-                                                        <th>Opciones</th>
-                                                    <?php } ?>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -160,7 +157,10 @@ if ($tipoUsuario == "Administrador") {
                                                                 onclick="verDetalle(
                                                                 <?php echo $fila['id'] ?> ,
                                                                 '<?php echo $fila['nombre'] ?>' ,
-                                                                '<?php echo $fila['apellido'] ?>')" class="btn btn-info">
+                                                                '<?php echo $fila['apellido'] ?>',
+                                                                '<?php echo $tipoUsuario ?>' ,
+                                                                '<?php echo $fila['estado'] ?>' ,
+                                                                <?php echo $fila['id_usuario'] ?>)" class="btn btn-info">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
 
@@ -178,37 +178,6 @@ if ($tipoUsuario == "Administrador") {
                                                                 </button>
                                                             <?php } ?>
                                                         </td>
-
-                                                        <!-- OPCIONES DE RESERVA -->
-                                                        <?php if ($tipoUsuario == "Administrador") { ?>
-                                                            <td>
-                                                                <?php if (
-                                                                    $fila["estado"] == "Pendiente" ||
-                                                                    $fila["estado"] == "Rechazada"
-                                                                ) { ?>
-                                                                    <button class="btn btn-success" onclick="aprobarReserva(
-                                                                    <?php echo $fila['id'] ?>, 
-                                                                    '<?php echo $fila['estado'] ?>', 
-                                                                    '<?php echo 'Aprobar' ?>' ,
-                                                                    <?php echo $fila['id_usuario']?>)">
-                                                                        <i class="fa-solid fa-thumbs-up"></i>
-                                                                    </button>
-                                                                <?php } ?>
-
-                                                                <?php if (
-                                                                    $fila["estado"] == "Pendiente" ||
-                                                                    $fila["estado"] == "Aprobada"
-                                                                ) { ?>
-                                                                    <button class="btn btn-danger" onclick="rechazarReserva(
-                                                                    <?php echo $fila['id'] ?>, 
-                                                                    '<?php echo $fila['estado'] ?>', 
-                                                                    '<?php echo 'Rechazar' ?>')">
-                                                                        <i class="fa-solid fa-circle-xmark"></i>
-                                                                    </button>
-                                                                <?php } ?>
-
-                                                            </td>
-                                                        <?php } ?>
                                                     </tr>
                                                 <?php endwhile ?>
                                             </tbody>
