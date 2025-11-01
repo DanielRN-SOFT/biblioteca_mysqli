@@ -17,7 +17,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mysql->conectar();
 
         // Capturar y sanetizar los datos
-        $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+        $email = filter_var($_POST["email"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+       
         $password = $_POST["password"];
 
         // Realizar la consulta para verificar que existe el usuario
@@ -45,21 +47,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 }else{
                     echo json_encode([
                         "success" => false,
-                        "message" => "Contraseña incorrecta, vuelva a intentarlo"
+                        "message" => "Contraseña incorrecta, por favor vuelva a intentarlo"
                     ]);
                     exit();
                 }
             }else{
                 echo json_encode([
                     "success" => false,
-                    "message" => "Usuario inactivo, vuelva a intentarlo"
+                    "message" => "Usuario inactivo, por favor vuelva a intentarlo"
                 ]);
                 exit();
             }
         } else {
             echo json_encode([
                 "success" => false,
-                "message" => "Usuario inexistente, vuelva a intentarlo"
+                "message" => "Usuario inexistente, por favor vuelva a intentarlo"
             ]);
             exit();
         }

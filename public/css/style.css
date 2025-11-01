@@ -1,29 +1,28 @@
-:root {
-  --nav-bar: #2b1300;
+
+/* ESTILOS DEL LOGIN */
+.btn-acceder {
+    background-color: #d56000 !important;
+    border: none !important;
+    color: #fff !important;
 }
 
-.bg-nav-bar {
-  background-color: var(--nav-bar);
+.btn-acceder:hover {
+    background-color: #9f4700 !important;
 }
 
-.bg-card-reservas{
-  color: #fff !important;
-  background-color: #d56000 !important;
+.btn-registrar {
+    background-color: #562700 !important;
+    border: none !important;
+    color: #fff !important;
 }
 
-.bg-head-bar{
-  color: #fff !important;
-  background-color: #562700  !important;
+.btn-registrar:hover {
+    background-color: #9f4700 !important;
 }
 
-
-.bg-card-general{
-  color: #fff !important;
-  background-color: #9f4700 !important;
-}
-
-.bg-card-prestamos{
-  background-color: #00cab9 !important;
+.btn-acceder i,
+.btn-registrar i {
+    margin-right: 6px;
 }
 
 .bg-login {
@@ -33,10 +32,8 @@
   background-repeat: no-repeat;
   background-attachment: fixed;
 }
-.bg-sombra{
-    background-color: rgba(0, 0, 0, 0.6);
-.bg-registrar{
-background: url("../../dist/assets/img/registro_biblioteca.jpg");
+.bg-registrar {
+  background: url("../../dist/assets/img/registro_biblioteca.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -47,6 +44,31 @@ background: url("../../dist/assets/img/registro_biblioteca.jpg");
   background-color: rgba(0, 0, 0, 0.7);
   backdrop-filter: blur(3px);
   -webkit-backdrop-filter: blur(3px);
+}
 
+
+
+/* ESTILOS DEL DASHBOARD Y GENERAL */
+.bg-nav-bar {
+  background-color: #2b1300;
 }
+
+.bg-card-reservas {
+  color: #fff !important;
+  background-color: #d56000 !important;
 }
+
+.bg-head-bar {
+  color: #fff !important;
+  background-color: #562700 !important;
+}
+
+.bg-card-general {
+  color: #fff !important;
+  background-color: #9f4700 !important;
+}
+
+.bg-card-prestamos {
+  background-color: #00cab9 !important;
+}
+

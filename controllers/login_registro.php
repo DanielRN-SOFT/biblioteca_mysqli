@@ -19,15 +19,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mysql->conectar();
 
         // Capturar y sanetizar los datos
-        $nombre = filter_var($_POST["nombre"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $apellido = filter_var($_POST["apellido"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $email = filter_var($_POST["email"], FILTER_SANITIZE_EMAIL);
+        $nombre = filter_var(trim($_POST["nombre"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $apellido = filter_var(trim($_POST["apellido"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var(trim($email), FILTER_SANITIZE_EMAIL);
         $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo json_encode([
                 "success" => false,
-                "message" => "Ingrese un email VALIDO"
+                "message" => "Ingrese un email que sea valido"
             ]);
             exit();
         }
