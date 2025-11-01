@@ -1,11 +1,4 @@
-function cargandoAlerta(mensaje) {
-  Swal.fire({
-    title: mensaje,
-    text: "Por favor espere un momento.",
-    allowOutsideClick: false,
-    didOpen: () => Swal.showLoading(),
-  });
-}
+
 
 let btnAcceder = document.querySelector("#btn-acceder");
 btnAcceder.addEventListener("click", (e) => {
@@ -13,7 +6,7 @@ btnAcceder.addEventListener("click", (e) => {
 
   let formulario = document.querySelector("#frmLogin");
   let formData = new FormData(formulario);
-cargandoAlerta("Intentando iniciar sesion...")
+
   $.ajax({
     url: "../../controllers/login.php",
     type: "POST",

@@ -78,7 +78,7 @@ btnCrear.addEventListener("click", () => {
     preConfirm: () => {
       const form = document.getElementById("frmCrearUsuario");
       const formData = new FormData(form);
-      cargandoAlerta("Registrando Usuario...");
+  
       return $.ajax({
         url: "../../controllers/agregar_usuario.php",
         type: "POST",
@@ -86,6 +86,9 @@ btnCrear.addEventListener("click", () => {
         processData: false,
         contentType: false,
         dataType: "json",
+        beforeSend: () => {
+          Swal.showLoading(); // loading dentro del MISMO Swal, no otro nuevo
+        },
       }).then((respuesta) => {
         if (!respuesta.success) {
           Swal.showValidationMessage(respuesta.message);
@@ -159,35 +162,6 @@ function editarUsuario(IDuser) {
             />
           </div>
 
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label for="oldPassword" class="form-label fw-bold"
-                  >Contraseña antigua:</label
-                >
-                <input
-                  class="form-control"
-                  type="password"
-                  id="oldPassword"
-                  name="oldPassword"
-                />
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="mb-3">
-                <label for="newPassword" class="form-label fw-bold"
-                  >Contraseña nueva:</label
-                >
-                <input
-                  class="form-control"
-                  type="password"
-                  id="newPassword"
-                  name="newPassword"
-                />
-              </div>
-            </div>
-          </div>
-
           <div class="mb-3">
             <label for="password" class="form-label fw-bold">Tipo:</label>
             <select class="form-control text-center" name="tipo" id="tipo">
@@ -219,7 +193,7 @@ function editarUsuario(IDuser) {
           // Acceder a los datos ingresados en el formulario
           const formulario = document.getElementById("frmEditarUsuario");
           const formData = new FormData(formulario);
-          cargandoAlerta("Actualizando Información...");
+         
           // Esperar un retorno de respuesta en JSON por via AJAX
           return $.ajax({
             url: "../../controllers/editar_usuario.php",
@@ -228,6 +202,9 @@ function editarUsuario(IDuser) {
             processData: false,
             contentType: false,
             dataType: "json",
+            beforeSend: () => {
+              Swal.showLoading(); // loading dentro del MISMO Swal, no otro nuevo
+            },
           }).then((respuesta) => {
             // En caso de que la respuesta retorne false mostrar un mensaje de validacion
             if (!respuesta.success) {

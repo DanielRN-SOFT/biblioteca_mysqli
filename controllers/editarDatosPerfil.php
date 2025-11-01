@@ -24,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Sanitización de datos
         $nombre = filter_var(trim($_POST["nombre"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $apellido = filter_var(trim($_POST["apellido"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
+        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
 
         // Verificar que se haya ingresado un email válido
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

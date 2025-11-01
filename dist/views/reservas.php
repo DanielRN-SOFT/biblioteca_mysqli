@@ -40,27 +40,13 @@ require_once './layouts/aside_bar.php';
 
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario WHERE usuario.id = $IDusuario ORDER BY CASE 
-    WHEN reserva.estado = 'Pendiente' THEN 1
-    WHEN reserva.estado = 'Cancelada' THEN 2
-    WHEN reserva.estado = 'Aprobada' THEN 3
-    WHEN reserva.estado = 'Rechazada' THEN 4
-    ELSE 5
-    END, 
-    reserva.fecha_reserva DESC");
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario WHERE usuario.id = $IDusuario ORDER BY reserva.fecha_reserva DESC");
 }
 
 // Si es administrador puede ver todas las reservas 
 if ($tipoUsuario == "Administrador") {
     $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario
-    ORDER BY CASE 
-            WHEN reserva.estado = 'Pendiente' THEN 1
-            WHEN reserva.estado = 'Cancelada' THEN 2
-            WHEN reserva.estado = 'Aprobada' THEN 3
-            WHEN reserva.estado = 'Rechazada' THEN 4
-            ELSE 5
-        END,
-        reserva.fecha_reserva DESC
+    ORDER BY reserva.fecha_reserva DESC
 ");
 }
 
@@ -169,12 +155,6 @@ if ($tipoUsuario == "Administrador") {
                                                                 <?php echo $fila['id'] ?> , 
                                                                 '<?php echo $fila['estado'] ?>')">
                                                                     <i class="fa-solid fa-trash"></i>
-                                                                </button>
-                                                            <?php } else if ($fila["estado"] == "Cancelada") { ?>
-                                                                <button class="btn btn-success mx-auto" onclick="reintegrarReserva(
-                                                                <?php echo $fila['id'] ?>, 
-                                                                '<?php echo $fila['estado'] ?>')">
-                                                                    <i class="fa-solid fa-check"></i>
                                                                 </button>
                                                             <?php } ?>
                                                         </td>

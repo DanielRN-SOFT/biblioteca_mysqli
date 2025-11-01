@@ -24,7 +24,7 @@ $conteoReservas =  $conteoReservasBD + count($librosSeleccionados);
 if($conteoReservas > 3){
     echo json_encode([
         "success" => false,
-        "message" => "Ha superado el numero de limite de libros en reservas pendientes (maximo 3)"
+        "message" => "Ha superado el limite de libros en reservas pendientes (maximo 3)"
     ]);
     exit();
 }

@@ -25,8 +25,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Sanetizacion de datos
         $nombre = filter_var(trim($_POST["nombre"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $apellido = filter_var(trim($_POST["apellido"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-        $oldPassword = $_POST["oldPassword"];
+        $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $email = filter_var($email, FILTER_SANITIZE_EMAIL);
         $tipo = filter_var(trim($_POST["tipo"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         //Verificar que se haya ingresado un email valido
@@ -49,35 +49,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
-        // Consulta para traer la contraseña de la bd
-        $passwordBD = $mysql->efectuarConsulta("SELECT password FROM usuario where id = $id");
-        $passwordBD = $passwordBD->fetch_assoc()["password"];
-
-        // En caso de que el usuario quiera cambiar su contraseña
-        if (
-            isset($_POST["oldPassword"]) && !empty($_POST["oldPassword"])
-            &&  isset($_POST["newPassword"]) && !empty($_POST["newPassword"])
-        ) {
-           
-            // Verificar que la contraseña de la bd coincida con la que ingrese el usuario
-            if(password_verify($_POST["oldPassword"], $passwordBD)){
-                $newPassword = password_hash($_POST["newPassword"], PASSWORD_BCRYPT);
-            }else{
-                echo json_encode([
-                    "success" => false,
-                    "message" => "Contraseña incorrecta, intentelo de nuevo"
-                ]);
-                exit();
-            }
-        }else{
-            // En caso de que no, newPassword va ser igual a la password de la BD
-            $newPassword = $passwordBD;
-        }
-
-
+    
         // Si se pasan todas la validaciones ejecutar el UPDATE
-
-        $update = $mysql->efectuarConsulta("UPDATE usuario SET nombre = '$nombre', apellido = '$apellido', email = '$email', password = '$newPassword', tipo = '$tipo' WHERE id = $id");
+        $update = $mysql->efectuarConsulta("UPDATE usuario SET nombre = '$nombre', apellido = '$apellido', email = '$email', tipo = '$tipo' WHERE id = $id");
 
         // Si la consulta resulta exitosa, enviar JSON de confirmacion
         if($update){

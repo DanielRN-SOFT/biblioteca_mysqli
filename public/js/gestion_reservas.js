@@ -201,58 +201,14 @@ function cancelarReserva(IDreservaBD, estadoBD) {
     },
   }).then((resultado) => {
     if (resultado.isConfirmed && resultado.value.success) {
-      Swal.fire("Exito", resultado.value.message, "success").then(() => {
+      Swal.fire("¡Exito!", resultado.value.message, "success").then(() => {
         location.reload();
       });
     }
   });
 }
 
-// Reintegrar reserva
-function reintegrarReserva(IDreservaBD, estadoBD) {
-  Swal.fire({
-    title: '<span class="text-success mb-3 fw-bold"> Reactivar reserva </span>',
-    html: `¿Esta seguro de volver a activar esta reserva?: <br>
-    <strong>No. de reserva: </strong> ${IDreservaBD}
-    `,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Si, reactivar reserva",
-    cancelButtonText: "No, volver al listado",
-    customClass: {
-      confirmButton: "btn btn-success fw-bold",
-      cancelButton: "btn btn-danger fw-bold",
-    },
-    preConfirm: async () => {
-      const formData = new FormData();
-      formData.append("IDreserva", IDreservaBD);
-      formData.append("estado", estadoBD);
 
-      cargandoAlerta("Reactivando reserva...");
-      const response = await fetch(
-        "../../controllers/eliminar_integrar_reserva.php",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const respuesta = await response.json();
-
-      if (!respuesta.success) {
-        Swal.showValidationMessage(respuesta.message);
-      }
-
-      return respuesta;
-    },
-  }).then((resultado) => {
-    if (resultado.isConfirmed && resultado.value.success) {
-      Swal.fire("Exito", resultado.value.message, "success").then(() => {
-        location.reload();
-      });
-    }
-  });
-}
 
 // Aprobar reserva
 async function aprobarReserva(IDreservaBD, estadoBD, opcionBD, IDusuario) {
