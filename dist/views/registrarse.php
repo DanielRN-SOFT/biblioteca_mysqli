@@ -12,7 +12,7 @@
 
 <body>
     <div class="container-fluid">
-        <main class="row bg-registrar">
+        <main class="row bg-login">
             <div class="col-12 bg-sombra">
                 <form class="d-flex justify-content-center align-items-center min-vh-100 flex-column" action="" id="frmRegistrarse" method="post">
 

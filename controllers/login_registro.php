@@ -37,7 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Si no trae ninguna fila NO EXISTE el usuario
         if (!$usuarios = $consulta->fetch_assoc()) {
-            $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuario(nombre, apellido, email, password, tipo, estado) VALUES('$nombre', '$apellido', '$email', '$password', 'Cliente', 'Activo')");
+            $insertarUsuario = $mysql->efectuarConsulta("INSERT INTO usuario(nombre, apellido, email, password, tipo, estado, fecha_creacion) VALUES('$nombre', '$apellido', '$email', '$password', 'Cliente', 'Activo', NOW())");
 
             if ($insertarUsuario) {
                 echo json_encode([
