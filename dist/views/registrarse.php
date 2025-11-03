@@ -18,7 +18,7 @@
 
         <div class="card shadow-lg rounded-4 p-4" style="max-width: 420px; width: 100%;">
             <div class="text-center mb-4">
-                <i class="fa-solid fa-right-to-bracket fa-3x text-warning"></i>
+                <i class="fa-solid fa-user-plus fa-3x text-warning"></i>
                 <h2 class="fw-bold mt-2 text-dark">Registrarse</h2>
                 <p class="text-muted">Llena cada campo para completar el registro</p>
             </div>

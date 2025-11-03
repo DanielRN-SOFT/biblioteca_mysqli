@@ -45,18 +45,13 @@ if ($tipoUsuario == "Cliente") {
 FROM prestamo
 JOIN reserva ON prestamo.id_reserva = reserva.id
 WHERE reserva.id_usuario = $IDusuario
-ORDER BY prestamo.id DESC;
+ORDER BY prestamo.fecha_prestamo DESC;
 ");
 }
 // Ejecución de la consulta si es administrador
 if ($tipoUsuario == "Administrador") {
   $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo 
-  ORDER BY CASE
-  WHEN prestamo.estado = 'Prestado' THEN 1
-  WHEN prestamo.estado = 'Devuelto' THEN 2
-  ELSE 3 
-  END,
-  prestamo.fecha_devolucion ASC;");
+  ORDER BY prestamo.fecha_prestamo DESC;");
 }
 
 // Fecha actual
@@ -118,10 +113,11 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["fecha_prestamo"]; ?></td>
 
                             <!-- Alerta de fecha de prestamos que ya pasaron -->
-                            <?php if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado") {
+                            <?php if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado" || $fila["estado"] == "Vencido") {
                               $claseFecha = "badge text-bg-danger";
+                              $IDprestamo = $fila["id"];
+                              $updateEstado = $mysql->efectuarConsulta("UPDATE prestamo SET estado = 'Vencido'  WHERE id = $IDprestamo");
                             } else {
-
                               $claseFecha = "badge text-bg-success";
                             } ?>
                             <td>
@@ -134,6 +130,8 @@ require_once './layouts/aside_bar.php';
                               $claseEstado = "badge text-bg-warning";
                             } else if ($fila["estado"] == "Devuelto") {
                               $claseEstado = "badge text-bg-primary";
+                            } else if($fila["estado"] == "Vencido"){
+                              $claseEstado = "badge text-bg-danger";
                             } ?>
                             <td>
                               <span class="<?php echo $claseEstado ?>">
@@ -144,32 +142,12 @@ require_once './layouts/aside_bar.php';
                               <button
                                 onclick="verDetalle(
                                       <?php echo $fila['id'] ?> ,
-                                      <?php echo $fila['id_reserva'] ?>
+                                      <?php echo $fila['id_reserva'] ?> , 
+                                      '<?php echo $fila['estado'] ?>' ,
+                                      '<?php echo $tipoUsuario ?>'
                                      )" class="btn btn-info">
                                 <i class="fa-solid fa-eye"></i>
                               </button>
-                              <?php if ($tipoUsuario == "Administrador") { ?>
-
-
-
-                                <?php if ($fila["estado"] == "Prestado") { ?>
-                                  <button class="btn btn-primary btn-actualizar-prestamo" onclick="registrarDevolucion(
-                                  <?php echo $fila['id'] ?> , 
-                                  <?php echo $fila['id_reserva'] ?>,
-                                  '<?php echo $fila['estado'] ?>')">
-                                    <i class="fa-solid fa-rotate-left"></i>
-                                  </button>
-                                <?php } else if ($fila["estado"] == "Devuelto") { ?>
-                                  <button class="btn btn-warning btn-actualizar-prestamo" onclick="registrarRenovacion(
-                                  <?php echo $fila['id'] ?> , 
-                                  <?php echo $fila['id_reserva'] ?>,
-                                  '<?php echo $fila['estado'] ?>')">
-                                    <i class="fa-solid fa-handshake"></i>
-                                  </button>
-
-                                <?php } ?>
-
-                              <?php } ?>
                             </td>
                           </tr>
                         <?php endwhile; ?>

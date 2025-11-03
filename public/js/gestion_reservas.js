@@ -162,53 +162,38 @@ function agregarLibro(id, titulo, autor, categoria) {
 }
 
 // Cancelar reserva
-function cancelarReserva(IDreservaBD, estadoBD) {
-  console.log(estadoBD);
-  Swal.fire({
-    title: '<span class="text-danger mb-3 fw-bold"> Cancelar reserva </span>',
-    html: `¿Esta seguro de cancelar esta reserva?: <br>
-    <strong>No. de reserva: </strong> ${IDreservaBD}
-    `,
-    icon: "warning",
-    showCancelButton: true,
-    confirmButtonText: "Si, cancelar reserva",
-    cancelButtonText: "No, volver al listado",
-    customClass: {
-      confirmButton: "btn btn-success fw-bold",
-      cancelButton: "btn btn-danger fw-bold",
-    },
-    preConfirm: async () => {
-      const formData = new FormData();
-      formData.append("IDreserva", IDreservaBD);
-      formData.append("estado", estadoBD);
+async function cancelarReserva(IDreservaBD, estadoBD) {
+  const formData = new FormData();
+  formData.append("IDreserva", IDreservaBD);
+  formData.append("estado", estadoBD);
 
-      cargandoAlerta("Cancelando reserva...");
-      const response = await fetch(
-        "../../controllers/eliminar_integrar_reserva.php",
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      const respuesta = await response.json();
-
-      if (!respuesta.success) {
-        Swal.showValidationMessage(respuesta.message);
-      }
-
-      return respuesta;
-    },
-  }).then((resultado) => {
-    if (resultado.isConfirmed && resultado.value.success) {
-      Swal.fire("¡Exito!", resultado.value.message, "success").then(() => {
-        location.reload();
-      });
+  cargandoAlerta("Cancelando reserva...");
+  const response = await fetch(
+    "../../controllers/eliminar_integrar_reserva.php",
+    {
+      method: "POST",
+      body: formData,
     }
-  });
+  );
+
+  const respuesta = await response.json();
+
+  if (respuesta.success) {
+    Swal.fire({
+      title: "¡Exito!",
+      text: respuesta.message,
+      icon: "success",
+    }).then(() => {
+      location.reload();
+    });
+  } else {
+    Swal.fire({
+      title: "¡Error!",
+      text: respuesta.message,
+      icon: "error",
+    });
+  }
 }
-
-
 
 // Aprobar reserva
 async function aprobarReserva(IDreservaBD, estadoBD, opcionBD, IDusuario) {
@@ -359,14 +344,25 @@ async function verDetalle(
                   </button>
           `;
       }
+    }
 
+    if (estadoBD == "Pendiente") {
       tabla += `
+       <button class="btn btn-warning fw-bold mx-1" onclick="cancelarReserva(
+                   ${IDreserva} , 
+                    '${estadoBD}')">
+                    <i class="fa-solid fa-trash"></i>
+                    Cancelar reserva
+        </button>
+      `;
+    }
+
+    tabla += `
         <button id="btn-cancelar" class="btn btn-primary mx-1 mt-2 mt-sm-0 fw-bold">
         <i class="fa-solid fa-arrow-right-from-bracket"></i> Volver al listado
         </button>
       </div>
       `;
-    }
 
     Swal.fire({
       title: `Detalle de la reserva <span class="fw-bold m-0"> #${IDreserva}</span>`,

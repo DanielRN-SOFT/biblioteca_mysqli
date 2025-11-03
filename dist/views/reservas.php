@@ -149,14 +149,6 @@ if ($tipoUsuario == "Administrador") {
                                                                 <?php echo $fila['id_usuario'] ?>)" class="btn btn-info">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>
-
-                                                            <?php if ($fila["estado"] == "Pendiente") { ?>
-                                                                <button class="btn btn-danger mx-auto" onclick="cancelarReserva(
-                                                                <?php echo $fila['id'] ?> , 
-                                                                '<?php echo $fila['estado'] ?>')">
-                                                                    <i class="fa-solid fa-trash"></i>
-                                                                </button>
-                                                            <?php } ?>
                                                         </td>
                                                     </tr>
                                                 <?php endwhile ?>
