@@ -23,22 +23,34 @@ $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
 
-// Ejecución de la consulta
-$libros = $mysql->efectuarConsulta("SELECT * FROM libro
-ORDER BY CASE
-WHEN libro.estado = 'Activo' THEN 1
-WHEN libro.estado = 'Inactivo' THEN 2
-ELSE 3
-END");
+
 // ===============================
 // Layout de componentes HTML
 // ===============================
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
-// ==========================
-// Fin sección: Conexión a la BD
-// ==========================
+
+// Ordenar los libros primero activos y disponibles 
+
+if($tipoUsuario == "Administrador"){
+  $libros = $mysql->efectuarConsulta("SELECT * FROM libro
+ORDER BY CASE
+WHEN libro.disponibilidad = 'Disponible' THEN 1
+WHEN libro.estado = 'Activo' THEN 2
+WHEN libro.estado = 'Inactivo' THEN 3
+ELSE 3
+END");
+}else{
+  $libros = $mysql->efectuarConsulta("SELECT * FROM libro WHERE libro.estado = 'Activo'
+ORDER BY CASE
+WHEN libro.disponibilidad = 'Disponible' THEN 1
+WHEN libro.disponibilidad = 'No disponible' THEN 2
+ELSE 3
+END");
+}
+
+
 ?>
 <main class="app-main">
   <div class="app-content-header">

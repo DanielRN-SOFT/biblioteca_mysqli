@@ -52,11 +52,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Si la opcion es rechazar
         if ($opcion == "Rechazar") {
             // Eliminar prestamo
-            $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
-            if (!$deletePrestamo) {
-                $errores = "Error al eliminar PRESTAMO";
+            // $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
+            // if (!$deletePrestamo) {
+            //     $errores = "Error al eliminar PRESTAMO";
+            // }
+
+            if($estadoBD == "Aprobada"){
+                $consultaIDprestamo = $mysql->efectuarConsulta("SELECT id FROM prestamo WHERE id_reserva = $IDreserva");
+                $IDprestamo = $consultaIDprestamo->fetch_assoc()["id"];
+                $deletePrestamo = $mysql->efectuarConsulta("UPDATE prestamo SET estado = 'Cancelado' WHERE id = $IDprestamo");
+                if (!$deletePrestamo) {
+                    $errores = "Error al eliminar PRESTAMO";
+                }
             }
 
+           
             // Asignar nuevo el nuevo estado
             $nuevoEstado = "Rechazada";
             $mensaje = "Rechazo de reserva completada";

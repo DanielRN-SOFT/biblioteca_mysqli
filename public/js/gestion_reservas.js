@@ -16,10 +16,10 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaProductos">
         <thead>
           <tr> 
-            <th>Título</th>
-            <th>Autor</th>
-            <th>Categoría</th>
-            <th>Acción</th>
+            <th>📙 Título</th>
+            <th>✒️ Autor</th>
+            <th>📚 Categoría</th>
+            <th>⛔ Acción</th>
           </tr>
         </thead>
         <tbody id="t-body"></tbody>
@@ -324,7 +324,7 @@ async function verDetalle(
                 `;
 
     if (tipoUsuarioBD == "Administrador") {
-      if (estadoBD == "Pendiente" || estadoBD == "Rechazada") {
+      if (estadoBD == "Pendiente") {
         tabla += `
         <div class = "mt-4">`;
 

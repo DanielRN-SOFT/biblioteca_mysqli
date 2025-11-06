@@ -131,7 +131,9 @@ require_once './layouts/aside_bar.php';
                               $claseEstado = "badge text-bg-primary";
                             } else if($fila["estado"] == "Vencido"){
                               $claseEstado = "badge text-bg-danger";
-                            } ?>
+                            } else if($fila["estado"] == "Cancelado"){
+                              $claseEstado = "badge text-bg-info";
+                            }?>
                             <td>
                               <span class="<?php echo $claseEstado ?>">
                                 <?php echo $fila["estado"]; ?>
