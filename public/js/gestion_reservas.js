@@ -341,7 +341,7 @@ async function verDetalle(
           `;
       }
 
-      if (estadoBD == "Pendiente" || estadoBD == "Aprobada") {
+      if (estadoBD == "Pendiente") {
         tabla += `
                   <button class="btn btn-danger fw-bold mx-1" onclick="rechazarReserva(
                      ${IDreserva}, 

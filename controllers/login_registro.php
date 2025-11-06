@@ -23,7 +23,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $apellido = filter_var(trim($_POST["apellido"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_var(trim($_POST["email"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
+        $password = $_POST["password"];
+        $confirmarPassword = $_POST["confirmarPassword"];
 
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             echo json_encode([
@@ -32,6 +33,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             exit();
         }
+
+        if ($password != $confirmarPassword) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Ambas contraseñas tienen que coincidir"
+            ]);
+            exit();
+        }
+
+        // Si pasa la validacion, se encripta la password
+        $password = password_hash($_POST["password"], PASSWORD_BCRYPT);
 
         // Realizar la consulta para verificar que existe el usuario
         $consulta = $mysql->efectuarConsulta("SELECT * FROM usuario WHERE email = '$email'");

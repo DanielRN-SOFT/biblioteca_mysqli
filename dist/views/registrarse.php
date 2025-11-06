@@ -45,7 +45,17 @@
                     <label for="password">Contraseña</label>
 
                     <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
-                        onclick="togglePassword()">
+                        onclick="togglePassword('password')">
+                        <i class="fa-regular fa-eye"></i>
+                    </button>
+                </div>
+
+                <div class="form-floating mb-4 position-relative">
+                    <input type="password" class="form-control" id="confirmarPassword" name="confirmarPassword" placeholder="Contraseña" required>
+                    <label for="password">Confirmar contraseña</label>
+
+                    <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2"
+                        onclick="togglePassword('confirmarPassword')">
                         <i class="fa-regular fa-eye"></i>
                     </button>
                 </div>
@@ -72,8 +82,8 @@
 
     <script>
         // Mostrar / ocultar contraseña
-        function togglePassword() {
-            const input = document.getElementById("password");
+        function togglePassword(id) {
+            const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
         }
     </script>

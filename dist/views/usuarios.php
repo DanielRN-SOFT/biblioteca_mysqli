@@ -83,7 +83,7 @@ require_once './layouts/aside_bar.php';
               <div class="row">
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
-                    <table class="table table-bordered table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
+                    <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0" role="table">
                       <thead>
                         <tr>
                           <th>Nombre</th>
@@ -98,11 +98,7 @@ require_once './layouts/aside_bar.php';
                       <tbody>
                         <?php while ($fila = $usuarios->fetch_assoc()): ?>
 
-                          <?php if ($fila["estado"] == "Activo") {
-                            $claseEstado = "badge text-bg-success";
-                          } else {
-                            $claseEstado = "badge text-bg-danger";
-                          } ?>
+                          <?php $claseEstado = $fila["estado"] == "Activo" ? "badge rounded-pill text-bg-success" : "badge rounded-pill text-bg-danger"; ?>
                           <tr>
                             <td><?php echo $fila["nombre"]; ?></td>
                             <td><?php echo $fila["apellido"]; ?></td>
@@ -111,17 +107,24 @@ require_once './layouts/aside_bar.php';
                             <td> <span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"] ?></span></td>
                             <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td>
-                              <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                              <div class="btn-group">
 
-                              <?php if ($fila["estado"] == "Activo") { ?>
-                                <button class="btn btn-danger btn-eliminar-usuario" 
-                                onclick="eliminarUsuario(<?php echo $fila['id'] ?> , 
+
+                                <button class="btn btn-primary" role="group"
+                                  onclick="editarUsuario(<?php echo $fila['id'] ?>)">
+                                  <i class="fa-solid fa-pen-to-square"></i>
+                                </button>
+
+                                <?php if ($fila["estado"] == "Activo") { ?>
+                                  <button class="btn btn-danger btn-eliminar-usuario"
+                                    onclick="eliminarUsuario(<?php echo $fila['id'] ?> , 
                                 '<?php echo $fila['estado'] ?>',
-                                '<?php echo $fila['nombre']?>' ,
-                                '<?php echo $fila['apellido']?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
-                              <?php } else { ?>
-                                <button class="btn btn-success btn-reitegrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
-                              <?php } ?>
+                                '<?php echo $fila['nombre'] ?>' ,
+                                '<?php echo $fila['apellido'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                <?php } else { ?>
+                                  <button class="btn btn-success btn-reitegrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                                <?php } ?>
+                              </div>
                             </td>
                           </tr>
                         <?php endwhile; ?>

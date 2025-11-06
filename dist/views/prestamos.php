@@ -96,7 +96,7 @@ require_once './layouts/aside_bar.php';
               <div class="row">
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="tblGeneral" width="100%" cellspacing="0">
+                    <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
                       <thead>
                         <tr>
                           <th>Prestamo</th>
@@ -115,12 +115,11 @@ require_once './layouts/aside_bar.php';
                             <!-- Alerta de fecha de prestamos que ya pasaron -->
                             <?php if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado" || $fila["estado"] == "Vencido") {
                               $claseFecha = "badge text-bg-danger";
-                              
                             } else {
                               $claseFecha = "badge text-bg-success";
                             } ?>
                             <td>
-                              <span class="<?php echo $claseFecha ?>">
+                              <span class="<?php echo $claseFecha ?> rounded-pill">
                                 <?php echo $fila["fecha_devolucion"]; ?>
                               </span>
                             </td>
@@ -129,13 +128,13 @@ require_once './layouts/aside_bar.php';
                               $claseEstado = "badge text-bg-warning";
                             } else if ($fila["estado"] == "Devuelto") {
                               $claseEstado = "badge text-bg-primary";
-                            } else if($fila["estado"] == "Vencido"){
+                            } else if ($fila["estado"] == "Vencido") {
                               $claseEstado = "badge text-bg-danger";
-                            } else if($fila["estado"] == "Cancelado"){
-                              $claseEstado = "badge text-bg-info";
-                            }?>
+                            } else if ($fila["estado"] == "Cancelado") {
+                              $claseEstado = "badge text-bg-danger";
+                            } ?>
                             <td>
-                              <span class="<?php echo $claseEstado ?>">
+                              <span class="<?php echo $claseEstado ?> rounded-pill">
                                 <?php echo $fila["estado"]; ?>
                               </span>
                             </td>

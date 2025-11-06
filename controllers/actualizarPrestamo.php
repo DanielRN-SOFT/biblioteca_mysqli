@@ -16,7 +16,7 @@ $errores = [];
 
 if ($estado == "Prestado" || $estado == "Vencido") {
     $nuevoEstado = "Devuelto";
-    $mensaje = "Registro de prestamo exitoso";
+    $mensaje = "Registro de devolucion exitoso";
 
     // Agregar de nuevo los libros al inventario
     $consultaLibros = $mysql->efectuarConsulta("SELECT libro_id FROM reserva_has_libro WHERE reserva_id = $IDreserva");

@@ -9,8 +9,9 @@ $pagina = "Reservas";
 // ==========================
 session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
     header("location: ./login.php");
+    exit();
 } else {
     $_SESSION["acceso"] = true;
 }
@@ -100,7 +101,7 @@ if ($tipoUsuario == "Administrador") {
                             <div class="row">
                                 <div class="col-md-12" id="contenedorTabla">
                                     <div>
-                                        <table class="table table-bordered table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
+                                        <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <?php if ($tipoUsuario == "Administrador") { ?>
@@ -132,7 +133,7 @@ if ($tipoUsuario == "Administrador") {
                                                             $estado = "text-bg-warning";
                                                         } ?>
                                                         <td class="">
-                                                            <span class="badge <?php echo $estado ?>">
+                                                            <span class="badge rounded-pill <?php echo $estado ?>">
                                                                 <?php echo $fila["estado"] ?>
                                                             </span>
                                                         </td>

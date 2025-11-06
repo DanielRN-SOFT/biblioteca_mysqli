@@ -6,7 +6,7 @@ $pagina = "Inventario";
 // ==========================
 session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
   header("location: ./login.php");
 } else {
   $_SESSION["acceso"] = true;
@@ -33,7 +33,7 @@ require_once './layouts/aside_bar.php';
 
 // Ordenar los libros primero activos y disponibles 
 
-if($tipoUsuario == "Administrador"){
+if ($tipoUsuario == "Administrador") {
   $libros = $mysql->efectuarConsulta("SELECT * FROM libro
 ORDER BY CASE
 WHEN libro.disponibilidad = 'Disponible' THEN 1
@@ -41,7 +41,7 @@ WHEN libro.estado = 'Activo' THEN 2
 WHEN libro.estado = 'Inactivo' THEN 3
 ELSE 3
 END");
-}else{
+} else {
   $libros = $mysql->efectuarConsulta("SELECT * FROM libro WHERE libro.estado = 'Activo'
 ORDER BY CASE
 WHEN libro.disponibilidad = 'Disponible' THEN 1
@@ -91,7 +91,7 @@ END");
               <div class="row">
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
-                    <table class="table table-bordered table-striped" id="tblGeneral" width="100%" cellspacing="0">
+                    <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
                       <thead>
                         <tr>
                           <th>Titulo</th>
@@ -109,17 +109,11 @@ END");
                       </thead>
                       <tbody>
                         <?php while ($fila = $libros->fetch_assoc()): ?>
-                          <?php if ($fila["estado"] == "Activo") {
-                            $claseEstado = "badge text-bg-success";
-                          } else {
-                            $claseEstado = "badge text-bg-danger";
-                          } ?>
+                          <?php $claseEstado = $fila["estado"] == "Activo" ? "badge  rounded-pill text-bg-success" : "badge  rounded-pill text-bg-danger"; ?>
 
-                          <?php if ($fila["disponibilidad"] == "Disponible") {
-                            $claseDisponibilidad = "badge text-bg-success";
-                          } else {
-                            $claseDisponibilidad = "badge text-bg-danger";
-                          } ?>
+                          <?php $claseDisponibilidad = $fila["disponibilidad"] == "Disponible" ? "badge rounded-pill text-bg-success" : "badge rounded-pill text-bg-danger"; ?>
+
+
                           <tr>
                             <td><?php echo $fila["titulo"]; ?></td>
                             <td><?php echo $fila["autor"]; ?></td>
@@ -132,14 +126,16 @@ END");
                               <td><span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"]; ?></span></td>
                               <td><?php echo $fila["fecha_creacion"]; ?></td>
                               <td>
-                                <button class="btn btn-primary mx-1" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
-                                <?php if ($fila["estado"] == "Activo") { ?>
-                                  <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
-                                <?php } else { ?>
-                                  <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                                <div class="btn-group" role="group">
+                                  <button class="btn btn-primary" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                  <?php if ($fila["estado"] == "Activo") { ?>
+                                    <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                  <?php } else { ?>
+                                    <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
 
 
-                                <?php } ?>
+                                  <?php } ?>
+                                </div>
                               </td>
                             <?php } ?>
                           </tr>

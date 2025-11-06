@@ -1,7 +1,18 @@
+function cargandoAlerta(mensaje) {
+  Swal.fire({
+    title: mensaje,
+    text: "Por favor espere un momento.",
+    allowOutsideClick: false,
+    didOpen: () => Swal.showLoading(),
+  });
+}
+
 //  Funcion para ver el detalle del prestamo
 async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
+  cargandoAlerta("Cargando detalle...");
   const formData = new FormData();
   formData.append("IDprestamo", IDprestamo);
+
   const response = await fetch("../../controllers/detalle_prestamo.php", {
     method: "POST",
     body: formData,
@@ -69,11 +80,9 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
                   </button>
           `;
       }
-
-    
     }
 
-      tabla += `
+    tabla += `
         <button id="btn-cancelar" class="btn btn-danger mx-1 mt-2 mt-sm-0 fw-bold">
         <i class="fa-solid fa-arrow-right-from-bracket"></i> Volver al listado
         </button>
@@ -99,10 +108,13 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
 
 // Registrar devolucion
 async function registrarDevolucion(IDprestamo, IDreserva, estado) {
+  cargandoAlerta("Registrando devolucion...");
   const formData = new FormData();
   formData.append("IDprestamo", IDprestamo);
   formData.append("IDreserva", IDreserva);
   formData.append("estado", estado);
+
+  cargandoAlerta("Registrando devolucion...");
   const request = await fetch("../../controllers/actualizarPrestamo.php", {
     method: "POST",
     body: formData,
@@ -158,8 +170,9 @@ function registrarRenovacion(IDprestamo, IDreserva, estado) {
     },
     width: 700,
     preConfirm: async () => {
+      
       const fechaDevolucion = document.querySelector("#fechaDevolucion").value;
-      console.log(fechaDevolucion);
+      cargandoAlerta("Extendiendo prestamo...");
       const formData = new FormData();
       formData.append("IDprestamo", IDprestamo);
       formData.append("IDreserva", IDreserva);

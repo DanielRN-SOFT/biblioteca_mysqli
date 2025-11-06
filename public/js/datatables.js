@@ -3,11 +3,9 @@
 
 $(document).ready(function () {
   $("#tblGeneral").DataTable({
-    destroy: true,
     responsive: true,
     fixedHeader: true,
     scrollY: 300,
-    columnControl: ["order", "colVisDropdown"],
     ordering: false,
     searching: true,
     language: {
