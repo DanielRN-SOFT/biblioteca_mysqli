@@ -107,6 +107,21 @@ if ($tipoUsuario == "Cliente") {
 }
 
 
+// UPDATE DE PRESTAMOS ========================== UNA VEZ SE INICIA SESION
+$fechaActual = $mysql->efectuarConsulta("SELECT DATE(NOW()) AS fecha_actual");
+$fechaActual = $fechaActual->fetch_assoc()["fecha_actual"];
+
+$prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
+
+while($fila = $prestamos->fetch_assoc()){
+  if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado") {
+    $IDprestamo = $fila["id"];
+    $updateEstado = $mysql->efectuarConsulta("UPDATE prestamo SET estado = 'Vencido'  WHERE id = $IDprestamo");
+  }
+}
+
+
+
 ?>
 
 

@@ -14,7 +14,7 @@ $estado = filter_var($_POST["estado"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $IDreserva = $_POST["IDreserva"];
 $errores = [];
 
-if ($estado == "Prestado") {
+if ($estado == "Prestado" || $estado == "Vencido") {
     $nuevoEstado = "Devuelto";
     $mensaje = "Registro de prestamo exitoso";
 

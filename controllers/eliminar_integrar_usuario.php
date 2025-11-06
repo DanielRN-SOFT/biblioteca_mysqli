@@ -17,6 +17,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Determina si se quiere eliminar o reintegrar un usuario
         if ($estado == "Activo") {
+
+            // Consulta para determinar si esta asociado a una reserva
+            $consultaReservas = $mysql->efectuarConsulta("SELECT 1 FROM reserva WHERE reserva.id_usuario = $id AND
+        reserva.estado != 'Cancelada'");
+            if (mysqli_num_rows($consultaReservas)) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "No es posible eliminar este usuario ya que tiene reservas asociadas a su nombre"
+                ]);
+                exit();
+            }
+
+
             $nuevoEstado = "Inactivo";
             $mensaje = "Usuario eliminado exitosamente";
         } else {
@@ -42,6 +55,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         // Desconectamos la conexion
         $mysql->desconectar();
-
     }
 }

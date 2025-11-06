@@ -121,6 +121,14 @@ function buscarProducto(texto) {
 
       let html = `<ul class="list-group">`;
 
+      if(libros.length === 0){
+          html += `
+            <li class = "list-group-item text-muted text-center">
+               No se encontraron resultados
+            </li>
+        `;
+      }
+
       libros.forEach((libro) => {
         html += `
             <li class = "list-group-item list-group-item-action"

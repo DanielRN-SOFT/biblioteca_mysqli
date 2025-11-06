@@ -72,7 +72,7 @@ if ($tipoUsuario == "Administrador") {
 
             <div class="row mt-3 mb-2">
                 <div class="col-sm-12">
-                    <button class="btn btn-success w-100" id="BtnCrearReserva" onclick="crearReserva(
+                    <button class="btn btn-success fw-bold w-100" id="BtnCrearReserva" onclick="crearReserva(
                     <?php echo $IDusuario ?> , 
                     '<?php echo $tipoUsuario ?>')">Crear nueva reserva</button>
                 </div>

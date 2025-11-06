@@ -17,6 +17,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Determina si se quiere eliminar o reintegrar un libro
         if ($estado == "Activo") {
+
+            $consultaReservas = $mysql->efectuarConsulta("SELECT 1 FROM reserva_has_libro WHERE libro_id = $id");
+            if (mysqli_num_rows($consultaReservas) > 0) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "No es posible eliminar este libro ya que tiene reservas asociadas a su nombre"
+                ]);
+                exit();
+            }
             $nuevoEstado = "Inactivo";
             $mensaje =  "Libro eliminado";
         } else {

@@ -56,15 +56,15 @@ $usuario = mysqli_fetch_assoc($sql);
                                     alt="User Image" />
                                 <p>
                                     <?php echo $usuario["nombre"] . " " . $usuario["apellido"]  ?>
-                                    <small><?php echo $usuario["tipo"]?></small>
+                                    <small class="fw-bold"><?php echo $usuario["tipo"]?></small>
                                 </p>
                             </li>
                             <!--end::User Image-->
 
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
-                                <a href="/biblioteca_mysqli/dist/views/ingresarPerfil.php" class="btn btn-success text-light btn-flat w-50">Perfil</a>
-                                <a href="../../controllers/logout.php" class="btn btn-danger text-light btn-flat float-end">Cerrar sesión</a>
+                                <a href="/biblioteca_mysqli/dist/views/ingresarPerfil.php" class="btn btn-success text-light btn-flat w-50 fw-bold">Perfil</a>
+                                <a href="../../controllers/logout.php" class="btn btn-danger fw-bold text-light btn-flat float-end">Cerrar sesión</a>
                             </li>
                             <!--end::Menu Footer-->
                         </ul>

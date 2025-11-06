@@ -42,7 +42,7 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
                 `;
 
     if (tipoUsuarioBD == "Administrador") {
-      if (estadoBD == "Prestado") {
+      if (estadoBD == "Prestado" || estadoBD == "Vencido") {
         tabla += `<div class = "mt-4">`;
 
         tabla += `

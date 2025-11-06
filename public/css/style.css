@@ -17,7 +17,7 @@
 }
 
 .btn-registrar:hover {
-    background-color: #9f4700 !important;
+    background-color: #6f3200 !important;
 }
 
 .btn-acceder i,
@@ -42,8 +42,7 @@
 
 .bg-sombra {
   background-color: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
+ 
 }
 
 

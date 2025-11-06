@@ -115,8 +115,7 @@ require_once './layouts/aside_bar.php';
                             <!-- Alerta de fecha de prestamos que ya pasaron -->
                             <?php if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado" || $fila["estado"] == "Vencido") {
                               $claseFecha = "badge text-bg-danger";
-                              $IDprestamo = $fila["id"];
-                              $updateEstado = $mysql->efectuarConsulta("UPDATE prestamo SET estado = 'Vencido'  WHERE id = $IDprestamo");
+                              
                             } else {
                               $claseFecha = "badge text-bg-success";
                             } ?>

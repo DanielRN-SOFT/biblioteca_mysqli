@@ -17,7 +17,7 @@ btnAcceder.addEventListener("click", (e) => {
     success: function (respuesta) {
       if (!respuesta.success) {
         Swal.fire({
-          title: '<span class="fs-2 fw-bold"> Error </span>',
+          title: '<span class="fs-2 fw-bold"> ¡Error! </span>',
           text: respuesta.message,
           icon: "error",
         });

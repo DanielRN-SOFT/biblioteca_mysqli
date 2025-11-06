@@ -52,7 +52,7 @@ require_once './layouts/aside_bar.php';
       <div class="row my-2">
         <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-sm-12">
-            <button class="btn btn-success w-100" id="crearLibro">Crear nuevo libro</button>
+            <button class="btn btn-success fw-bold w-100" id="crearLibro">Crear nuevo libro</button>
           </div>
         <?php } ?>
       </div>
@@ -86,8 +86,8 @@ require_once './layouts/aside_bar.php';
                           <th>Autor</th>
                           <th>ISBN</th>
                           <th>Categoria</th>
-                          <th>Disponibilidad</th>
                           <th class="text-center">Cantidad</th>
+                          <th>Disponibilidad</th>
                           <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Estado</th>
                             <th>Fecha de creacion</th>
@@ -102,13 +102,20 @@ require_once './layouts/aside_bar.php';
                           } else {
                             $claseEstado = "badge text-bg-danger";
                           } ?>
+
+                          <?php if ($fila["disponibilidad"] == "Disponible") {
+                            $claseDisponibilidad = "badge text-bg-success";
+                          } else {
+                            $claseDisponibilidad = "badge text-bg-danger";
+                          } ?>
                           <tr>
                             <td><?php echo $fila["titulo"]; ?></td>
                             <td><?php echo $fila["autor"]; ?></td>
                             <td><?php echo $fila["ISBN"]; ?></td>
                             <td><?php echo $fila["categoria"]; ?></td>
-                            <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
+                            <td> <span class="<?php echo $claseDisponibilidad ?>"><?php echo $fila["disponibilidad"]; ?></span></td>
+
                             <?php if ($tipoUsuario === "Administrador") { ?>
                               <td><span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"]; ?></span></td>
                               <td><?php echo $fila["fecha_creacion"]; ?></td>

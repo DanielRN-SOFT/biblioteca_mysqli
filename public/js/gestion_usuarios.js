@@ -15,41 +15,35 @@ btnCrear.addEventListener("click", () => {
     html: `
               <form action="" method="post" id="frmCrearUsuario">
       <div class="row">
-        <div class="col-sm-12">
-          <div class="row">
-            <div class="col-sm-6">
+        <div class="col-sm-12">   
               <div class="mb-3">
-                <label for="nombre" class="form-label fw-bold">Nombre:</label>
+                <label for="nombre" class="form-label">Nombre:</label>
                 <input
-                  class="form-control"
+                  class="form-control text-center"
                   type="text"
                   id="nombre"
                   name="nombre"
                 />
               </div>
-            </div>
-            <div class="col-sm-6">
               <div class="mb-3">
-                <label for="apellido" class="form-label fw-bold">Apellido:</label>
+                <label for="apellido" class="form-label">Apellido:</label>
                 <input
-                  class="form-control"
+                  class="form-control text-center"
                   type="text"
                   id="apellido"
                   name="apellido"
                 />
               </div>
-            </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input class="form-control text-center" type="email" id="email" name="email" />
           </div>
 
           <div class="mb-3">
-            <label for="email" class="form-label fw-bold">Email:</label>
-            <input class="form-control" type="email" id="email" name="email" />
-          </div>
-
-          <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Password:</label>
+            <label for="password" class="form-label">Password:</label>
             <input
-              class="form-control"
+              class="form-control text-center"
               type="password"
               id="password"
               name="password"
@@ -57,7 +51,7 @@ btnCrear.addEventListener("click", () => {
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Tipo:</label>
+            <label for="password" class="form-label">Tipo:</label>
             <select class="form-control text-center" name="tipo" id="tipo">
               <option value="Administrador">Administrador</option>
               <option value="Cliente">Cliente</option>
@@ -72,13 +66,13 @@ btnCrear.addEventListener("click", () => {
     confirmButtonText: "Agregar",
     cancelButtonText: "Cancelar",
     customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      confirmButton: "btn btn-success fw-bold",
+      cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
       const form = document.getElementById("frmCrearUsuario");
       const formData = new FormData(form);
-  
+
       return $.ajax({
         url: "../../controllers/agregar_usuario.php",
         type: "POST",
@@ -87,7 +81,7 @@ btnCrear.addEventListener("click", () => {
         contentType: false,
         dataType: "json",
         beforeSend: () => {
-          Swal.showLoading(); // loading dentro del MISMO Swal, no otro nuevo
+          Swal.showLoading(); // loading dentro del MISMO Swal
         },
       }).then((respuesta) => {
         if (!respuesta.success) {
@@ -123,38 +117,33 @@ function editarUsuario(IDuser) {
            <form action="" method="post" id="frmEditarUsuario">
       <div class="row">
         <div class="col-sm-12">
-          <div class="row">
-            <div class="col-sm-6">
+         
+            
               <div class="mb-3">
-                <label for="nombre" class="form-label fw-bold">Nombre:</label>
+                <label for="nombre" class="form-label">Nombre:</label>
                 <input
-                  class="form-control"
+                  class="form-control text-center"
                   type="text"
                   id="nombre"
                   name="nombre"
                   value="${data.nombre}"
                 />
               </div>
-            </div>
-
-            <div class="col-sm-6">
               <div class="mb-3">
-                <label for="apellido" class="form-label fw-bold">Apellido:</label>
+                <label for="apellido" class="form-label">Apellido:</label>
                 <input
-                  class="form-control"
+                  class="form-control text-center"
                   type="text"
                   id="apellido"
                   name="apellido"
                   value="${data.apellido}"
                 />
               </div>
-            </div>
-          </div>
 
           <div class="mb-3">
-            <label for="email" class="form-label fw-bold">Email:</label>
+            <label for="email" class="form-label">Email:</label>
             <input
-              class="form-control"
+              class="form-control text-center"
               type="email"
               id="email"
               name="email"
@@ -163,10 +152,14 @@ function editarUsuario(IDuser) {
           </div>
 
           <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Tipo:</label>
+            <label for="password" class="form-label">Tipo:</label>
             <select class="form-control text-center" name="tipo" id="tipo">
-              <option value="Administrador" ${data.tipo == "Administrador" ? "selected" : ""}>Administrador</option>
-              <option value="Cliente" ${data.tipo == "Cliente" ? "selected" : ""}>Cliente</option>
+              <option value="Administrador" ${
+                data.tipo == "Administrador" ? "selected" : ""
+              }>Administrador</option>
+              <option value="Cliente" ${
+                data.tipo == "Cliente" ? "selected" : ""
+              }>Cliente</option>
             </select>
           </div>
 
@@ -185,15 +178,15 @@ function editarUsuario(IDuser) {
         confirmButtonText: "Guardar",
         cancelButtonText: "Cancelar",
         customClass: {
-          confirmButton: "btn btn-success",
-          cancelButton: "btn btn-danger",
+          confirmButton: "btn btn-success fw-bold",
+          cancelButton: "btn btn-danger fw-bold",
         },
         // Antes de finalizar la accion, realize esta cuestion
         preConfirm: () => {
           // Acceder a los datos ingresados en el formulario
           const formulario = document.getElementById("frmEditarUsuario");
           const formData = new FormData(formulario);
-         
+
           // Esperar un retorno de respuesta en JSON por via AJAX
           return $.ajax({
             url: "../../controllers/editar_usuario.php",
@@ -203,7 +196,7 @@ function editarUsuario(IDuser) {
             contentType: false,
             dataType: "json",
             beforeSend: () => {
-              Swal.showLoading(); // loading dentro del MISMO Swal, no otro nuevo
+              Swal.showLoading(); // loading dentro del MISMO Swal
             },
           }).then((respuesta) => {
             // En caso de que la respuesta retorne false mostrar un mensaje de validacion
@@ -215,7 +208,7 @@ function editarUsuario(IDuser) {
           });
         },
       }).then((resultado) => {
-        // Si el resultado es exitoso y confirmado, dispare una alerta de confirmacion 
+        // Si el resultado es exitoso y confirmado, dispare una alerta de confirmacion
         if (resultado.isConfirmed && resultado.value.success) {
           Swal.fire(
             "Actualizacion completada",
@@ -231,20 +224,20 @@ function editarUsuario(IDuser) {
 }
 
 // ELIMINAR EMPLEADO
-function eliminarUsuario(IDusuario, estado) {
+function eliminarUsuario(IDusuario, estado, nombre, apellido) {
   Swal.fire({
     title: '<span class = "text-danger fw-bold"> Eliminar usuario </span>',
-    html: "¿Esta seguro de realizar esta accion?",
+    html: `¿Esta seguro de realizar esta accion? 
+    <br> Nombre: <strong> ${nombre} ${apellido}  </strong>`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Si, eliminar usuario",
     cancelButtonText: "Cancelar",
     customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      confirmButton: "btn btn-success fw-bold",
+      cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
-      cargandoAlerta("Removiendo Registro...");
       return $.ajax({
         url: "../../controllers/eliminar_integrar_usuario.php",
         type: "POST",
@@ -253,10 +246,10 @@ function eliminarUsuario(IDusuario, estado) {
           estado: estado,
         },
         dataType: "json",
+        beforeSend: () => {
+          Swal.showLoading(); // loading dentro del MISMO Swal
+        },
       }).then((respuesta) => {
-        if (!respuesta.success) {
-          Swal.showValidationMessage(respuesta.message);
-        }
         return respuesta;
       });
     },
@@ -268,6 +261,12 @@ function eliminarUsuario(IDusuario, estado) {
         "success"
       ).then(() => {
         location.reload();
+      });
+    } else {
+      Swal.fire({
+        title: "Ocurrio un error...",
+        text: resultado.value.message,
+        icon: "error",
       });
     }
   });
