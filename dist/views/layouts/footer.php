@@ -134,10 +134,12 @@ if ($archivoActual == "dashboard.php") {
     <?php if ($tipoUsuario == "Administrador") { ?>
         <script src="../../public/js/grafico_libros_admin.js"></script>
         <script src="../../public/js/grafico_usuarios.js"></script>
+        <script src="../../public/js/libros_vencidos.js"></script>
     <?php } ?>
 
     <?php if ($tipoUsuario == "Cliente") { ?>
         <script src="../../public/js/grafico_libros_cli.js"></script>
+        <script src="../../public/js/libros_vencidos.js"></script>
     <?php } ?>
 
 

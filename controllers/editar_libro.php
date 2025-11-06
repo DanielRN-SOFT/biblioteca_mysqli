@@ -5,7 +5,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
-        isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
         isset($_POST["categoria"]) && !empty($_POST["categoria"]) &&
         isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
         isset($_POST["cantidad"]) && !empty($_POST["cantidad"])
@@ -18,30 +17,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         //sanitizacion de los datos
         $titulo = filter_var($_POST["titulo"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $autor = filter_var($_POST["autor"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $isbn = filter_var($_POST["isbn"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $categoria = filter_var($_POST["categoria"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $disponibilidad = filter_var($_POST["disponibilidad"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
 
-        //validar el ISBN
-        if (!validarISBN($isbn)) {
+       
+       if ($cantidad < 0) {
             echo json_encode([
                 "success" => false,
-                "message" => "ISBN Invalido"
-            ]);
-            exit();
-        }
-        //validamos que el ISBN no se repita
-        $ISBNrepetido = $mysql->efectuarConsulta("SELECT 1 from libro where ISBN='$isbn' AND id !=$id");
-        if (mysqli_num_rows($ISBNrepetido) > 0) {
-            echo json_encode([
-                "success" => false,
-                "message" => "Error el ISBN ya se encuentra registrado"
+                "message" => "La cantidad debe tener numeros positivos"
             ]);
             exit();
         }
 
-        $update = $mysql->efectuarConsulta("UPDATE libro SET titulo = '$titulo', autor = '$autor', ISBN = '$isbn', categoria = '$categoria', disponibilidad = '$disponibilidad',cantidad = '$cantidad' WHERE id = $id");
+        $update = $mysql->efectuarConsulta("UPDATE libro SET titulo = '$titulo', autor = '$autor',categoria = '$categoria', disponibilidad = '$disponibilidad',cantidad = '$cantidad' WHERE id = $id");
 
         if ($update) {
             echo json_encode([

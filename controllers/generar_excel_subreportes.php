@@ -28,7 +28,7 @@ $sheet->setTitle('Reporte_de_' . $tipoInforme);
 // ==========================
 //! USUARIOS
 // ==========================
-if ($tipoInforme === "usuarios") {
+if ($tipoInforme === "Usuario") {
     // Obtener los datos según el tipo de subreporte
     $datos = $datosController->datosTipoUsuarios($fechaInicio, $fechaFin, $tipoInformeDatos);
     if ($tipoInformeDatos === "Usuarios con mas prestamos") {
@@ -134,7 +134,7 @@ if ($tipoInforme === "usuarios") {
 //! INVENTARIO
 // ==========================
 
-if ($tipoInforme === "inventario") {
+if ($tipoInforme === "Inventario") {
     $datos = $datosController->datosTipoInventario($fechaInicio, $fechaFin, $tipoInformeDatos);
     if ($tipoInformeDatos === "Libros Disponibles") {
         //  TITULO DEL REPORTE
@@ -336,7 +336,7 @@ if ($tipoInforme === "inventario") {
 // ==========================
 //! RESERVAS
 // ==========================
-if ($tipoInforme === "reservas") {
+if ($tipoInforme === "Reserva") {
     $datos = $datosController->datosTipoReservas($fechaInicio, $fechaFin, $tipoInformeDatos);
     if ($tipoInformeDatos === "Reservas Aprobadas") {
         //  TITULO DEL REPORTE
@@ -539,7 +539,7 @@ if ($tipoInforme === "reservas") {
 // ==========================
 //! PRESTAMOS
 // ==========================
-if ($tipoInforme === "prestamos") {
+if ($tipoInforme === "Prestamo") {
     $datos = $datosController->datosTipoPrestamos($fechaInicio, $fechaFin, $tipoInformeDatos);
     if ($tipoInformeDatos === "Prestamos Activo") {
         //  TITULO DEL REPORTE
@@ -592,6 +592,56 @@ if ($tipoInforme === "prestamos") {
             $sheet->getColumnDimension($col)->setAutoSize(true);
         }
     } elseif ($tipoInformeDatos === "Prestamos Devuelto") {
+        //  TITULO DEL REPORTE
+        $sheet->mergeCells('A1:E1');
+        $sheet->setCellValue('A1', 'REPORTE DE ' . strtoupper($tipoInformeDatos));
+        $sheet->getStyle('A1')->getFont()->setBold(true)->setSize(14);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // FECHA DEL REPORTE
+        $sheet->setCellValue('A2', 'Fecha de generación: ' . date('d/m/Y'));
+        $sheet->mergeCells('A2:E2');
+        $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+
+        // CABECERA DE LA TABLA
+        $encabezados = ['Prestamo', 'Usuario', 'Libro', 'Fecha de Prestamo', 'Fecha de Devolución'];
+        $columna = 'A';
+        foreach ($encabezados as $enc) {
+            $sheet->setCellValue($columna . '4', $enc);
+            $sheet->getStyle($columna . '4')->getFont()->setBold(true);
+            $sheet->getStyle($columna . '4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+            $sheet->getStyle($columna . '4')->getFill()->setFillType(Fill::FILL_SOLID)->getStartColor()->setARGB('7389FF');
+            $columna++;
+        }
+
+        // CONTENIDO DE LA TABLA
+        $fila = 5;
+        foreach ($datos as $dato) {
+            $sheet->setCellValue('A' . $fila, $dato["id"]);
+            $sheet->setCellValue('B' . $fila, $dato["usuario"]);
+            $sheet->setCellValue('C' . $fila, $dato["titulo"]);
+            $sheet->setCellValue('D' . $fila, $dato["fecha_prestamo"]);
+            $sheet->setCellValue('E' . $fila, $dato["fecha_devolucion"]);
+            $fila++;
+        }
+
+        // FORMATO DE LA TABLA
+        $ultimaFila = $fila - 1;
+        $rango = "A4:E{$ultimaFila}";
+
+        // BORDES DE LA TABLA
+        $sheet->getStyle($rango)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+        // Alinear texto al centro
+        $sheet->getStyle($rango)
+            ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+
+        // Autoajustar columnas
+        foreach (range('A', 'E') as $col) {
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+        }
+    }elseif ($tipoInformeDatos === "Prestamos Vencido") {
         //  TITULO DEL REPORTE
         $sheet->mergeCells('A1:E1');
         $sheet->setCellValue('A1', 'REPORTE DE ' . strtoupper($tipoInformeDatos));

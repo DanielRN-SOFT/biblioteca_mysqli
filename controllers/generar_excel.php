@@ -29,7 +29,7 @@ $sheet->setTitle('Reporte_de_' . $tipoInforme);
 // USUARIOS
 //=============================
 
-if ($tipoInforme == "usuarios") {
+if ($tipoInforme == "Usuario") {
     // Obtener los datos para el reporte
     $datos = $datosController->datosUsuario($fechaInicio, $fechaFin);
 
@@ -89,7 +89,7 @@ if ($tipoInforme == "usuarios") {
 // RESERVAS
 //=============================
 
-if ($tipoInforme == "reservas") {
+if ($tipoInforme == "Reserva") {
     // Obtener los datos para el reporte
     $datos = $datosController->datosReserva($fechaInicio, $fechaFin);
 
@@ -147,7 +147,7 @@ if ($tipoInforme == "reservas") {
 //==============================
 // INVENTARIO
 //=============================
-if ($tipoInforme == "inventario") {
+if ($tipoInforme == "Inventario") {
     // Obtener los datos para el reporte
     $datos = $datosController->datosInventario($fechaInicio, $fechaFin);
 
@@ -206,7 +206,7 @@ if ($tipoInforme == "inventario") {
 //==============================
 // PRESTAMOS
 //=============================
-if ($tipoInforme == "prestamos") {
+if ($tipoInforme == "Prestamo") {
     // Obtener los datos para el reporte
     $datos = $datosController->datosPrestamos($fechaInicio, $fechaFin);
 

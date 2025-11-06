@@ -367,6 +367,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     $nombreArchivo = 'reporte_prestamos_devueltos.pdf';
                 }
+            }elseif ($tipoInformeDatos === "Prestamos Vencido") { {
+                    $pdf->Cell(0, 10, utf8_decode("Reporte: Prestamos Vencidos"), 0, 1, 'C');
+                    $pdf->Ln(5);
+
+                    // Encabezado de tabla
+                    $pdf->SetFont('Arial', 'B', 10);
+                    $pdf->Cell(20, 10, "Prestamo", 1);
+                    $pdf->Cell(55, 10, "Usuario", 1);
+                    $pdf->Cell(50, 10, "Libro", 1);
+                    $pdf->Cell(35, 10, "Fecha Prestamo", 1);
+                    $pdf->Cell(35, 10, "Fecha Devolucion", 1);
+                    $pdf->Ln();
+
+                    // Datos del reporte
+                    $pdf->SetFont('Arial', '', 10);
+                    foreach ($datos as $dato) {
+                        $pdf->Cell(20, 10, ($dato['id']), 1);
+                        $pdf->Cell(55, 10, ($dato['usuario']), 1);
+                        $pdf->Cell(50, 10, ($dato['titulo']), 1);
+                        $pdf->Cell(35, 10, ($dato['fecha_prestamo']), 1);
+                        $pdf->Cell(35, 10, ($dato['fecha_devolucion']), 1);
+                        $pdf->Ln();
+                    }
+
+                    $nombreArchivo = 'reporte_prestamos_vencidos.pdf';
+                }
             } elseif ($tipoInformeDatos === "Libros mas Prestados") {
                 $pdf->Cell(0, 10, utf8_decode("Reporte: Libros mas Prestados"), 0, 1, 'C');
                 $pdf->Ln(5);

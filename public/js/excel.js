@@ -42,26 +42,27 @@ function actualizarTipoInforme() {
   tipoInforme.appendChild(opcionDefecto);
   let opciones = [];
 
-  if (categoria === "usuarios") {
+  if (categoria === "Usuario") {
     opciones = ["Usuarios con mas prestamos", "Usuarios con mas reservas"];
-  } else if (categoria === "inventario") {
+  } else if (categoria === "Inventario") {
     opciones = [
       "Libros Disponibles",
       "Libros Prestados",
       "Libros Reservados",
       "Libros no Disponibles",
     ];
-  } else if (categoria === "reservas") {
+  } else if (categoria === "Reserva") {
     opciones = [
       "Reservas Aprobadas",
       "Reservas Rechazadas",
       "Reservas Pendientes",
       "Reservas Canceladas",
     ];
-  } else if (categoria === "prestamos") {
+  } else if (categoria === "Prestamo") {
     opciones = [
       "Prestamos Activo",
       "Prestamos Devuelto",
+      "Prestamos Vencido",
       "Libros mas Prestados",
     ];
   }
@@ -81,7 +82,7 @@ function definirAccionFormulario() {
 
   // SUBREPORTES DE USUARIOS
   if (
-    categoria === "usuarios" &&
+    categoria === "Usuario" &&
     (tipoInforme === "Usuarios con mas prestamos" ||
       tipoInforme === "Usuarios con mas reservas")
   ) {
@@ -89,7 +90,7 @@ function definirAccionFormulario() {
 
     // SUBREPORTES DE INVENTARIO
   } else if (
-    categoria === "inventario" &&
+    categoria === "Inventario" &&
     (tipoInforme === "Libros Disponibles" ||
       tipoInforme === "Libros Prestados" ||
       tipoInforme === "Libros Reservados" ||
@@ -99,7 +100,7 @@ function definirAccionFormulario() {
 
     //SUBREPORTES DE RESERVAS
   } else if (
-    categoria === "reservas" &&
+    categoria === "Reserva" &&
     (tipoInforme === "Reservas Aprobadas" ||
       tipoInforme === "Reservas Rechazadas" ||
       tipoInforme === "Reservas Pendientes" ||
@@ -109,9 +110,10 @@ function definirAccionFormulario() {
 
     //SUBREPORTES DE PRÉSTAMOS
   } else if (
-    categoria === "prestamos" &&
+    categoria === "Prestamo" &&
     (tipoInforme === "Prestamos Activo" ||
       tipoInforme === "Prestamos Devuelto" ||
+      tipoInforme === "Prestamos Vencido" ||
       tipoInforme === "Libros mas Prestados")
   ) {
     form.action = "../../controllers/generar_excel_subreportes.php";

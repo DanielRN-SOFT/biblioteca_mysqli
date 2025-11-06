@@ -41,7 +41,6 @@ btnCrear.addEventListener("click", () => {
             <select class="form-control text-center" name="disponibilidad" id="disponibilidad">
               <option value="Disponible">Disponible</option>
               <option value="No Disponible">No Disponible</option>
-              <option value="Reservado">Reservado</option>
             </select>
           </div>
 
@@ -113,10 +112,6 @@ function editarLibro(IDlibro) {
         <input class="form-control" type="text" id="autor" name="autor" value="${data.autor}"/>
       </div>
 
-      <div class="mb-3">
-        <label for="isbn" class="form-label">ISBN:</label>
-        <input class="form-control" type="text" id="isbn" name="isbn" value="${data.ISBN}"/>
-      </div>
 
       <div class="mb-3">
         <label for="categoria" class="form-label">Categoria:</label>
@@ -124,11 +119,10 @@ function editarLibro(IDlibro) {
       </div>
 
       <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Tipo:</label>
+            <label for="password" class="form-label fw-bold">Disponibilidad</label>
             <select class="form-control text-center" name="disponibilidad" id="disponibilidad">
               <option value="Disponible">Disponible</option>
               <option value="No Disponible">No Disponible</option>
-              <option value="Reservado">Reservado</option>
             </select>
           </div>
 
