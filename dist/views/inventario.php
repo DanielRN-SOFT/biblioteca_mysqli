@@ -23,22 +23,34 @@ $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
 
-// Ejecución de la consulta
-$libros = $mysql->efectuarConsulta("SELECT * FROM libro
-ORDER BY CASE
-WHEN libro.estado = 'Activo' THEN 1
-WHEN libro.estado = 'Inactivo' THEN 2
-ELSE 3
-END");
+
 // ===============================
 // Layout de componentes HTML
 // ===============================
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
-// ==========================
-// Fin sección: Conexión a la BD
-// ==========================
+
+// Ordenar los libros primero activos y disponibles 
+
+if($tipoUsuario == "Administrador"){
+  $libros = $mysql->efectuarConsulta("SELECT * FROM libro
+ORDER BY CASE
+WHEN libro.disponibilidad = 'Disponible' THEN 1
+WHEN libro.estado = 'Activo' THEN 2
+WHEN libro.estado = 'Inactivo' THEN 3
+ELSE 3
+END");
+}else{
+  $libros = $mysql->efectuarConsulta("SELECT * FROM libro WHERE libro.estado = 'Activo'
+ORDER BY CASE
+WHEN libro.disponibilidad = 'Disponible' THEN 1
+WHEN libro.disponibilidad = 'No disponible' THEN 2
+ELSE 3
+END");
+}
+
+
 ?>
 <main class="app-main">
   <div class="app-content-header">
@@ -52,7 +64,7 @@ require_once './layouts/aside_bar.php';
       <div class="row my-2">
         <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-sm-12">
-            <button class="btn btn-success w-100" id="crearLibro">Crear nuevo libro</button>
+            <button class="btn btn-success fw-bold w-100" id="crearLibro">Crear nuevo libro</button>
           </div>
         <?php } ?>
       </div>
@@ -86,8 +98,8 @@ require_once './layouts/aside_bar.php';
                           <th>Autor</th>
                           <th>ISBN</th>
                           <th>Categoria</th>
-                          <th>Disponibilidad</th>
                           <th class="text-center">Cantidad</th>
+                          <th>Disponibilidad</th>
                           <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Estado</th>
                             <th>Fecha de creacion</th>
@@ -102,13 +114,20 @@ require_once './layouts/aside_bar.php';
                           } else {
                             $claseEstado = "badge text-bg-danger";
                           } ?>
+
+                          <?php if ($fila["disponibilidad"] == "Disponible") {
+                            $claseDisponibilidad = "badge text-bg-success";
+                          } else {
+                            $claseDisponibilidad = "badge text-bg-danger";
+                          } ?>
                           <tr>
                             <td><?php echo $fila["titulo"]; ?></td>
                             <td><?php echo $fila["autor"]; ?></td>
                             <td><?php echo $fila["ISBN"]; ?></td>
                             <td><?php echo $fila["categoria"]; ?></td>
-                            <td><?php echo $fila["disponibilidad"]; ?></td>
                             <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
+                            <td> <span class="<?php echo $claseDisponibilidad ?>"><?php echo $fila["disponibilidad"]; ?></span></td>
+
                             <?php if ($tipoUsuario === "Administrador") { ?>
                               <td><span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"]; ?></span></td>
                               <td><?php echo $fila["fecha_creacion"]; ?></td>

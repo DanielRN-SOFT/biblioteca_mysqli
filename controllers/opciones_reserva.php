@@ -40,35 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Insertar en prestamo la reserva aprobada
             $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, NOW(), DATE_ADD(NOW(), INTERVAL 5 DAY), 'Prestado')");
 
-            // Seleccionar libros a descontar 
-            $libros = $mysql->efectuarConsulta("SELECT libro_id, libro.titulo, libro.cantidad FROM reserva_has_libro JOIN libro ON reserva_has_libro.libro_id = libro.id WHERE reserva_id = $IDreserva");
-
-            while ($fila = $libros->fetch_assoc()) {
-                // Captura de variables
-                $IDlibro = $fila["libro_id"];
-                $cantidad = $fila["cantidad"];
-                $nombre = $fila["titulo"];
-                // Validar si hay inventario
-                if ($cantidad == 0) {
-                    if ($libros) {
-                        echo json_encode([
-                            "success" => false,
-                            "message" => "No hay existencias por el momento en el libro: " . $nombre
-                        ]);
-                        exit();
-                    }
-                }
-
-                // restar del inventario en caso de aprobar la reserva 
-                $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $IDlibro");
-
-                // Verificar que no hayan errores
-                if(!$updateInventario){
-                    $errores = "Error al restar inventario en el libro: " . $IDlibro;
-                }
-            }
-           
-
             // Verificar que no haya error en el insert de prestamos
             if (!$insertPrestamo) {
                 $errores = "Error al insertar PRESTAMO";
@@ -81,11 +52,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Si la opcion es rechazar
         if ($opcion == "Rechazar") {
             // Eliminar prestamo
-            $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
-            if (!$deletePrestamo) {
-                $errores = "Error al eliminar PRESTAMO";
+            // $deletePrestamo = $mysql->efectuarConsulta("DELETE FROM prestamo WHERE id_reserva = $IDreserva");
+            // if (!$deletePrestamo) {
+            //     $errores = "Error al eliminar PRESTAMO";
+            // }
+
+            if($estadoBD == "Aprobada"){
+                $consultaIDprestamo = $mysql->efectuarConsulta("SELECT id FROM prestamo WHERE id_reserva = $IDreserva");
+                $IDprestamo = $consultaIDprestamo->fetch_assoc()["id"];
+                $deletePrestamo = $mysql->efectuarConsulta("UPDATE prestamo SET estado = 'Cancelado' WHERE id = $IDprestamo");
+                if (!$deletePrestamo) {
+                    $errores = "Error al eliminar PRESTAMO";
+                }
             }
 
+           
             // Asignar nuevo el nuevo estado
             $nuevoEstado = "Rechazada";
             $mensaje = "Rechazo de reserva completada";

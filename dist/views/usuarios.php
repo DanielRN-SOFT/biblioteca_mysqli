@@ -57,7 +57,7 @@ require_once './layouts/aside_bar.php';
 
       <div class="row mt-3 mb-2">
         <div class="col-sm-12">
-          <button class="btn btn-success w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
+          <button class="btn btn-success fw-bold w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
         </div>
       </div>
     </div>
@@ -114,7 +114,11 @@ require_once './layouts/aside_bar.php';
                               <button class="btn btn-primary mx-1" onclick="editarUsuario(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
 
                               <?php if ($fila["estado"] == "Activo") { ?>
-                                <button class="btn btn-danger btn-eliminar-usuario" onclick="eliminarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                <button class="btn btn-danger btn-eliminar-usuario" 
+                                onclick="eliminarUsuario(<?php echo $fila['id'] ?> , 
+                                '<?php echo $fila['estado'] ?>',
+                                '<?php echo $fila['nombre']?>' ,
+                                '<?php echo $fila['apellido']?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
                               <?php } else { ?>
                                 <button class="btn btn-success btn-reitegrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
                               <?php } ?>

@@ -24,7 +24,7 @@ btnRegistrar.addEventListener("click", async (e) => {
 
   if (!result.success) {
     Swal.fire({
-      title: '<span class="fs-2 fw-bold"> Error </span>',
+      title: '<span class="fs-2 fw-bold"> ¡Error! </span>',
       text: result.message,
       icon: "error",
     });

@@ -10,12 +10,12 @@ $archivoActual = basename($_SERVER["PHP_SELF"]);
 <!-- Sección: Footer            -->
 <!-- ========================== -->
 <footer class="app-footer">
-    <div class="float-end d-none d-sm-inline">Anything you want</div>
+    <div class="float-end d-none d-sm-inline">Gestion de biblioteca</div>
     <strong>
-        Copyright &copy; 2014-2025
+        &copy; 2025
         <a href="#" class="text-decoration-none">bibliotecaMysqli.com</a>.
     </strong>
-    All rights reserved.
+    Todos los derechos reservados.
 </footer>
 <!-- ========================== -->
 <!-- Fin sección: Footer        -->
