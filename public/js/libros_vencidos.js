@@ -1,9 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if (sessionStorage.getItem("prestamosVencidosMostrado")) return; // evita repetir
+
   fetch("../../controllers/validar_prestamos_vencidos.php")
     .then((response) => response.json())
     .then((data) => {
       if (data.success && data.libros.length > 0) {
-        let mensaje = `Por favor devuelve los siguientes libros: ${data.libros.join(", ")}`;
+        sessionStorage.setItem("prestamosVencidosMostrado", "true"); // marca como mostrado
+
+        let mensaje = `Por favor devuelve los siguientes libros: ${data.libros.join(
+          ", "
+        )}`;
         let mostrarBoton = data.total > data.libros.length;
 
         if (mostrarBoton) {
@@ -12,13 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         Swal.fire({
           icon: "warning",
-          title: "¡Tienes prestamos vencidos!",
+          title: "¡Tienes préstamos vencidos!",
           text: mensaje,
           showCancelButton: mostrarBoton,
           confirmButtonText: "Aceptar",
           cancelButtonText: "Ver todos",
         }).then((resultado) => {
-          // Si el usuario presiona "Ver todos"
           if (resultado.dismiss === Swal.DismissReason.cancel) {
             fetch("../../controllers/validar_prestamos_vencidos.php?all=true")
               .then((response) => response.json())
