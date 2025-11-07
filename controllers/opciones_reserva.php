@@ -42,7 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
             // Insertar en prestamo la reserva aprobada
-            $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, '$fechaPrestamo', DATE_ADD('$fechaPrestamo', INTERVAL 5 DAY), 'Prestado')");
+            $insertPrestamo = $mysql->efectuarConsulta("INSERT INTO prestamo(id_reserva,fecha_prestamo,fecha_devolucion, estado) VALUES($IDreserva, CONCAT('$fechaPrestamo', ' ' , CURTIME()), DATE_ADD('$fechaPrestamo', INTERVAL 5 DAY), 'Prestado')");
 
             // Verificar que no haya error en el insert de prestamos
             if (!$insertPrestamo) {

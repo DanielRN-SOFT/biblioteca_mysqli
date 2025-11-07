@@ -12,9 +12,10 @@ $mysql->conectar();
 $IDprestamo = $_POST['IDprestamo'];
 $estado = filter_var($_POST["estado"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $IDreserva = $_POST["IDreserva"];
+$opcion = filter_var($_POST["opcion"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 $errores = [];
 
-if ($estado == "Prestado" || $estado == "Vencido") {
+if ($estado == "Prestado" && $opcion == "Devolucion" || $estado == "Vencido" && $opcion == "Devolucion") {
     $nuevoEstado = "Devuelto";
     $mensaje = "Registro de devolucion exitoso";
 
@@ -42,7 +43,7 @@ if ($estado == "Prestado" || $estado == "Vencido") {
     }
 }
 
-if($estado == "Devuelto"){
+if($estado == "Prestado" && $opcion == "Extension"){
     $nuevoEstado = "Prestado";
     $mensaje = "Renovacion de prestamo completada";
 
@@ -55,33 +56,6 @@ if($estado == "Devuelto"){
     $hora = date('H:i:s');
     // Fecha completa
     $fechaCompleta = $fechaDevolucion . ' ' . $hora; // YYYY-MM-DD HH:MM:SS
-
-    // Agregar de nuevo los libros al inventario
-    $consultaLibros = $mysql->efectuarConsulta("SELECT libro_id, titulo, cantidad FROM reserva_has_libro JOIN libro ON libro.id = reserva_has_libro.libro_id WHERE reserva_id = $IDreserva");
-
-    while ($fila = $consultaLibros->fetch_assoc()) {
-
-        $IDlibro = $fila["libro_id"];
-        $titulo = $fila["titulo"];
-        $cantidad = $fila["cantidad"];
-
-
-        if($cantidad <= 0){
-            echo json_encode([
-                "success" => false,
-                "message" => "No hay existencias para el libro: $titulo, intentelo con otro prestamo"
-            ]);
-            exit();
-        }
-
-        // Añadir de nuevo el libro al inventario
-        $updateInventario = $mysql->efectuarConsulta("UPDATE libro SET cantidad = cantidad - 1 
-        WHERE id = $IDlibro");
-
-        if (!$updateInventario) {
-            $errores = "Error al agregar cantidad en el libro: $IDlibro";
-        }
-    }
 
     // Cambiar el estado del prestamo
     $update = $mysql->efectuarConsulta("UPDATE prestamo SET estado= '$nuevoEstado', fecha_devolucion = '$fechaCompleta' WHERE id= $IDprestamo");
