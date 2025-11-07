@@ -54,6 +54,9 @@ if ($tipoUsuario == "Administrador") {
   ORDER BY prestamo.fecha_prestamo DESC;");
 }
 
+// Asignacion de zona horaria para la hora del documento
+date_default_timezone_set('America/Bogota');
+
 // Fecha actual
 $consultaFecha = $mysql->efectuarConsulta("SELECT DATE(NOW()) AS fecha_actual");
 $fechaActual = $consultaFecha->fetch_assoc()["fecha_actual"];
@@ -70,7 +73,7 @@ require_once './layouts/aside_bar.php';
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-6">
-          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-handshake"></i> Prestamos</h3>
+          <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-handshake me-2"></i> Prestamos</h3>
         </div>
       </div>
     </div>
@@ -80,15 +83,12 @@ require_once './layouts/aside_bar.php';
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="card mb-4">
-            <div class="card-header bg-card-general">
-              <h5 class="card-title fw-bold fs-5">Lista de Prestamos</h5>
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                  <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                  <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                </button>
-              </div>
+          <div class="card shadow rounded-4 border-0 mb-4">
+            <div class="card-header bg-card-general d-flex justify-content-between align-items-center rounded-top-4 py-3">
+              <h5 class="mb-0 fw-semibold text-white">
+                <i class="fa-solid fa-list me-2"></i> Lista de Préstamos
+              </h5>
+
             </div>
             <!-- /.card-header -->
 
@@ -97,7 +97,7 @@ require_once './layouts/aside_bar.php';
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
                     <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
-                      <thead>
+                      <thead class="table-light">
                         <tr>
                           <th>Prestamo</th>
                           <th>Fecha Prestamo</th>
@@ -119,7 +119,7 @@ require_once './layouts/aside_bar.php';
                               $claseFecha = "badge text-bg-success";
                             } ?>
                             <td>
-                              <span class="<?php echo $claseFecha ?> rounded-pill">
+                              <span class="<?php echo $claseFecha ?> rounded-pill px-3 py-2">
                                 <?php echo $fila["fecha_devolucion"]; ?>
                               </span>
                             </td>
@@ -134,7 +134,7 @@ require_once './layouts/aside_bar.php';
                               $claseEstado = "badge text-bg-danger";
                             } ?>
                             <td>
-                              <span class="<?php echo $claseEstado ?> rounded-pill">
+                              <span class="<?php echo $claseEstado ?> rounded-pill px-3 py-2">
                                 <?php echo $fila["estado"]; ?>
                               </span>
                             </td>
@@ -159,7 +159,9 @@ require_once './layouts/aside_bar.php';
             </div>
             <!-- ./card-body -->
 
-            <div class="card-footer"></div>
+            <div class="card-footer bg-body-tertiary text-end small rounded-bottom-4">
+              Última actualización: <?php echo date("d/m/Y H:i"); ?>
+            </div>
             <!-- /.card-footer -->
           </div>
         </div>

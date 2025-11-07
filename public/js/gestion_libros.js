@@ -195,17 +195,18 @@ function editarLibro(IDlibro) {
   });
 }
 // ELIMINAR LIBRO
-function eliminarLibro(idLibro, estado) {
+function eliminarLibro(idLibro, estado, libro) {
   Swal.fire({
     title: '<span class = "text-danger fw-bold"> Eliminar Libro </span>',
-    html: "¿Esta seguro de realizar esta accion?",
+    html: `¿Esta seguro de realizar esta accion?
+    <br> Titulo: <strong> ${libro} </strong>`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Si, eliminar libro",
     cancelButtonText: "Cancelar",
     customClass: {
-      confirmButton: "btn btn-success",
-      cancelButton: "btn btn-danger",
+      confirmButton: "btn btn-success fw-bold",
+      cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
       return $.ajax({

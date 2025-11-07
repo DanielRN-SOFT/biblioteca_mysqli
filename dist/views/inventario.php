@@ -75,15 +75,11 @@ END");
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="card mb-4">
-            <div class="card-header bg-card-general">
-              <h5 class="card-title fw-bold fs-5">Lista de libros</h5>
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                  <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                  <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                </button>
-              </div>
+          <div class="card shadow rounded-4 border-0 mb-4">
+            <div class="card-header bg-card-general d-flex justify-content-between align-items-center rounded-top-4 py-3">
+              <h5 class="mb-0 fw-semibold text-white">
+                <i class="fa-solid fa-list me-2"></i> Lista de libros
+              </h5>
             </div>
             <!-- /.card-header -->
 
@@ -92,7 +88,7 @@ END");
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
                     <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
-                      <thead>
+                      <thead class="table-light">
                         <tr>
                           <th>Titulo</th>
                           <th>Autor</th>
@@ -120,16 +116,16 @@ END");
                             <td><?php echo $fila["ISBN"]; ?></td>
                             <td><?php echo $fila["categoria"]; ?></td>
                             <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
-                            <td> <span class="<?php echo $claseDisponibilidad ?>"><?php echo $fila["disponibilidad"]; ?></span></td>
+                            <td> <span class="<?php echo $claseDisponibilidad ?> px-3 py-2"><?php echo $fila["disponibilidad"]; ?></span></td>
 
                             <?php if ($tipoUsuario === "Administrador") { ?>
-                              <td><span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"]; ?></span></td>
+                              <td><span class="<?php echo $claseEstado ?> px-3 py-2"><?php echo $fila["estado"]; ?></span></td>
                               <td><?php echo $fila["fecha_creacion"]; ?></td>
                               <td>
                                 <div class="btn-group" role="group">
                                   <button class="btn btn-primary" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
                                   <?php if ($fila["estado"] == "Activo") { ?>
-                                    <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>' , '<?php echo $fila['titulo'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
                                   <?php } else { ?>
                                     <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
 
@@ -148,7 +144,9 @@ END");
             </div>
             <!-- ./card-body -->
 
-            <div class="card-footer"></div>
+            <div class="card-footer bg-body-tertiary text-end small rounded-bottom-4">
+              Última actualización: <?php echo date("d/m/Y H:i"); ?>
+            </div>
             <!-- /.card-footer -->
           </div>
         </div>

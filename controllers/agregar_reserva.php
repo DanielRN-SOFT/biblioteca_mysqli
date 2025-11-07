@@ -12,12 +12,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mysql = new MySQL();
         $mysql->conectar();
 
-        // ID del cliente
+        // Capturar datos
         $id = $_POST["IDcliente"];
+        $fechaAsistencia = $_POST["fechaAsistencia"];
         $estado = "Pendiente";
 
         // Insertar la reserva
-        $insertReserva = $mysql->efectuarConsulta("INSERT INTO reserva(id_usuario, fecha_reserva, estado) VALUES($id, now(), '$estado')");
+        $insertReserva = $mysql->efectuarConsulta("INSERT INTO reserva(id_usuario, fecha_reserva, fecha_asistencia, estado) VALUES($id, now(), CONCAT('$fechaAsistencia', ' ', CURTIME()), '$estado')");
 
 
         if (!$insertReserva) {
@@ -50,17 +51,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Descontar del inventario
             $updateInventario = $mysql->efectuarConsulta("UPDATE libro set cantidad = cantidad - 1 WHERE libro.id = $IDlibro");
-            // TODO Seleccionar libros para saber su stock 
-            $libros = $mysql->efectuarConsulta("SELECT cantidad FROM libro WHERE id = $IDlibro");
-            $cantidad = $libros->fetch_assoc()["cantidad"];
-
-            if ($cantidad == 0) {
-                $updateDisponibilidad = $mysql->efectuarConsulta("UPDATE libro set disponibilidad = 'No disponible' WHERE libro.id = $IDlibro");
-                if (!$updateDisponibilidad) {
-                    $errores =  "Error en disponibilidad de inventario";
-                }
-            }
             
+
             if (!$updateInventario) {
                 $errores =  "Error en UPDATE de inventario";
             }

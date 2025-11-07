@@ -8,10 +8,17 @@ function cargandoAlerta(mensaje) {
 }
 
 async function crearReserva(IDcliente, tipoUsuarioBD) {
+  const hoy = new Date().toISOString().split("T")[0];
   Swal.fire({
     title: '<span class="text-success fw-bold">Crear reserva</span>',
     html: `
       <input type="text" id="busquedaProducto" class="swal2-input" placeholder="Buscar libro..." onkeyup="buscarProducto(this.value)">
+        <div class= "mb-2">
+ <label for="fecha" class="fw-bold form-label">
+       Día programado de visita:
+      </label>
+      <input type="date" id="fechaAsistencia" class="swal2-input" min="${hoy}" value="${hoy}" style="width:auto;">
+    </div> 
       <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaProductos">
         <thead>
@@ -36,6 +43,10 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
 
     preConfirm: async () => {
       try {
+        // Fecha de asistencia
+         const fechaAsistencia =
+           document.querySelector("#fechaAsistencia").value;
+           console.log(fechaAsistencia);
         // Recolectar los libros seleccionados
         const productos = [];
         document.querySelectorAll("#tablaProductos tbody tr").forEach((row) => {
@@ -77,6 +88,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
           body: new URLSearchParams({
             libros: JSON.stringify(productos),
             IDcliente: IDcliente,
+            fechaAsistencia: fechaAsistencia
           }),
         });
 

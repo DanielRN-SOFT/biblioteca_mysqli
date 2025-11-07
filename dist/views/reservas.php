@@ -41,12 +41,12 @@ require_once './layouts/aside_bar.php';
 
 // Si es cliente solo puede ver sus reservas
 if ($tipoUsuario == "Cliente") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario WHERE usuario.id = $IDusuario ORDER BY reserva.fecha_reserva DESC");
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.fecha_asistencia, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario WHERE usuario.id = $IDusuario ORDER BY reserva.fecha_reserva DESC");
 }
 
 // Si es administrador puede ver todas las reservas 
 if ($tipoUsuario == "Administrador") {
-    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario
+    $reservasUsuario = $mysql->efectuarConsulta("SELECT reserva.id, usuario.id as id_usuario , usuario.nombre, usuario.apellido, reserva.fecha_reserva, reserva.fecha_asistencia, reserva.estado FROM reserva JOIN usuario ON usuario.id = reserva.id_usuario
     ORDER BY reserva.fecha_reserva DESC
 ");
 }
@@ -66,12 +66,12 @@ if ($tipoUsuario == "Administrador") {
                 <div class="col-sm-6">
                     <h3 class="mb-0 fw-bold">
                         <i class="fa-solid fa-calendar-days"></i>
-                        Mis reservas
+                        Reservas
                     </h3>
                 </div>
             </div>
 
-            <div class="row mt-3 mb-2">
+            <div class="row mt-3">
                 <div class="col-sm-12">
                     <button class="btn btn-success fw-bold w-100" id="BtnCrearReserva" onclick="crearReserva(
                     <?php echo $IDusuario ?> , 
@@ -85,15 +85,11 @@ if ($tipoUsuario == "Administrador") {
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card mb-4">
-                        <div class="card-header bg-card-general">
-                            <h5 class="card-title fw-bold fs-5">Lista de reservas</h5>
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                                    <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                                    <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                                </button>
-                            </div>
+                    <div class="card shadow rounded-4 border-0 mb-4">
+                        <div class="card-header bg-card-general d-flex justify-content-between align-items-center rounded-top-4 py-3">
+                            <h5 class="mb-0 fw-semibold text-white">
+                                <i class="fa-solid fa-list me-2"></i> Lista de reservas
+                            </h5>
                         </div>
                         <!-- /.card-header -->
 
@@ -102,13 +98,14 @@ if ($tipoUsuario == "Administrador") {
                                 <div class="col-md-12" id="contenedorTabla">
                                     <div>
                                         <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0">
-                                            <thead>
+                                            <thead class="table-light">
                                                 <tr>
                                                     <?php if ($tipoUsuario == "Administrador") { ?>
                                                         <th>Usuario</th>
                                                     <?php } ?>
                                                     <th>Reserva</th>
-                                                    <th>Fecha</th>
+                                                    <th>Fecha de reserva</th>
+                                                    <th>Fecha de asistencia</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
                                                 </tr>
@@ -121,6 +118,7 @@ if ($tipoUsuario == "Administrador") {
                                                         <?php } ?>
                                                         <td> <?php echo $fila["id"] ?></td>
                                                         <td> <?php echo $fila["fecha_reserva"] ?></td>
+                                                        <td> <?php echo $fila["fecha_asistencia"] ?></td>
 
                                                         <!-- Estilos para el estado -->
                                                         <?php if ($fila["estado"] == "Aprobada") {
@@ -133,7 +131,7 @@ if ($tipoUsuario == "Administrador") {
                                                             $estado = "text-bg-warning";
                                                         } ?>
                                                         <td class="">
-                                                            <span class="badge rounded-pill <?php echo $estado ?>">
+                                                            <span class="badge rounded-pill px-3 py-2 <?php echo $estado ?>">
                                                                 <?php echo $fila["estado"] ?>
                                                             </span>
                                                         </td>
@@ -162,7 +160,9 @@ if ($tipoUsuario == "Administrador") {
                         </div>
                         <!-- ./card-body -->
 
-                        <div class="card-footer"></div>
+                        <div class="card-footer bg-body-tertiary text-end small rounded-bottom-4">
+                            Última actualización: <?php echo date("d/m/Y H:i"); ?>
+                        </div>
                         <!-- /.card-footer -->
                     </div>
                 </div>

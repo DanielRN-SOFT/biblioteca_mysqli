@@ -67,15 +67,12 @@ require_once './layouts/aside_bar.php';
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <div class="card mb-4">
-            <div class="card-header bg-card-general">
-              <h5 class="card-title fw-bold fs-5">Lista de usuarios</h5>
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse">
-                  <i data-lte-icon="expand" class="bi bi-plus-lg"></i>
-                  <i data-lte-icon="collapse" class="bi bi-dash-lg"></i>
-                </button>
-              </div>
+          <div class="card shadow rounded-4 border-0 mb-4">
+            <div class="card-header bg-card-general d-flex justify-content-between align-items-center rounded-top-4 py-3">
+              <h5 class="mb-0 fw-semibold text-white">
+                <i class="fa-solid fa-list me-2"></i> Lista de usuarios
+              </h5>
+
             </div>
             <!-- /.card-header -->
 
@@ -84,7 +81,7 @@ require_once './layouts/aside_bar.php';
                 <div class="col-md-12" id="contenedorTabla">
                   <div class="table-responsive">
                     <table class="table align-middle table-striped nowrap" id="tblGeneral" width="100%" cellspacing="0" role="table">
-                      <thead>
+                      <thead class="table-light">
                         <tr>
                           <th>Nombre</th>
                           <th>Apellido</th>
@@ -104,7 +101,7 @@ require_once './layouts/aside_bar.php';
                             <td><?php echo $fila["apellido"]; ?></td>
                             <td><?php echo $fila["email"]; ?></td>
                             <td><?php echo $fila["tipo"]; ?></td>
-                            <td> <span class="<?php echo $claseEstado ?>"><?php echo $fila["estado"] ?></span></td>
+                            <td> <span class="<?php echo $claseEstado ?> px-3 py-2"><?php echo $fila["estado"] ?></span></td>
                             <td><?php echo $fila["fecha_creacion"]; ?></td>
                             <td>
                               <div class="btn-group">
@@ -136,7 +133,9 @@ require_once './layouts/aside_bar.php';
             </div>
             <!-- ./card-body -->
 
-            <div class="card-footer"></div>
+            <div class="card-footer bg-body-tertiary text-end small rounded-bottom-4">
+              Última actualización: <?php echo date("d/m/Y H:i"); ?>
+            </div>
             <!-- /.card-footer -->
           </div>
         </div>
