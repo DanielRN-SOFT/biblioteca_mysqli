@@ -64,7 +64,7 @@ $usuario = mysqli_fetch_assoc($sql);
                             <!--begin::Menu Footer-->
                             <li class="user-footer">
                                 <a href="/biblioteca_mysqli/dist/views/ingresarPerfil.php" class="btn btn-success text-light btn-flat w-50 fw-bold">Perfil</a>
-                                <a href="../../controllers/logout.php" class="btn btn-danger fw-bold text-light btn-flat float-end">Cerrar sesión</a>
+                                <a href="../../controllers/logout.php" class="btn btn-danger fw-bold text-light btn-flat float-end" id="btnLogOut">Cerrar sesión</a>
                             </li>
                             <!--end::Menu Footer-->
                         </ul>
