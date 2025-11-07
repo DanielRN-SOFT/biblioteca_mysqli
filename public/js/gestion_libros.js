@@ -116,7 +116,7 @@ function editarLibro(IDlibro) {
 
       <div class="mb-3">
         <label for="isbn" class="form-label">ISBN:</label>
-        <input class="form-control text-center" type="text" id="isbn" name="isbn" value="${data.ISBN}"/>
+        <input class="form-control text-center" type="text" id="isbn" name="isbn" disabled value="${data.ISBN}"/>
       </div>
 
       <div class="mb-3">
@@ -125,7 +125,7 @@ function editarLibro(IDlibro) {
       </div>
 
       <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Tipo:</label>
+            <label for="password" class="form-label fw-bold">Disponibilidad</label>
             <select class="form-control text-center" name="disponibilidad" id="disponibilidad">
               <option value="Disponible">Disponible</option>
               <option value="No Disponible">No Disponible</option>

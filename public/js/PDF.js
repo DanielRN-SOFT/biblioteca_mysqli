@@ -62,6 +62,7 @@ function actualizarTipoInforme() {
     opciones = [
       "Prestamos Activo",
       "Prestamos Devuelto",
+      "Prestamos Vencido",
       "Libros mas Prestados",
     ];
   }
@@ -112,6 +113,7 @@ function definirAccionFormulario() {
     categoria === "Prestamo" &&
     (tipoInforme === "Prestamos Activo" ||
       tipoInforme === "Prestamos Devuelto" ||
+      tipoInforme === "Prestamos Vencido" ||
       tipoInforme === "Libros mas Prestados")
   ) {
     form.action = "../../controllers/generar_pdf_subreportes.php";
