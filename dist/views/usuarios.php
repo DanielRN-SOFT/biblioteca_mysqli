@@ -25,13 +25,6 @@ $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
 
-// Ejecución de la consulta
-$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario 
-ORDER BY CASE WHEN usuario.estado = 'Activo' THEN 1
-  WHEN usuario.estado = 'Inactivo' THEN 2
-  ELSE 3
-  END");
-
 // ==========================
 // Layout de componentes HTML
 // ==========================
@@ -39,6 +32,15 @@ ORDER BY CASE WHEN usuario.estado = 'Activo' THEN 1
 require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
+
+
+// Ejecución de la consulta
+$usuarios = $mysql->efectuarConsulta("SELECT * FROM usuario WHERE id != $IDusuario
+ORDER BY CASE WHEN usuario.estado = 'Activo' THEN 1
+  WHEN usuario.estado = 'Inactivo' THEN 2
+  ELSE 3
+  END");
+
 
 
 ?>
