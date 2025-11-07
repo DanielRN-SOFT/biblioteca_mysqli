@@ -9,6 +9,9 @@ function cargandoAlerta(mensaje) {
 
 async function crearReserva(IDcliente, tipoUsuarioBD) {
   const hoy = new Date().toISOString().split("T")[0];
+  const unMesDespues = new Date();
+  unMesDespues.setMonth(unMesDespues.getMonth() + 1);
+  fechaMaxima = unMesDespues.toISOString().split("T")[0];
   Swal.fire({
     title: '<span class="text-success fw-bold">Crear reserva</span>',
     html: `
@@ -17,7 +20,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
  <label for="fecha" class="fw-bold form-label">
        Día programado de visita:
       </label>
-      <input type="date" id="fechaAsistencia" class="swal2-input" min="${hoy}" value="${hoy}" style="width:auto;">
+      <input type="date" id="fechaAsistencia" class="swal2-input" min="${hoy}" max="${fechaMaxima}" value="${hoy}" style="width:auto;">
     </div> 
       <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaProductos">
