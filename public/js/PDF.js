@@ -18,6 +18,20 @@ btnGenerarPDF.addEventListener("click", (e) => {
     return;
   }
 
+  // Validar fechas
+  const inicio = new Date(fechaInicio);
+  const fin = new Date(fechaFin);
+
+  if (inicio > fin) {
+    Swal.fire({
+      icon: "warning",
+      title: "Fechas inválidas",
+      text: "La fecha de inicio no puede ser mayor que la fecha fin",
+      confirmButtonText: "Entendido",
+    });
+    return;
+  }
+
   // Definir destino del formulario dinámicamente
   definirAccionFormulario();
   // Enviar el formulario al PHP correcto
@@ -33,7 +47,7 @@ function actualizarTipoInforme() {
   const tipoInforme = document.getElementById("tipoInformeCategoria");
   //LIMPIAR TODAS LAS OPCIONES ANTES DE AGREGAR NUEVAS
   tipoInforme.innerHTML = "";
-   // Agregar opción por defecto SIEMPRE
+  // Agregar opción por defecto SIEMPRE
   let opcionDefecto = document.createElement("option");
   opcionDefecto.value = "";
   opcionDefecto.textContent = "Seleccione un informe...";
