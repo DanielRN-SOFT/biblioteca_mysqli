@@ -51,6 +51,7 @@ END");
 }
 
 
+
 ?>
 <main class="app-main">
   <div class="app-content-header">
@@ -93,8 +94,8 @@ END");
                           <th>Titulo</th>
                           <th>Autor</th>
                           <th>ISBN</th>
-                          <th>Categoria</th>
                           <th class="text-center">Cantidad</th>
+                          <th>Categoria</th>
                           <th>Disponibilidad</th>
                           <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Estado</th>
@@ -114,8 +115,14 @@ END");
                             <td><?php echo $fila["titulo"]; ?></td>
                             <td><?php echo $fila["autor"]; ?></td>
                             <td><?php echo $fila["ISBN"]; ?></td>
-                            <td><?php echo $fila["categoria"]; ?></td>
                             <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
+                            <td> <button
+                                onclick="verCategorias(
+                                      <?php echo $fila['id'] ?> ,
+                                      '<?php echo $fila['titulo'] ?>'
+                                     )" class="btn btn-info">
+                                <i class="fa-solid fa-eye"></i>
+                              </button></td>
                             <td> <span class="<?php echo $claseDisponibilidad ?> px-3 py-2"><?php echo $fila["disponibilidad"]; ?></span></td>
 
                             <?php if ($tipoUsuario === "Administrador") { ?>

@@ -13,7 +13,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
   unMesDespues.setMonth(unMesDespues.getMonth() + 1);
   fechaMaxima = unMesDespues.toISOString().split("T")[0];
   Swal.fire({
-    title: '<span class="text-success fw-bold">Crear reserva</span>',
+    title: '<span class="text-success fw-bold fs-1">Crear reserva</span>',
     html: `
       <input type="text" id="busquedaProducto" class="swal2-input" placeholder="Buscar libro..." onkeyup="buscarProducto(this.value)">
         <div class= "mb-2">
@@ -26,10 +26,10 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaProductos">
         <thead>
           <tr> 
-            <th>📙 Título</th>
-            <th>✒️ Autor</th>
-            <th>📚 Categoría</th>
-            <th>⛔ Acción</th>
+            <th><i class="fa-solid fa-book text-primary"></i> Título</th>
+            <th><i class="fa-solid fa-circle-user text-success"></i> Autor</th>
+            <th><i class="fa-solid fa-book-open text-warning"></i> Categoría</th>
+            <th> <i class ="fa-solid fa-square-xmark text-danger"></i> Acción</th>
           </tr>
         </thead>
         <tbody id="t-body"></tbody>
@@ -47,9 +47,9 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
     preConfirm: async () => {
       try {
         // Fecha de asistencia
-         const fechaAsistencia =
-           document.querySelector("#fechaAsistencia").value;
-           console.log(fechaAsistencia);
+        const fechaAsistencia =
+          document.querySelector("#fechaAsistencia").value;
+        console.log(fechaAsistencia);
         // Recolectar los libros seleccionados
         const productos = [];
         document.querySelectorAll("#tablaProductos tbody tr").forEach((row) => {
@@ -91,7 +91,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
           body: new URLSearchParams({
             libros: JSON.stringify(productos),
             IDcliente: IDcliente,
-            fechaAsistencia: fechaAsistencia
+            fechaAsistencia: fechaAsistencia,
           }),
         });
 
@@ -148,9 +148,9 @@ function buscarProducto(texto) {
         html += `
             <li class = "list-group-item list-group-item-action"
               onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}', '${libro.categoria}')">
-                <strong> 📙 Titulo:  </strong>${libro.titulo} 
-              - <strong> ✒️ Autor:  </strong> ${libro.autor} 
-              - <strong> 📚 Categoria:  </strong> ${libro.categoria}
+                <strong> <i class="fa-solid fa-book text-primary"></i> Titulo:  </strong>${libro.titulo} 
+              - <strong> <i class="fa-solid fa-circle-user text-success"></i> Autor:  </strong> ${libro.autor} 
+              - <strong> <i class="fa-solid fa-book-open text-warning"></i> Categoria:  </strong> ${libro.categoria}
             </li>
         `;
       });

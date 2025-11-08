@@ -30,12 +30,6 @@ btnCrear.addEventListener("click", () => {
         <input class="form-control text-center" type="text" id="isbn" name="isbn" />
       </div>
 
-      <div class="mb-3">
-        <label for="categoria" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" />
-      </div>
-
-      
           <div class="mb-3">
             <label for="disponibilidad" class="form-label fw-bold">Disponibilidad:</label>
             <select class="form-control text-center" name="disponibilidad" id="disponibilidad">
@@ -48,6 +42,23 @@ btnCrear.addEventListener("click", () => {
         <label for="cantidad" class="form-label">Cantidad:</label>
         <input class="form-control text-center" type="number" id="cantidad" name="cantidad" />
       </div>
+
+      <div class="mb-3">
+       <label for="cantidad" class="form-label">Categoria:</label>
+         <input type="text" id="busquedaCategoria" class="form-control" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
+        
+      <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+      <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaCategoria">
+        <thead>
+          <tr> 
+            <th><i class="fa-solid fa-book-open-reader text-primary"></i> Categoría</th>
+            <th><i class="fa-solid fa-square-xmark text-danger"></i> Acción</th>
+          </tr>
+        </thead>
+        <tbody id="t-body"></tbody>
+      </table>
+      </div>
+
     </div>
   </div>
 </form>
@@ -61,8 +72,35 @@ btnCrear.addEventListener("click", () => {
       cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
+      // Recolectar las categorias seleccionadas
+      const categorias = [];
+      const titulo = document.querySelector("#titulo").value;
+      const autor = document.querySelector("#autor").value;
+      const isbn = document.querySelector("#isbn").value;
+      const cantidad = document.querySelector("#cantidad").value;
+
+      document.querySelectorAll("#tablaCategoria tbody tr").forEach((row) => {
+        const IDCategoria = parseInt(row.dataset.id);
+        if (IDCategoria > 0) {
+          categorias.push(IDCategoria);
+        }
+      });
+
+      if(titulo.length === 0 || autor.length === 0 || isbn.length === 0 || cantidad.length === 0){
+        Swal.showValidationMessage("Todos los campos son obligatorios");
+        return false;
+      }
+
+      if (categorias.length === 0) {
+        Swal.showValidationMessage(
+          "Agregue al menos una categoria para completar la reserva"
+        );
+        return false;
+      }
+
       const form = document.getElementById("frmCrearLibro");
       const formData = new FormData(form);
+      formData.append("categorias", JSON.stringify(categorias));
       return $.ajax({
         url: "../../controllers/agregar_libro.php",
         type: "POST",
@@ -88,6 +126,133 @@ btnCrear.addEventListener("click", () => {
     }
   });
 });
+
+function buscarCategoria(texto) {
+  if (texto.length < 2) {
+    document.getElementById("sugerencias").innerHTML = "";
+    return;
+  }
+
+  let tablaBody = document.querySelector("#t-body");
+
+  $.ajax({
+    url: "../../controllers/buscar_categoria.php",
+    type: "POST",
+    data: { query: texto },
+    success: function (response) {
+      const categorias = JSON.parse(response);
+
+      let html = `<ul class="list-group">`;
+
+      if (categorias.length === 0) {
+        html += `
+            <li class = "list-group-item text-muted text-center">
+               No se encontraron resultados
+            </li>
+        `;
+      }
+
+      categorias.forEach((categoria) => {
+        html += `
+            <li class = "list-group-item list-group-item-action text-center"
+              onclick = "agregarCategoria('${categoria.id}','${categoria.nombre_categoria}')">
+                <strong> <i class="fa-solid fa-book-open-reader"></i> Nombre:  </strong>${categoria.nombre_categoria} 
+            </li>
+        `;
+      });
+
+      html += "</ul>";
+      document.getElementById("sugerencias").innerHTML = html;
+    },
+  });
+}
+
+// Agregar producto a la tabla
+function agregarCategoria(id, nombreCategoria) {
+  const tabla = document.querySelector("#tablaCategoria tbody");
+
+  if ([...tabla.querySelectorAll("tr")].some((row) => row.dataset.id === id))
+    return;
+
+  const fila = document.createElement("tr");
+  fila.dataset.id = id;
+
+  fila.innerHTML = `
+    <td> ${nombreCategoria} </td>
+    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove();">Quitar</button></td>
+  `;
+
+  tabla.appendChild(fila);
+  document.getElementById("sugerencias").innerHTML = "";
+  document.getElementById("busquedaCategoria").value = "";
+}
+
+//  CATEGORIAS de libros
+async function verCategorias(
+  IDlibro, titulo
+) {
+ 
+  const formData = new FormData();
+  formData.append("IDlibro", IDlibro);
+
+  cargandoAlerta("Cargando detalle...");
+
+  const response = await fetch("../../controllers/detalle_categorias.php", {
+    method: "POST",
+    body: formData,
+  });
+
+  const resultado = await response.json();
+  
+
+  if (resultado.success) {
+
+    let tabla = `
+                    <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
+                        <thead>
+                            <tr class="text-center">
+                                <th>Categoria</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                `;
+
+    resultado.detalle.forEach((item) => {
+      tabla += `
+                        <tr class="p-5">
+                            <td class="text-center">${item.nombre_categoria}</td>
+                        </tr>
+                    `;
+    });
+
+    tabla += `
+                </tbody>
+                </table>
+                `;
+
+    tabla += `
+        <button id="btn-cancelar" class="btn btn-primary mx-1 mt-2 mt-sm-0 fw-bold">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Volver al listado
+        </button>
+      </div>
+      `;
+
+    Swal.fire({
+      title: `Categorias del libro: <span class='fw-bold'>${titulo}</span>`,
+      html: tabla,
+      icon: "info",
+      showConfirmButton: false,
+      didOpen: () => {
+        const popup = Swal.getPopup();
+        popup
+          .querySelector("#btn-cancelar")
+          .addEventListener("click", () => Swal.close("cancelar"));
+      },
+    });
+  }
+}
+
+
 //EDITAR LIBRO
 function editarLibro(IDlibro) {
   // Acceder a datos del usuario a editar con AJAX
@@ -221,7 +386,6 @@ function eliminarLibro(idLibro, estado, libro) {
           Swal.showLoading(); // loading dentro del MISMO Swal
         },
       }).then((respuesta) => {
-        
         return respuesta;
       });
     },
@@ -234,12 +398,8 @@ function eliminarLibro(idLibro, estado, libro) {
       ).then(() => {
         location.reload();
       });
-    }else{
-      Swal.fire(
-        "Ocurrio un error...",
-        resultado.value.message,
-        "error"
-      )
+    } else {
+      Swal.fire("Ocurrio un error...", resultado.value.message, "error");
     }
   });
 }
