@@ -77,7 +77,6 @@ btnCrear.addEventListener("click", () => {
       const titulo = document.querySelector("#titulo").value;
       const autor = document.querySelector("#autor").value;
       const isbn = document.querySelector("#isbn").value;
-      const cantidad = document.querySelector("#cantidad").value;
 
       document.querySelectorAll("#tablaCategoria tbody tr").forEach((row) => {
         const IDCategoria = parseInt(row.dataset.id);
@@ -89,8 +88,7 @@ btnCrear.addEventListener("click", () => {
       if (
         titulo.length === 0 ||
         autor.length === 0 ||
-        isbn.length === 0 ||
-        cantidad.length === 0
+        isbn.length === 0
       ) {
         Swal.showValidationMessage("Todos los campos son obligatorios");
         return false;
@@ -98,7 +96,7 @@ btnCrear.addEventListener("click", () => {
 
       if (categorias.length === 0) {
         Swal.showValidationMessage(
-          "Agregue al menos una categoria para completar la reserva"
+          "Agregue al menos una categoria"
         );
         return false;
       }
@@ -261,21 +259,35 @@ function editarLibro(IDlibro) {
     data: { IDlibro: IDlibro },
     dataType: "json",
     success: function (data) {
-      const todasCategorias = data.categorias
-      const seleccionadas = data.categoriasSelect.map(
-        (seleccionada) => seleccionada.id
-      );
-      const opcionesSelect = todasCategorias
-        .map(
-          (opcion) => `<option value="${opcion.id}" ${
-            seleccionadas.includes(opcion.id) ? "selected" : ""
-          }>
-            ${opcion.nombre_categoria}
-          </option>`
-        )
-        .join("");
+      // Crear la tabla
+      const tabla = document.createElement("table");
+      tabla.className = "table table-striped table-bordered mt-3";
+      tabla.style.width = "100%";
+      tabla.id = "tablaCategoria";
+      tabla.innerHTML = `
+        <thead>
+          <tr> 
+            <th><i class="fa-solid fa-book-open-reader text-primary"></i> Categoría</th>
+            <th><i class="fa-solid fa-square-xmark text-danger"></i> Acción</th>
+          </tr>
+        </thead>
+        <tbody id="t-body"></tbody>
+      `;
 
-      console.log(opcionesSelect);
+      // Agregar filas
+      const tbody = tabla.querySelector("#t-body");
+      data.categoriasSeleccionadas.forEach((cat) => {
+        const fila = document.createElement("tr");
+        fila.dataset.id = cat.id;
+
+        fila.innerHTML = `
+    <td> ${cat.nombre_categoria} </td>
+    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove();">Quitar</button></td>
+  `;
+
+        tbody.appendChild(fila);
+      });
+
       Swal.fire({
         title: '<span class="text-primary fw-bold"> Editar Libro </span>',
         title: '<span class="text-primary fw-bold">Editar Libro</span>',
@@ -311,20 +323,17 @@ function editarLibro(IDlibro) {
         <label for="cantidad" class="form-label">Cantidad:</label>
         <input class="form-control text-center" type="number" id="cantidad" name="cantidad" value="${data.datosLibro.cantidad}"/>
       </div>
-       <div class="mb-3">
-              <label for="categorias" class="form-label">Categorías</label>
-              <select class="form-select text-center" id="categorias" name="categorias[]" multiple>
-                ${opcionesSelect}
-              </select>
-              <small class="text-muted">Mantén presionado CTRL (o CMD) para seleccionar varias.</small>
-            </div>
-       <input
-            class="form-control"
-            type="hidden"
-            id="IDlibro"
-            name="IDlibro"
-            value="${data.id}"
-          />
+      <div class="mb-3">
+       <label for="cantidad" class="form-label">Categoria:</label>
+         <input type="text" id="busquedaCategoria" class="form-control" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
+        
+      <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+      </div>
+
+      <div id="contenedor-tabla"> </div>
+
+      <input type="hidden" value="${IDlibro}" name="IDlibro" id="IDlibro">
+
     </div>
   </div>
 </form>
@@ -336,11 +345,45 @@ function editarLibro(IDlibro) {
           confirmButton: "btn btn-success fw-bold",
           cancelButton: "btn btn-danger fw-bold",
         },
+        didOpen: () => {
+          document.getElementById("contenedor-tabla").appendChild(tabla);
+        },
         // Antes de finalizar la accion, realize esta cuestion
         preConfirm: () => {
+          // Recolectar las categorias seleccionadas
+          const categorias = [];
+          const titulo = document.querySelector("#titulo").value;
+          const autor = document.querySelector("#autor").value;
+          const isbn = document.querySelector("#isbn").value;
+
+          document
+            .querySelectorAll("#tablaCategoria tbody tr")
+            .forEach((row) => {
+              const IDCategoria = parseInt(row.dataset.id);
+              if (IDCategoria > 0) {
+                categorias.push(IDCategoria);
+              }
+            });
+
+          if (
+            titulo.length === 0 ||
+            autor.length === 0 ||
+            isbn.length === 0
+          ) {
+            Swal.showValidationMessage("Todos los campos son obligatorios");
+            return false;
+          }
+
+          if (categorias.length === 0) {
+            Swal.showValidationMessage(
+              "Agregue al menos una categoria"
+            );
+            return false;
+          }
           // Acceder a los datos ingresados en el formulario
           const formulario = document.getElementById("frmEditarLibro");
           const formData = new FormData(formulario);
+          formData.append("categorias", JSON.stringify(categorias))
           // Esperar un retorno de respuesta en JSON por via AJAX
           return $.ajax({
             url: "../../controllers/editar_libro.php",

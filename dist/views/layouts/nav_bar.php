@@ -9,6 +9,9 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
 $sql = $mysql->efectuarConsulta("SELECT nombre, apellido, email,tipo FROM usuario WHERE id='$IDusuario'");
 $usuario = mysqli_fetch_assoc($sql);
 
+// Asignacion de zona horaria para la hora de la pagina
+date_default_timezone_set('America/Bogota');
+
 ?>
 
 
@@ -56,7 +59,7 @@ $usuario = mysqli_fetch_assoc($sql);
                                     alt="User Image" />
                                 <p>
                                     <?php echo $usuario["nombre"] . " " . $usuario["apellido"]  ?>
-                                    <small class="fw-bold"><?php echo $usuario["tipo"]?></small>
+                                    <small class="fw-bold"><?php echo $usuario["tipo"] ?></small>
                                 </p>
                             </li>
                             <!--end::User Image-->

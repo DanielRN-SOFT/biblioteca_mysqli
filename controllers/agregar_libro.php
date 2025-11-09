@@ -15,10 +15,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mysql = new MySQL();
         $mysql->conectar();
         //sanitizacion de los datos
-        $titulo = filter_var($_POST["titulo"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $autor = filter_var($_POST["autor"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $isbn = filter_var($_POST["isbn"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $disponibilidad = filter_var($_POST["disponibilidad"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $titulo = filter_var(trim($_POST["titulo"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $autor = filter_var(trim($_POST["autor"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $isbn = filter_var(trim($_POST["isbn"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $disponibilidad = filter_var(trim($_POST["disponibilidad"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
         // Capturar el arreglo de categorias
         $categorias = json_decode($_POST["categorias"], true);
@@ -49,28 +49,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$disponibilidad', '$cantidad','Activo',NOW())");
-        $consultaID = $mysql->efectuarConsulta("SELECT id FROM libro WHERE ISBN = '$isbn'");
-        $ultimoID = $consultaID->fetch_assoc()["id"];
 
-        if(!$agregarLibro){
+        if (!$agregarLibro) {
             $errores = "Error en el insert del LIBRO";
         }
 
-        foreach($categorias as $IDcategoria){
+        // Obtener el ID del libro insertado
+        $consultaID = $mysql->efectuarConsulta("SELECT id FROM libro WHERE ISBN = '$isbn'");
+        $ultimoID = $consultaID->fetch_assoc()["id"];
+
+        // Recorrer el ID para insertar cada categoria seleccionada
+        foreach ($categorias as $IDcategoria) {
             $insertCategoria = $mysql->efectuarConsulta("INSERT INTO categoria_has_libro
             (categoria_id, libro_id) VALUES($IDcategoria, $ultimoID)");
 
-            if(!$insertCategoria){
+            if (!$insertCategoria) {
                 $errores = "Error en el insert de la categoria: " . $IDcategoria;
             }
         }
 
-        if(count($errores) == 0){
+        if (count($errores) == 0) {
             echo json_encode([
                 "success" => true,
                 "message" => "Libro agregado exitosamente"
             ]);
-        }else{
+        } else {
             echo json_encode([
                 "success" => false,
                 "message" => "Error al agregar el libro"
@@ -78,8 +81,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         $mysql->desconectar();
-    }else{
-        if(!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)){
+    } else {
+        if (!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)) {
             echo json_encode([
                 "success" => false,
                 "message" => "Ingrese un valor valido en la cantidad"
