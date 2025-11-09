@@ -8,7 +8,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
         isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
         isset($_POST["categoria"]) && !empty($_POST["categoria"]) &&
-        isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
         isset($_POST["cantidad"]) && is_numeric($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
@@ -20,7 +19,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $autor = filter_var($_POST["autor"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $isbn = filter_var($_POST["isbn"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $categoria = filter_var($_POST["categoria"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $disponibilidad = filter_var($_POST["disponibilidad"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
 
         //validar el ISBN
@@ -40,15 +38,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             exit();
         }
-        if ($cantidad < 0) {
+        if ($cantidad > 0) {
+            $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$categoria', 'Disponible', '$cantidad','Activo',NOW())");
+        }elseif ($cantidad <= 0) {
             echo json_encode([
                 "success" => false,
                 "message" => "La cantidad debe tener numeros positivos"
             ]);
             exit();
         }
-
-        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$categoria', '$disponibilidad', '$cantidad','Activo',NOW())");
         if ($agregarLibro) {
             echo json_encode([
                 "success" => true,
@@ -61,8 +59,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
         }
         $mysql->desconectar();
-    }else{
-        if(!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)){
+    } else {
+        if (!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)) {
             echo json_encode([
                 "success" => false,
                 "message" => "Ingrese un valor valido en la cantidad"

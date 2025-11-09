@@ -6,46 +6,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
         isset($_POST["categoria"]) && !empty($_POST["categoria"]) &&
-        isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
-        isset($_POST["cantidad"]) && !empty($_POST["cantidad"])
+        isset($_POST["cantidad"]) && $_POST["cantidad"] !== "" && is_numeric($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
         require_once '../controllers/validar_isbn.php';
-        $id=$_POST["IDlibro"];
+        $id = $_POST["IDlibro"];
         $mysql = new MySQL();
         $mysql->conectar();
+        $disponibilidad = isset($_POST["disponibilidad"]) ? $_POST["disponibilidad"] : "";
         //sanitizacion de los datos
         $titulo = filter_var($_POST["titulo"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $autor = filter_var($_POST["autor"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $categoria = filter_var($_POST["categoria"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $disponibilidad = filter_var($_POST["disponibilidad"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $disponibilidad = filter_var($disponibilidad, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
 
-       
-       if ($cantidad < 0) {
+
+        if ($cantidad < 0) {
             echo json_encode([
                 "success" => false,
                 "message" => "La cantidad debe tener numeros positivos"
             ]);
             exit();
         }
+        // Si la cantidad es 0 → disponibilidad automática a "No Disponible"
+        if ($cantidad === 0) {
+            $disponibilidad = "No Disponible";
+        }
 
-        $update = $mysql->efectuarConsulta("UPDATE libro SET titulo = '$titulo', autor = '$autor',categoria = '$categoria', disponibilidad = '$disponibilidad',cantidad = '$cantidad' WHERE id = $id");
+        $update = $mysql->efectuarConsulta("UPDATE libro SET titulo = '$titulo',autor = '$autor',categoria = '$categoria',disponibilidad = '$disponibilidad',cantidad = '$cantidad' WHERE id = $id");
 
         if ($update) {
-            echo json_encode([
-                "success" => true,
-                "message" => "Libro Editado exitosamente"
-            ]);
+            if ($cantidad === 0) {
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Libro editado exitosamente y marcado como No Disponible"
+                ]);
+            } else {
+                echo json_encode([
+                    "success" => true,
+                    "message" => "Libro editado exitosamente"
+                ]);
+            }
         } else {
             echo json_encode([
                 "success" => false,
                 "message" => "Error al editar el libro"
             ]);
         }
+
         $mysql->desconectar();
-    }else{
-        if (!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)) {
+    } else {
+        if (filter_var($_POST["cantidad"], FILTER_VALIDATE_INT) === false) {
             echo json_encode([
                 "success" => false,
                 "message" => "Ingrese un valor valido en la cantidad"
