@@ -95,11 +95,12 @@ END");
                           <th>Autor</th>
                           <th>ISBN</th>
                           <th class="text-center">Cantidad</th>
-                          <th>Categoria</th>
+
                           <th>Disponibilidad</th>
                           <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Estado</th>
                             <th>Fecha de creacion</th>
+                            <th>Categoria</th>
                             <th>Acciones</th>
                           <?php } ?>
                         </tr>
@@ -116,18 +117,19 @@ END");
                             <td><?php echo $fila["autor"]; ?></td>
                             <td><?php echo $fila["ISBN"]; ?></td>
                             <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
-                            <td> <button
-                                onclick="verCategorias(
-                                      <?php echo $fila['id'] ?> ,
-                                      '<?php echo $fila['titulo'] ?>'
-                                     )" class="btn btn-info">
-                                <i class="fa-solid fa-eye"></i>
-                              </button></td>
+
                             <td> <span class="<?php echo $claseDisponibilidad ?> px-3 py-2"><?php echo $fila["disponibilidad"]; ?></span></td>
 
                             <?php if ($tipoUsuario === "Administrador") { ?>
-                              <td><span class="<?php echo $claseEstado ?> px-3 py-2"><?php echo $fila["estado"]; ?></span></td>
+                              <td><span class="<?php echo $claseEstado ?> px-2 py-2"><?php echo $fila["estado"]; ?></span></td>
                               <td><?php echo $fila["fecha_creacion"]; ?></td>
+                              <td> <button
+                                  onclick="verCategorias(
+                                      <?php echo $fila['id'] ?> ,
+                                      '<?php echo $fila['titulo'] ?>'
+                                     )" class="btn btn-info">
+                                  <i class="fa-solid fa-eye"></i>
+                                </button></td>
                               <td>
                                 <div class="btn-group" role="group">
                                   <button class="btn btn-primary" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>

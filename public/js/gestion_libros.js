@@ -86,7 +86,12 @@ btnCrear.addEventListener("click", () => {
         }
       });
 
-      if(titulo.length === 0 || autor.length === 0 || isbn.length === 0 || cantidad.length === 0){
+      if (
+        titulo.length === 0 ||
+        autor.length === 0 ||
+        isbn.length === 0 ||
+        cantidad.length === 0
+      ) {
         Swal.showValidationMessage("Todos los campos son obligatorios");
         return false;
       }
@@ -188,10 +193,7 @@ function agregarCategoria(id, nombreCategoria) {
 }
 
 //  CATEGORIAS de libros
-async function verCategorias(
-  IDlibro, titulo
-) {
- 
+async function verCategorias(IDlibro, titulo) {
   const formData = new FormData();
   formData.append("IDlibro", IDlibro);
 
@@ -203,12 +205,10 @@ async function verCategorias(
   });
 
   const resultado = await response.json();
-  
 
   if (resultado.success) {
-
     let tabla = `
-                    <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
+                    <table class="table table-sm table-striped table-bordered" style="width:100%;text-align:left;">
                         <thead>
                             <tr class="text-center">
                                 <th>Categoria</th>
@@ -238,7 +238,7 @@ async function verCategorias(
       `;
 
     Swal.fire({
-      title: `Categorias del libro: <span class='fw-bold'>${titulo}</span>`,
+      title: `<h5 class="mb-0 fw-bold">Libro: </h5><span class='fw-bold'>${titulo}</span>`,
       html: tabla,
       icon: "info",
       showConfirmButton: false,
@@ -252,7 +252,6 @@ async function verCategorias(
   }
 }
 
-
 //EDITAR LIBRO
 function editarLibro(IDlibro) {
   // Acceder a datos del usuario a editar con AJAX
@@ -262,6 +261,21 @@ function editarLibro(IDlibro) {
     data: { IDlibro: IDlibro },
     dataType: "json",
     success: function (data) {
+      const todasCategorias = data.categorias
+      const seleccionadas = data.categoriasSelect.map(
+        (seleccionada) => seleccionada.id
+      );
+      const opcionesSelect = todasCategorias
+        .map(
+          (opcion) => `<option value="${opcion.id}" ${
+            seleccionadas.includes(opcion.id) ? "selected" : ""
+          }>
+            ${opcion.nombre_categoria}
+          </option>`
+        )
+        .join("");
+
+      console.log(opcionesSelect);
       Swal.fire({
         title: '<span class="text-primary fw-bold"> Editar Libro </span>',
         title: '<span class="text-primary fw-bold">Editar Libro</span>',
@@ -271,23 +285,19 @@ function editarLibro(IDlibro) {
     <div class="col-sm-12">
       <div class="mb-3">
         <label for="titulo" class="form-label">Titulo:</label>
-        <input class="form-control text-center" type="text" id="titulo" name="titulo" value="${data.titulo}" />
+        <input class="form-control text-center" type="text" id="titulo" name="titulo" value="${data.datosLibro.titulo}" />
       </div>
 
       <div class="mb-3">
         <label for="autor" class="form-label">Autor:</label>
-        <input class="form-control text-center" type="text" id="autor" name="autor" value="${data.autor}"/>
+        <input class="form-control text-center" type="text" id="autor" name="autor" value="${data.datosLibro.autor}"/>
       </div>
 
       <div class="mb-3">
         <label for="isbn" class="form-label">ISBN:</label>
-        <input class="form-control text-center" type="text" id="isbn" name="isbn" disabled value="${data.ISBN}"/>
+        <input class="form-control text-center" type="text" id="isbn" name="isbn" disabled value="${data.datosLibro.ISBN}"/>
       </div>
 
-      <div class="mb-3">
-        <label for="categoria" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" value="${data.categoria}"/>
-      </div>
 
       <div class="mb-3">
             <label for="password" class="form-label fw-bold">Disponibilidad</label>
@@ -299,8 +309,15 @@ function editarLibro(IDlibro) {
 
       <div class="mb-3">
         <label for="cantidad" class="form-label">Cantidad:</label>
-        <input class="form-control text-center" type="number" id="cantidad" name="cantidad" value="${data.cantidad}"/>
+        <input class="form-control text-center" type="number" id="cantidad" name="cantidad" value="${data.datosLibro.cantidad}"/>
       </div>
+       <div class="mb-3">
+              <label for="categorias" class="form-label">Categorías</label>
+              <select class="form-select text-center" id="categorias" name="categorias[]" multiple>
+                ${opcionesSelect}
+              </select>
+              <small class="text-muted">Mantén presionado CTRL (o CMD) para seleccionar varias.</small>
+            </div>
        <input
             class="form-control"
             type="hidden"
