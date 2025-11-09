@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $estado = "Pendiente";
 
         // Insertar la reserva
-        $insertReserva = $mysql->efectuarConsulta("INSERT INTO reserva(id_usuario, fecha_reserva, fecha_asistencia, estado) VALUES($id, now(), CONCAT('$fechaAsistencia', ' ', CURTIME()), '$estado')");
+        $insertReserva = $mysql->efectuarConsulta("INSERT INTO reserva(id_usuario, fecha_reserva, fecha_asistencia, estado) VALUES($id, NOW(), '$fechaAsistencia', '$estado')");
 
 
         if (!$insertReserva) {

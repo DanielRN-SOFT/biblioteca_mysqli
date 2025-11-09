@@ -45,13 +45,13 @@ if ($tipoUsuario == "Cliente") {
 FROM prestamo
 JOIN reserva ON prestamo.id_reserva = reserva.id
 WHERE reserva.id_usuario = $IDusuario
-ORDER BY prestamo.fecha_prestamo DESC;
+ORDER BY prestamo.fecha_devolucion DESC;
 ");
 }
 // Ejecución de la consulta si es administrador
 if ($tipoUsuario == "Administrador") {
   $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo 
-  ORDER BY prestamo.fecha_prestamo DESC;");
+  ORDER BY prestamo.fecha_devolucion DESC;");
 }
 
 // Asignacion de zona horaria para la hora del documento

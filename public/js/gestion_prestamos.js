@@ -53,32 +53,47 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
                 `;
 
     if (tipoUsuarioBD == "Administrador") {
-      if (estadoBD == "Prestado" || estadoBD == "Vencido") {
+      if (estadoBD == "Prestado") {
         tabla += `<div class = "mt-4">`;
 
         tabla += `
-                <button class="btn btn-primary btn-actualizar-prestamo fw-bold" 
+                <button class="btn btn-primary btn-actualizar-prestamo fw-bold mx-1" 
                 onclick="registrarDevolucion(
                                   ${IDprestamo},
                                   ${IDreserva},
-                                  '${estadoBD}' )">
+                                  '${estadoBD}',
+                                  'Devolucion')">
                                     <i class="fa-solid fa-rotate-left"></i>
                                     Registrar devolucion
                 </button>
-              
-          `;
-      }
 
-      if (estadoBD == "Devuelto") {
-        tabla += `
-                  <button class="btn btn-warning btn-actualizar-prestamo fw-bold" onclick="registrarRenovacion(
+                 <button class="btn btn-warning btn-actualizar-prestamo fw-bold mx-1" onclick="registrarRenovacion(
                                 ${IDprestamo} , 
                                 ${IDreserva},
-                                '${estadoBD}')">
+                                '${estadoBD}',
+                                'Extension')">
                                     <i class="fa-solid fa-handshake"></i>
                                     Extender prestamo
                   </button>
+
+               
+              
           `;
+      } 
+      
+      if (estadoBD == "Vencido") {
+        tabla += `
+           <button class="btn btn-primary btn-actualizar-prestamo fw-bold mx-1" 
+                onclick="registrarDevolucion(
+                                  ${IDprestamo},
+                                  ${IDreserva},
+                                  '${estadoBD}',
+                                  'Devolucion')">
+                                    <i class="fa-solid fa-rotate-left"></i>
+                                    Registrar devolucion
+                </button>
+
+        `;
       }
     }
 
@@ -107,12 +122,13 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
 }
 
 // Registrar devolucion
-async function registrarDevolucion(IDprestamo, IDreserva, estado) {
+async function registrarDevolucion(IDprestamo, IDreserva, estado, opcion) {
   cargandoAlerta("Registrando devolucion...");
   const formData = new FormData();
   formData.append("IDprestamo", IDprestamo);
   formData.append("IDreserva", IDreserva);
   formData.append("estado", estado);
+  formData.append("opcion", opcion);
 
   cargandoAlerta("Registrando devolucion...");
   const request = await fetch("../../controllers/actualizarPrestamo.php", {
@@ -144,7 +160,7 @@ async function registrarDevolucion(IDprestamo, IDreserva, estado) {
 }
 
 // Reanudar prestamo
-function registrarRenovacion(IDprestamo, IDreserva, estado) {
+function registrarRenovacion(IDprestamo, IDreserva, estado, opcion) {
   const hoy = new Date().toISOString().split("T")[0];
   Swal.fire({
     title: "<span class='fw-bold'>Renovacion de prestamo</span>",
@@ -170,7 +186,6 @@ function registrarRenovacion(IDprestamo, IDreserva, estado) {
     },
     width: 700,
     preConfirm: async () => {
-      
       const fechaDevolucion = document.querySelector("#fechaDevolucion").value;
       cargandoAlerta("Extendiendo prestamo...");
       const formData = new FormData();
@@ -178,6 +193,7 @@ function registrarRenovacion(IDprestamo, IDreserva, estado) {
       formData.append("IDreserva", IDreserva);
       formData.append("estado", estado);
       formData.append("fechaDevolucion", fechaDevolucion);
+      formData.append("opcion", opcion);
       const request = await fetch("../../controllers/actualizarPrestamo.php", {
         method: "POST",
         body: formData,
