@@ -35,7 +35,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
         <tbody id="t-body"></tbody>
       </table>
     `,
-    width: 900,
+    width: 1000,
     showCancelButton: true,
     confirmButtonText: "Guardar reserva",
     cancelButtonText: "Cancelar",
@@ -126,31 +126,54 @@ function buscarProducto(texto) {
   }
 
   let tablaBody = document.querySelector("#t-body");
+  let arregloCategoriasGeneral = [];
+  let arregloCategoriasDefinidas = [];
 
   $.ajax({
     url: "../../controllers/buscar_libros_reserva.php",
     type: "POST",
     data: { query: texto },
     success: function (response) {
-      const libros = JSON.parse(response);
+      const busqueda = JSON.parse(response);
 
       let html = `<ul class="list-group">`;
 
-      if(libros.length === 0){
-          html += `
+      if (busqueda.libros.length === 0) {
+        html += `
             <li class = "list-group-item text-muted text-center">
                No se encontraron resultados
             </li>
         `;
       }
 
-      libros.forEach((libro) => {
+      busqueda.libros.forEach((libro) => {
+        busqueda.categorias.forEach((cat) => {
+          // Definir si coincide el ID del libro con el de la categoria
+          if (libro.id == cat.libro_id) {
+            categoriasHasLibro = {
+              id: libro.id,
+              nombreCategoria: cat.nombre_categoria,
+            };
+
+            arregloCategoriasGeneral.push(categoriasHasLibro);
+          }
+        });
+
+        arregloCategoriasGeneral.forEach((cat) => {
+          if (libro.id == cat.id) {
+            arregloCategoriasDefinidas.push(cat.nombreCategoria);
+          }
+        });
+
+        let categoriasString = arregloCategoriasDefinidas.join("-");
+        arregloCategoriasDefinidas = [];
+
         html += `
             <li class = "list-group-item list-group-item-action"
-              onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}', '${libro.categoria}')">
+              onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}' , '${categoriasString}')">
                 <strong> <i class="fa-solid fa-book text-primary"></i> Titulo:  </strong>${libro.titulo} 
               - <strong> <i class="fa-solid fa-circle-user text-success"></i> Autor:  </strong> ${libro.autor} 
-              - <strong> <i class="fa-solid fa-book-open text-warning"></i> Categoria:  </strong> ${libro.categoria}
+              - <strong> <i class="fa-solid fa-book-open text-warning"></i> Categoria:  </strong> ${categoriasString}
             </li>
         `;
       });
@@ -307,6 +330,8 @@ async function verDetalle(
 
   const resultado = await response.json();
 
+  let arregloCategorias = [];
+
   if (resultado.success) {
     let tabla = `<h4 class="mt-1 mb-3"> Propietario: <span class="fw-bold"> ${nombre} ${apellido} </span> </h4>`;
     tabla += `
@@ -323,12 +348,21 @@ async function verDetalle(
                 `;
 
     resultado.detalle.forEach((item) => {
+      resultado.categorias.forEach((cat) => {
+        if (item.id == cat.libro_id) {
+          arregloCategorias.push(cat.nombre_categoria);
+        }
+      });
+
+      let categoriasString = arregloCategorias.join("-");
+      arregloCategorias = [];
+
       tabla += `
                         <tr class="p-5">
                             <td>${item.titulo}</td>
                             <td>${item.autor}</td>
                             <td>${item.ISBN}</td>
-                            <td>${item.categoria}</td>
+                            <td>${categoriasString}</td>
                         </tr>
                     `;
     });

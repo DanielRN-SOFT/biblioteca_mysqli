@@ -20,11 +20,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Consulta para determinar si esta asociado a una reserva
             $consultaReservas = $mysql->efectuarConsulta("SELECT 1 FROM reserva WHERE reserva.id_usuario = $id AND
-        reserva.estado != 'Cancelada'");
+        reserva.estado = 'Pendiente'");
             if (mysqli_num_rows($consultaReservas)) {
                 echo json_encode([
                     "success" => false,
-                    "message" => "No es posible eliminar este usuario ya que tiene reservas asociadas a su nombre"
+                    "message" => "No es posible eliminar este usuario ya que tiene reservas pendientes asociadas a su nombre"
                 ]);
                 exit();
             }

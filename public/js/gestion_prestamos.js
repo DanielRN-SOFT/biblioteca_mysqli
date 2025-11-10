@@ -20,6 +20,8 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
 
   const resultado = await response.json();
 
+  let arregloCategorias = [];
+
   if (resultado.success) {
     let tabla = `
                     <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
@@ -36,16 +38,25 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
                 `;
 
     resultado.detalle.forEach((item) => {
+      resultado.categorias.forEach(cat => {
+        if(item.id == cat.libro_id){
+          arregloCategorias.push(cat.nombre_categoria);
+        }
+      })
+      
+      let categoriasString = arregloCategorias.join("-")
+      arregloCategorias = [];
       tabla += `
                         <tr class="p-5">
                         <td>${item.id_reserva} </td>
                             <td>${item.titulo}</td>
                             <td>${item.autor}</td>
                             <td>${item.ISBN}</td>
-                            <td>${item.categoria}</td>
+                            <td>${categoriasString}</td>
                         </tr>
                     `;
     });
+    
 
     tabla += `
                 </tbody>
