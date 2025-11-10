@@ -7,40 +7,18 @@ function cargandoAlerta(mensaje) {
   });
 }
 
-// Agregar Libro
-let btnCrear = document.querySelector("#crearLibro");
+// Agregar categoria
+let btnCrear = document.querySelector("#crearCategoria");
 btnCrear.addEventListener("click", () => {
   Swal.fire({
-    title: '<span class="text-success fw-bold">Agregar Libro</span>',
-    html: `<form action="" method="post" id="frmCrearLibro">
+    title: '<span class="text-success fw-bold">Agregar Categoria</span>',
+    html: `<form action="" method="post" id="frmCrearCategoria">
   <div class="row">
     <div class="col-sm-12">
       <div class="mb-3">
-        <label for="titulo" class="form-label">Titulo:</label>
-        <input class="form-control text-center" type="text" id="titulo" name="titulo" />
+        <label for="titulo" class="form-label">Categoria:</label>
+        <input class="form-control text-center" type="text" id="categoria" name="categoria"/>
       </div>
-
-      <div class="mb-3">
-        <label for="autor" class="form-label">Autor:</label>
-        <input class="form-control text-center" type="text" id="autor" name="autor" />
-      </div>
-
-      <div class="mb-3">
-        <label for="isbn" class="form-label">ISBN:</label>
-        <input class="form-control text-center" type="text" id="isbn" name="isbn" />
-      </div>
-
-      <div class="mb-3">
-        <label for="categoria" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" />
-      </div>
-
-      <div class="mb-3">
-        <label for="cantidad" class="form-label">Cantidad:</label>
-        <input class="form-control text-center" type="number" id="cantidad" name="cantidad" />
-      </div>
-    </div>
-  </div>
 </form>
 
         `,
@@ -52,10 +30,11 @@ btnCrear.addEventListener("click", () => {
       cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
-      const form = document.getElementById("frmCrearLibro");
+      const form = document.getElementById("frmCrearCategoria");
       const formData = new FormData(form);
+      cargandoAlerta("Agregando Registro...");
       return $.ajax({
-        url: "../../controllers/agregar_libro.php",
+        url: "../../controllers/agregarCategoria.php",
         type: "POST",
         data: formData,
         processData: false,
@@ -79,51 +58,33 @@ btnCrear.addEventListener("click", () => {
     }
   });
 });
-//EDITAR LIBRO
-function editarLibro(IDlibro) {
+//EDITAR CATEGORIA
+function editarCategoria(IDcategoria) {
   // Acceder a datos del usuario a editar con AJAX
   $.ajax({
     url: "../../controllers/datos_editar.php",
     type: "POST",
-    data: { IDlibro: IDlibro },
+    data: { IDcategoria: IDcategoria },
     dataType: "json",
     success: function (data) {
       Swal.fire({
-        title: '<span class="text-primary fw-bold"> Editar Libro </span>',
-        title: '<span class="text-primary fw-bold">Editar Libro</span>',
+        title: '<span class="text-primary fw-bold"> Editar Categoria </span>',
+        title: '<span class="text-primary fw-bold">Editar Categoria</span>',
         html: `
-         <form action="" method="post" id="frmEditarLibro">
+         <form action="" method="post" id="frmEditarCategoria">
   <div class="row">
     <div class="col-sm-12">
       <div class="mb-3">
         <label for="titulo" class="form-label">Titulo:</label>
-        <input class="form-control text-center" type="text" id="titulo" name="titulo" value="${data.titulo}" />
-      </div>
-
-      <div class="mb-3">
-        <label for="autor" class="form-label">Autor:</label>
-        <input class="form-control text-center" type="text" id="autor" name="autor" value="${data.autor}"/>
-      </div>
-
-      <div class="mb-3">
-        <label for="isbn" class="form-label">ISBN:</label>
-        <input class="form-control text-center" type="text" id="isbn" name="isbn" disabled value="${data.ISBN}"/>
-      </div>
-
-      <div class="mb-3">
-        <label for="categoria" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" value="${data.categoria}"/>
-      </div>
-
-      <div class="mb-3">
-        <label for="cantidad" class="form-label">Cantidad:</label>
-        <input class="form-control text-center" type="number" id="cantidad" name="cantidad" value="${data.cantidad}"/>
+        <input class="form-control text-center" type="text" id="categoria" name="categoria" value="${
+          data.nombre_categoria
+        }" />
       </div>
        <input
             class="form-control"
             type="hidden"
-            id="IDlibro"
-            name="IDlibro"
+            id="IDcategoria"
+            name="IDcategoria"
             value="${data.id}"
           />
     </div>
@@ -140,11 +101,12 @@ function editarLibro(IDlibro) {
         // Antes de finalizar la accion, realize esta cuestion
         preConfirm: () => {
           // Acceder a los datos ingresados en el formulario
-          const formulario = document.getElementById("frmEditarLibro");
+          const formulario = document.getElementById("frmEditarCategoria");
           const formData = new FormData(formulario);
           // Esperar un retorno de respuesta en JSON por via AJAX
+          cargandoAlerta("Editando Registro...");
           return $.ajax({
-            url: "../../controllers/editar_libro.php",
+            url: "../../controllers/editarCategoria.php",
             type: "POST",
             data: formData,
             processData: false,
@@ -177,27 +139,27 @@ function editarLibro(IDlibro) {
     },
   });
 }
-// ELIMINAR LIBRO
-function eliminarLibro(idLibro, estado, libro) {
+// ELIMINAR CATEGORIA
+function eliminarCategoria(idCategoria, estado, categoria) {
   Swal.fire({
-    title: '<span class = "text-danger fw-bold"> Eliminar Libro </span>',
+    title: '<span class = "text-danger fw-bold"> Eliminar Categoria </span>',
     html: `¿Esta seguro de realizar esta accion?
-    <br> Titulo: <strong> ${libro} </strong>`,
+    <br> Categoria: <strong> ${categoria} </strong>`,
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "Si, eliminar libro",
+    confirmButtonText: "Si, eliminar categoria",
     cancelButtonText: "Cancelar",
     customClass: {
       confirmButton: "btn btn-success fw-bold",
       cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
-      cargandoAlerta("Eliminando Registro...");
+        cargandoAlerta("Eliminando Registro...");
       return $.ajax({
-        url: "../../controllers/eliminar_reintegrar_libro.php",
+        url: "../../controllers/eliminar_reintegrar_categoria.php",
         type: "POST",
         data: {
-          id: idLibro,
+          id: idCategoria,
           estado: estado,
         },
         dataType: "json",
@@ -205,7 +167,6 @@ function eliminarLibro(idLibro, estado, libro) {
           Swal.showLoading(); // loading dentro del MISMO Swal
         },
       }).then((respuesta) => {
-        
         return respuesta;
       });
     },
@@ -218,24 +179,20 @@ function eliminarLibro(idLibro, estado, libro) {
       ).then(() => {
         location.reload();
       });
-    }else{
-      Swal.fire(
-        "Ocurrio un error...",
-        resultado.value.message,
-        "error"
-      )
+    } else {
+      Swal.fire("Ocurrio un error...", resultado.value.message, "error");
     }
   });
 }
-// Reintegrar LIBRO
-function reintegrarLibro(idLibro, estado) {
+// Reintegrar Categoria
+function reintegrarCategoria(idCategoria, estado) {
   console.log(estado);
   Swal.fire({
-    title: "<span class='text-success fw-bold'> Reintegrar Libro </span>",
-    html: "¿Esta seguro de reintegrar este Libro?",
+    title: "<span class='text-success fw-bold'> Reintegrar Categoria </span>",
+    html: "¿Esta seguro de reintegrar esta categoria?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "Si, reintegrar libro",
+    confirmButtonText: "Si, reintegrar categoria",
     cancelButtonText: "Cancelar",
     customClass: {
       confirmButton: "btn btn-success",
@@ -244,10 +201,10 @@ function reintegrarLibro(idLibro, estado) {
     preConfirm: () => {
       cargandoAlerta("Reintegrando Registro...");
       return $.ajax({
-        url: "../../controllers/eliminar_reintegrar_libro.php",
+        url: "../../controllers/eliminar_reintegrar_categoria.php",
         type: "POST",
         data: {
-          id: idLibro,
+          id: idCategoria,
           estado: estado,
         },
         dataType: "json",

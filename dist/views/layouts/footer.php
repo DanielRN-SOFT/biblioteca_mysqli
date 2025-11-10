@@ -79,6 +79,13 @@ if ($archivoActual == "inventario.php") {
     <!-- JS externo  -->
     <script src="../../public/js/gestion_libros.js"></script>
 <?php } ?>
+<?php
+// Incluir el script especifico en caso de que el archivo sea libros 
+if ($archivoActual == "categorias.php") {
+?>
+    <!-- JS externo  -->
+    <script src="../../public/js/gestion_categorias.js"></script>
+<?php } ?>
 
 <?php
 // Incluir el script especifico en caso de que el archivo sea reservas 

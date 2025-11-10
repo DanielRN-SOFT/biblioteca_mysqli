@@ -42,3 +42,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         seleccionarDatosEditar($id, "libro");
     }
 }
+// Determinar si se envio el formulario por POST en LIBRO
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (isset($_POST["IDcategoria"]) && !empty($_POST["IDcategoria"])) {
+        $id = $_POST["IDcategoria"];
+
+        seleccionarDatosEditar($id, "categoria");
+    }
+}
