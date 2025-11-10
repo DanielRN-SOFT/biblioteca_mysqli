@@ -25,15 +25,16 @@ async function verDetalle(IDprestamo, IDreserva, estadoBD, tipoUsuarioBD) {
   if (resultado.success) {
     let tabla = `
                     <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
-                        <thead>
-                            <tr>
-                            <th> Reserva </th>
-                                <th>Libro</th>
-                                <th>Autor</th>
-                                <th>ISBN</th>
-                                <th>Categoria</th>
-                            </tr>
-                        </thead>
+                         <thead>
+                          <tr> 
+                          <th> <i class="fa-solid fa-calendar-days"></i> Reserva </th>
+                          <th><i class="fa-solid fa-book text-primary"></i> Título</th>
+                          <th><i class="fa-solid fa-circle-user text-success"></i> Autor</th>
+                          <th><i class="fa-solid fa-book-open text-warning"></i> Categoría</th>
+                          <th> <i class ="fa-solid fa-square-xmark text-danger"></i> Acción</th>
+                        </tr>
+                      </thead>
+
                         <tbody>
                 `;
 

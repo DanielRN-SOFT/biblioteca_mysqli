@@ -35,6 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
 
+        
+
         // Eliminar las categorias de los libros
         $deleteCategorias = $mysql->efectuarConsulta("DELETE FROM categoria_has_libro WHERE libro_id = $id");
 

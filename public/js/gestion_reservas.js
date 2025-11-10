@@ -336,14 +336,16 @@ async function verDetalle(
     let tabla = `<h4 class="mt-1 mb-3"> Propietario: <span class="fw-bold"> ${nombre} ${apellido} </span> </h4>`;
     tabla += `
                     <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
-                        <thead>
-                            <tr>
-                                <th>Libro</th>
-                                <th>Autor</th>
-                                <th>ISBN</th>
-                                <th>Categoria</th>
-                            </tr>
-                        </thead>
+                      <thead>
+                          <tr> 
+                          <th><i class="fa-solid fa-book text-primary"></i> Título</th>
+                          <th><i class="fa-solid fa-circle-user text-success"></i> Autor</th>
+                          <th><i class="fa-solid fa-book-open text-warning"></i> Categoría</th>
+                          <th> <i class ="fa-solid fa-square-xmark text-danger"></i> Acción</th>
+                        </tr>
+                      </thead>
+
+                        
                         <tbody>
                 `;
 

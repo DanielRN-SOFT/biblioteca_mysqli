@@ -77,6 +77,7 @@ btnCrear.addEventListener("click", () => {
       const titulo = document.querySelector("#titulo").value;
       const autor = document.querySelector("#autor").value;
       const isbn = document.querySelector("#isbn").value;
+      const cantidad = document.querySelector("#cantidad").value;
 
       document.querySelectorAll("#tablaCategoria tbody tr").forEach((row) => {
         const IDCategoria = parseInt(row.dataset.id);
@@ -88,16 +89,25 @@ btnCrear.addEventListener("click", () => {
       if (
         titulo.length === 0 ||
         autor.length === 0 ||
-        isbn.length === 0
+        isbn.length === 0 ||
+        cantidad.length === 0
       ) {
         Swal.showValidationMessage("Todos los campos son obligatorios");
         return false;
       }
 
+      if (isNaN(cantidad)) {
+        Swal.showValidationMessage("Ingrese un valor valido en la cantidad");
+        return false;
+      }
+
+      if (cantidad < 0) {
+        Swal.showValidationMessage("Ingrese un valor positivo en la cantidad");
+        return false;
+      }
+
       if (categorias.length === 0) {
-        Swal.showValidationMessage(
-          "Agregue al menos una categoria"
-        );
+        Swal.showValidationMessage("Agregue al menos una categoria");
         return false;
       }
 
@@ -188,66 +198,6 @@ function agregarCategoria(id, nombreCategoria) {
   tabla.appendChild(fila);
   document.getElementById("sugerencias").innerHTML = "";
   document.getElementById("busquedaCategoria").value = "";
-}
-
-//  CATEGORIAS de libros
-async function verCategorias(IDlibro, titulo) {
-  const formData = new FormData();
-  formData.append("IDlibro", IDlibro);
-
-  cargandoAlerta("Cargando detalle...");
-
-  const response = await fetch("../../controllers/detalle_categorias.php", {
-    method: "POST",
-    body: formData,
-  });
-
-  const resultado = await response.json();
-
-  if (resultado.success) {
-    let tabla = `
-                    <table class="table table-sm table-striped table-bordered" style="width:100%;text-align:left;">
-                        <thead>
-                            <tr class="text-center">
-                                <th>Categoria</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                `;
-
-    resultado.detalle.forEach((item) => {
-      tabla += `
-                        <tr class="p-5">
-                            <td class="text-center">${item.nombre_categoria}</td>
-                        </tr>
-                    `;
-    });
-
-    tabla += `
-                </tbody>
-                </table>
-                `;
-
-    tabla += `
-        <button id="btn-cancelar" class="btn btn-primary mx-1 mt-2 mt-sm-0 fw-bold">
-        <i class="fa-solid fa-arrow-right-from-bracket"></i> Volver al listado
-        </button>
-      </div>
-      `;
-
-    Swal.fire({
-      title: `<h5 class="mb-0 fw-bold">Libro: </h5><span class='fw-bold'>${titulo}</span>`,
-      html: tabla,
-      icon: "info",
-      showConfirmButton: false,
-      didOpen: () => {
-        const popup = Swal.getPopup();
-        popup
-          .querySelector("#btn-cancelar")
-          .addEventListener("click", () => Swal.close("cancelar"));
-      },
-    });
-  }
 }
 
 //EDITAR LIBRO
@@ -365,25 +315,19 @@ function editarLibro(IDlibro) {
               }
             });
 
-          if (
-            titulo.length === 0 ||
-            autor.length === 0 ||
-            isbn.length === 0
-          ) {
+          if (titulo.length === 0 || autor.length === 0 || isbn.length === 0) {
             Swal.showValidationMessage("Todos los campos son obligatorios");
             return false;
           }
 
           if (categorias.length === 0) {
-            Swal.showValidationMessage(
-              "Agregue al menos una categoria"
-            );
+            Swal.showValidationMessage("Agregue al menos una categoria");
             return false;
           }
           // Acceder a los datos ingresados en el formulario
           const formulario = document.getElementById("frmEditarLibro");
           const formData = new FormData(formulario);
-          formData.append("categorias", JSON.stringify(categorias))
+          formData.append("categorias", JSON.stringify(categorias));
           // Esperar un retorno de respuesta en JSON por via AJAX
           return $.ajax({
             url: "../../controllers/editar_libro.php",

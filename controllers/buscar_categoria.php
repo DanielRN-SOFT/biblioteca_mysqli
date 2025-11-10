@@ -8,7 +8,7 @@ $mysql->conectar();
 // Capturar lo ingresado por el usuario
 $query = $_POST["query"];
 // Consulta para seleccionar todos los libros
-$consulta = $mysql->efectuarConsulta("SELECT id, nombre_categoria, descripcion FROM categoria WHERE nombre_categoria LIKE '%$query%' LIMIT 10");
+$consulta = $mysql->efectuarConsulta("SELECT id, nombre_categoria FROM categoria WHERE nombre_categoria LIKE '%$query%' LIMIT 10");
 
 // Arreglo con todos los resultados de la consulta
 $categorias = [];

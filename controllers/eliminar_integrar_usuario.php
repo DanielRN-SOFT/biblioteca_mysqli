@@ -29,6 +29,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 exit();
             }
 
+            // Consulta para determinar si esta asociado a una prestamo activo
+            $consultaPrestamos = $mysql->efectuarConsulta("SELECT 1 FROM reserva JOIN prestamo ON reserva.id = prestamo.id_reserva WHERE reserva.id_usuario = $id AND
+        prestamo.estado = 'Prestado'");
+            if (mysqli_num_rows($consultaPrestamos)) {
+                echo json_encode([
+                    "success" => false,
+                    "message" => "No es posible eliminar este usuario ya que tiene prestamos activos asociados a su nombre"
+                ]);
+                exit();
+            }
+
 
             $nuevoEstado = "Inactivo";
             $mensaje = "Usuario eliminado exitosamente";
