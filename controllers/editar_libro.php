@@ -8,14 +8,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
-        isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
-        isset($_POST["cantidad"]) && !empty($_POST["cantidad"])
+        isset($_POST["cantidad"]) && $_POST["cantidad"] !== "" && is_numeric($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
         require_once '../controllers/validar_isbn.php';
         $id = $_POST["IDlibro"];
+        $id = $_POST["IDlibro"];
         $mysql = new MySQL();
         $mysql->conectar();
+        $disponibilidad = isset($_POST["disponibilidad"]) ? $_POST["disponibilidad"] : "";
         //sanitizacion de los datos
         $titulo = filter_var(trim($_POST["titulo"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $autor = filter_var(trim($_POST["autor"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -33,6 +34,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "La cantidad debe tener numeros positivos"
             ]);
             exit();
+        }
+        // Si la cantidad es 0 → disponibilidad automática a "No Disponible"
+        if ($cantidad === 0) {
+            $disponibilidad = "No Disponible";
         }
 
         
@@ -66,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "Error al editar el libro"
             ]);
         }
+
         $mysql->desconectar();
     } else {
         if (!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)) {
@@ -81,3 +87,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         ]);
     }
 }
+

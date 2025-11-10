@@ -30,13 +30,10 @@ btnCrear.addEventListener("click", () => {
         <input class="form-control text-center" type="text" id="isbn" name="isbn" />
       </div>
 
-          <div class="mb-3">
-            <label for="disponibilidad" class="form-label fw-bold">Disponibilidad:</label>
-            <select class="form-control text-center" name="disponibilidad" id="disponibilidad">
-              <option value="Disponible">Disponible</option>
-              <option value="No Disponible">No Disponible</option>
-            </select>
-          </div>
+      <div class="mb-3">
+        <label for="categoria" class="form-label">Categoria:</label>
+        <input class="form-control text-center" type="text" id="categoria" name="categoria" />
+      </div>
 
       <div class="mb-3">
         <label for="cantidad" class="form-label">Cantidad:</label>
@@ -260,14 +257,10 @@ function editarLibro(IDlibro) {
         <input class="form-control text-center" type="text" id="isbn" name="isbn" disabled value="${data.datosLibro.ISBN}"/>
       </div>
 
-
       <div class="mb-3">
-            <label for="password" class="form-label fw-bold">Disponibilidad</label>
-            <select class="form-control text-center" name="disponibilidad" id="disponibilidad">
-              <option value="Disponible">Disponible</option>
-              <option value="No Disponible">No Disponible</option>
-            </select>
-          </div>
+        <label for="categoria" class="form-label">Categoria:</label>
+        <input class="form-control text-center" type="text" id="categoria" name="categoria" value="${data.categoria}"/>
+      </div>
 
       <div class="mb-3">
         <label for="cantidad" class="form-label">Cantidad:</label>

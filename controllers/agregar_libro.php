@@ -40,7 +40,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             exit();
         }
-        if ($cantidad < 0) {
+        if ($cantidad > 0) {
+            $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$categoria', 'Disponible', '$cantidad','Activo',NOW())");
+        }elseif ($cantidad <= 0) {
             echo json_encode([
                 "success" => false,
                 "message" => "La cantidad debe tener numeros positivos"
