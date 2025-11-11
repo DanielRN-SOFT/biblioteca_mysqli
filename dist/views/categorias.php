@@ -49,7 +49,7 @@ $categorias = $mysql->efectuarConsulta("SELECT * FROM categoria")
             <div class="row my-2">
                 <?php if ($tipoUsuario == "Administrador") { ?>
                     <div class="col-sm-12">
-                        <button class="btn btn-success fw-bold w-100" id="crearCategoria">Crear nueva categoria</button>
+                        <button class="btn btn-success fw-bold w-100" id="crearCategoria"> <i class="fa-solid fa-plus"></i>Crear nueva categoria</button>
                     </div>
                 <?php } ?>
             </div>
@@ -91,7 +91,7 @@ $categorias = $mysql->efectuarConsulta("SELECT * FROM categoria")
                                                             $estado = "text-bg-success";
                                                         } else if ($fila["estado"] == "Inactivo") {
                                                             $estado = "text-bg-danger";
-                                                        }?>
+                                                        } ?>
                                                         <td class="">
                                                             <span class="badge rounded-pill px-3 py-2 <?php echo $estado ?>">
                                                                 <?php echo $fila["estado"] ?>
