@@ -143,10 +143,10 @@ if ($tipoUsuario == "Administrador") {
                                                             <button
                                                                 onclick="verDetalle(
                                                                 <?php echo $fila['id'] ?> ,
-                                                                '<?php echo $fila['nombre'] ?>' ,
-                                                                '<?php echo $fila['apellido'] ?>',
-                                                                '<?php echo $tipoUsuario ?>' ,
-                                                                '<?php echo $fila['estado'] ?>' ,
+                                                                '<?php echo htmlspecialchars($fila['nombre']) ?>' ,
+                                                                '<?php echo htmlspecialchars($fila['apellido']) ?>',
+                                                                '<?php echo htmlspecialchars($tipoUsuario) ?>' ,
+                                                                '<?php echo htmlspecialchars($fila['estado']) ?>' ,
                                                                 <?php echo $fila['id_usuario'] ?>)" class="btn btn-info">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </button>

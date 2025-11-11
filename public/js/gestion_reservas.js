@@ -125,9 +125,6 @@ function buscarProducto(texto) {
     return;
   }
 
-  let tablaBody = document.querySelector("#t-body");
-  let arregloCategoriasGeneral = [];
-  let arregloCategoriasDefinidas = [];
 
   $.ajax({
     url: "../../controllers/buscar_libros_reserva.php",
@@ -135,54 +132,51 @@ function buscarProducto(texto) {
     data: { query: texto },
     success: function (response) {
       const busqueda = JSON.parse(response);
+      const sugerencias = document.querySelector("#sugerencias");
+      sugerencias.innerHTML = ""; // Limpia las sugerencias anteriores
 
-      let html = `<ul class="list-group">`;
+      const listGroup = document.createElement("ul");
+      listGroup.classList.add("list-group");
 
       if (busqueda.libros.length === 0) {
-        html += `
-            <li class = "list-group-item text-muted text-center">
-               No se encontraron resultados
-            </li>
-        `;
+        const sinResultados = document.createElement("li");
+        sinResultados.classList.add(
+          "list-group-item",
+          "text-muted",
+          "text-center"
+        );
+        sinResultados.id = "sinResultados";
+        sinResultados.innerText = "No se encontraron resultados";
+        listGroup.appendChild(sinResultados);
+      } else {
+        busqueda.libros.forEach((libro) => {
+
+          const categoriasString = busqueda.categorias
+            .filter((cat) => cat.libro_id == libro.id)
+            .map((cat) => cat.nombre_categoria)
+            .join(" - ");
+
+          const li = document.createElement("li");
+          li.classList.add("list-group-item", "list-group-item-action");
+          li.innerHTML = `
+            <strong><i class="fa-solid fa-book text-primary"></i> Título:</strong> ${libro.titulo}
+            - <strong><i class="fa-solid fa-circle-user text-success"></i> Autor:</strong> ${libro.autor}
+            - <strong><i class="fa-solid fa-book-open text-warning"></i> Categoría:</strong> ${categoriasString}
+          `;
+
+          li.addEventListener("click", () => {
+            agregarLibro(libro.id, libro.titulo, libro.autor, categoriasString);
+          });
+
+          listGroup.appendChild(li);
+        });
       }
 
-      busqueda.libros.forEach((libro) => {
-        busqueda.categorias.forEach((cat) => {
-          // Definir si coincide el ID del libro con el de la categoria
-          if (libro.id == cat.libro_id) {
-            categoriasHasLibro = {
-              id: libro.id,
-              nombreCategoria: cat.nombre_categoria,
-            };
-
-            arregloCategoriasGeneral.push(categoriasHasLibro);
-          }
-        });
-
-        arregloCategoriasGeneral.forEach((cat) => {
-          if (libro.id == cat.id) {
-            arregloCategoriasDefinidas.push(cat.nombreCategoria);
-          }
-        });
-
-        let categoriasString = arregloCategoriasDefinidas.join("-");
-        arregloCategoriasDefinidas = [];
-
-        html += `
-            <li class = "list-group-item list-group-item-action"
-              onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}' , '${categoriasString}')">
-                <strong> <i class="fa-solid fa-book text-primary"></i> Titulo:  </strong>${libro.titulo} 
-              - <strong> <i class="fa-solid fa-circle-user text-success"></i> Autor:  </strong> ${libro.autor} 
-              - <strong> <i class="fa-solid fa-book-open text-warning"></i> Categoria:  </strong> ${categoriasString}
-            </li>
-        `;
-      });
-
-      html += "</ul>";
-      document.getElementById("sugerencias").innerHTML = html;
+      sugerencias.appendChild(listGroup);
     },
   });
 }
+
 
 // Agregar producto a la tabla
 function agregarLibro(id, titulo, autor, categoria) {

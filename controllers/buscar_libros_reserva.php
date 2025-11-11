@@ -6,7 +6,7 @@ $mysql = new MySQL();
 $mysql->conectar();
 
 // Capturar lo ingresado por el usuario
-$query = $_POST["query"];
+$query = filter_var($_POST["query"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 // Consulta para seleccionar todos los libros
 $consulta = $mysql->efectuarConsulta("SELECT id, titulo, autor FROM libro WHERE disponibilidad = 'Disponible' AND titulo LIKE '%$query%' AND estado = 'Activo' OR disponibilidad = 'Disponible' AND autor LIKE '%$query%' AND estado = 'Activo' LIMIT 10");
 

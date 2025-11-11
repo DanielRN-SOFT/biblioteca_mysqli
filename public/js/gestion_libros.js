@@ -43,7 +43,7 @@ btnCrear.addEventListener("click", () => {
        <label for="cantidad" class="form-label">Categoria:</label>
          <input type="text" id="busquedaCategoria" class="form-control text-center" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
         
-      <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+      <div id="sugerenciasCategorias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaCategoria">
         <thead>
           <tr> 
@@ -159,7 +159,7 @@ function buscarLibro(texto) {
 
 function buscarCategoria(texto) {
   if (texto.length < 2) {
-    document.getElementById("sugerencias").innerHTML = "";
+    document.getElementById("sugerenciasCategorias").innerHTML = "";
     return;
   }
 
@@ -172,27 +172,42 @@ function buscarCategoria(texto) {
     success: function (response) {
       const categorias = JSON.parse(response);
 
-      let html = `<ul class="list-group">`;
+      const sugerencias = document.querySelector("#sugerenciasCategorias");
+      sugerencias.innerHTML = "";
+      const listGroup = document.createElement("ul");
+      listGroup.classList.add("list-group");
 
       if (categorias.length === 0) {
-        html += `
-            <li class = "list-group-item text-muted text-center">
-               No se encontraron resultados
-            </li>
+        let sinResultados = document.createElement("li");
+        sinResultados.classList.add(
+          "list-group-item",
+          "text-muted",
+          "text-center"
+        );
+        sinResultados.setAttribute("id", "sinResultados");
+        sinResultados.innerText = "No se encontraron resultados";
+        listGroup.appendChild(sinResultados);
+      } else {
+        categorias.forEach((categoria) => {
+          let liCategorias = document.createElement("li");
+          liCategorias.classList.add(
+            "list-group-item",
+            "list-group-item-action",
+            "text-center"
+          );
+          liCategorias.innerHTML = `
+          <strong> <i class="fa-solid fa-book-open-reader"></i> Nombre:  </strong>${categoria.nombre_categoria} 
         `;
+
+          liCategorias.addEventListener("click", () => {
+            agregarCategoria(categoria.id, categoria.nombre_categoria);
+          });
+
+          listGroup.appendChild(liCategorias);
+        });
       }
 
-      categorias.forEach((categoria) => {
-        html += `
-            <li class = "list-group-item list-group-item-action text-center"
-              onclick = "agregarCategoria('${categoria.id}','${categoria.nombre_categoria}')">
-                <strong> <i class="fa-solid fa-book-open-reader"></i> Nombre:  </strong>${categoria.nombre_categoria} 
-            </li>
-        `;
-      });
-
-      html += "</ul>";
-      document.getElementById("sugerencias").innerHTML = html;
+      sugerencias.appendChild(listGroup);
     },
   });
 }
@@ -213,7 +228,7 @@ function agregarCategoria(id, nombreCategoria) {
   `;
 
   tabla.appendChild(fila);
-  document.getElementById("sugerencias").innerHTML = "";
+  document.getElementById("sugerenciasCategorias").innerHTML = "";
   document.getElementById("busquedaCategoria").value = "";
 }
 

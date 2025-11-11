@@ -55,7 +55,7 @@ require_once './layouts/aside_bar.php';
 
         <!-- Tarjeta principal -->
         <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
-            <div class="card-header bg-white border-0 py-4 px-4 d-flex align-items-center justify-content-between flex-wrap">
+            <div class="card-header bg-white border-0 py-3 px-4 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="d-flex align-items-center">
                     <div class="bg-danger bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-chart-line fs-5"></i>

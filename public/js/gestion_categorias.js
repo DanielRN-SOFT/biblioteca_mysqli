@@ -76,6 +76,7 @@ function buscarCategoria(texto) {
     success: function (response) {
       const categorias = JSON.parse(response);
 
+      
       let html = `<ul class="list-group">`;
 
       categorias.forEach((categoria) => {

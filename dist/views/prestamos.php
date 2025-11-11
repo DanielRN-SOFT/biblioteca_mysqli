@@ -45,13 +45,13 @@ if ($tipoUsuario == "Cliente") {
 FROM prestamo
 JOIN reserva ON prestamo.id_reserva = reserva.id
 WHERE reserva.id_usuario = $IDusuario
-ORDER BY prestamo.fecha_prestamo DESC;
+ORDER BY prestamo.id DESC;
 ");
 }
 // Ejecución de la consulta si es administrador
 if ($tipoUsuario == "Administrador") {
   $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo 
-  ORDER BY prestamo.fecha_prestamo DESC;");
+  ORDER BY id DESC;");
 }
 
 // Asignacion de zona horaria para la hora del documento
@@ -143,8 +143,8 @@ require_once './layouts/aside_bar.php';
                                 onclick="verDetalle(
                                       <?php echo $fila['id'] ?> ,
                                       <?php echo $fila['id_reserva'] ?> , 
-                                      '<?php echo $fila['estado'] ?>' ,
-                                      '<?php echo $tipoUsuario ?>'
+                                      '<?php echo htmlspecialchars($fila['estado']) ?>' ,
+                                      '<?php echo htmlspecialchars($tipoUsuario) ?>'
                                      )" class="btn btn-info">
                                 <i class="fa-solid fa-eye"></i>
                               </button>
