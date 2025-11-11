@@ -43,14 +43,14 @@ $categorias = $mysql->efectuarConsulta("SELECT * FROM categoria")
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-list"></i>Categorias</h3>
+                    <h3 class="mb-0 fw-bold"> <i class="fa-solid fa-list"></i> Categorias</h3>
                 </div>
             </div>
 
             <div class="row my-2">
                 <?php if ($tipoUsuario == "Administrador") { ?>
                     <div class="col-sm-12">
-                        <button class="btn btn-success fw-bold w-100" id="crearCategoria"> <i class="fa-solid fa-plus"></i>Crear nueva categoria</button>
+                        <button class="btn btn-success fw-bold w-100" id="crearCategoria"> <i class="fa-solid fa-plus"></i> Crear nueva categoria</button>
                     </div>
                 <?php } ?>
             </div>

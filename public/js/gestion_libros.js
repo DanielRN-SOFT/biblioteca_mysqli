@@ -17,8 +17,11 @@ btnCrear.addEventListener("click", () => {
     <div class="col-sm-12">
       <div class="mb-3">
         <label for="titulo" class="form-label">Titulo:</label>
-        <input class="form-control text-center" type="text" id="titulo" name="titulo" />
+        <input class="form-control text-center" type="text" id="titulo" name="titulo" 
+        onkeyup="buscarLibro(this.value)"/>
       </div>
+
+       <div id="sugerenciasLibro" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
 
       <div class="mb-3">
         <label for="autor" class="form-label">Autor:</label>
@@ -38,7 +41,7 @@ btnCrear.addEventListener("click", () => {
 
       <div class="mb-3">
        <label for="cantidad" class="form-label">Categoria:</label>
-         <input type="text" id="busquedaCategoria" class="form-control" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
+         <input type="text" id="busquedaCategoria" class="form-control text-center" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
         
       <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaCategoria">
@@ -79,22 +82,15 @@ btnCrear.addEventListener("click", () => {
         }
       });
 
-      if (
-        titulo.length === 0 ||
-        autor.length === 0 ||
-        isbn.length === 0
-      ) {
-       
+      if (titulo.length === 0 || autor.length === 0 || isbn.length === 0) {
         Swal.showValidationMessage("Todos los campos son obligatorios");
         return false;
       }
-
 
       if (cantidad.length === 0 || isNaN(cantidad)) {
         Swal.showValidationMessage("Ingrese un valor valido en la cantidad");
         return false;
       }
-
 
       if (categorias.length === 0) {
         Swal.showValidationMessage("Agregue al menos una categoria");
@@ -129,6 +125,37 @@ btnCrear.addEventListener("click", () => {
     }
   });
 });
+
+function buscarLibro(texto) {
+  if (texto.length < 3) {
+    document.getElementById("sugerenciasLibro").innerHTML = "";
+    return;
+  }
+
+  let tablaBody = document.querySelector("#t-body");
+
+  $.ajax({
+    url: "../../controllers/buscar_libros_reserva.php",
+    type: "POST",
+    data: { query: texto },
+    success: function (response) {
+      const busqueda = JSON.parse(response);
+
+      let html = `<ul class="list-group">`;
+
+      busqueda.libros.forEach((libro) => {
+        html += `
+            <li class = "list-group-item list-group-item-action mb-2 text-center">
+            <i class="fa-solid fa-book"></i> Libro existente: <strong> ${libro.titulo} </strong> 
+            </li>
+        `;
+      });
+
+      html += "</ul>";
+      document.getElementById("sugerenciasLibro").innerHTML = html;
+    },
+  });
+}
 
 function buscarCategoria(texto) {
   if (texto.length < 2) {

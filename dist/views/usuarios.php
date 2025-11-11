@@ -114,13 +114,12 @@ ORDER BY CASE WHEN usuario.estado = 'Activo' THEN 1
                                   onclick="editarUsuario(<?php echo $fila['id'] ?>)">
                                   <i class="fa-solid fa-pen-to-square"></i>
                                 </button>
-
                                 <?php if ($fila["estado"] == "Activo") { ?>
                                   <button class="btn btn-danger btn-eliminar-usuario"
                                     onclick="eliminarUsuario(<?php echo $fila['id'] ?> , 
                                 '<?php echo $fila['estado'] ?>',
-                                '<?php echo $fila['nombre'] ?>' ,
-                                '<?php echo $fila['apellido'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                '<?php echo htmlspecialchars($fila['nombre']) ?>' ,
+                                '<?php echo htmlspecialchars($fila['apellido']) ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
                                 <?php } else { ?>
                                   <button class="btn btn-success btn-reitegrar-usuario" onclick="reintegrarUsuario(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
                                 <?php } ?>
