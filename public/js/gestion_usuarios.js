@@ -276,11 +276,11 @@ function eliminarUsuario(IDusuario, estado, nombre, apellido) {
 function reintegrarUsuario(IDusuario, estado) {
   console.log(estado);
   Swal.fire({
-    title: "<span class='text-success fw-bold'> Reintegrar empleado </span>",
-    html: "¿Esta seguro de reintegrar este empleado?",
+    title: "<span class='text-success fw-bold'> Reintegrar usuario </span>",
+    html: "¿Esta seguro de reintegrar este usuario?",
     icon: "warning",
     showCancelButton: true,
-    confirmButtonText: "Si, reintegrar empleado",
+    confirmButtonText: "Si, reintegrar usuario",
     cancelButtonText: "Cancelar",
     customClass: {
       confirmButton: "btn btn-success",

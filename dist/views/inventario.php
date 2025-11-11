@@ -166,7 +166,7 @@ END");
                                   </button>
                                   <?php if ($fila["estado"] == "Activo") { ?>
                                     <button class="btn btn-danger btn-eliminar-libro"
-                                      onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>' , '<?php echo $fila['titulo'] ?>')"
+                                      onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>' , '<?php echo htmlspecialchars($fila['titulo']) ?>')"
                                       data-id="<?php echo $fila["id"] ?>">
                                       <i class="fa-solid fa-trash"></i>
                                     </button>
