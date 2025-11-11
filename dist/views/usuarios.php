@@ -59,7 +59,8 @@ ORDER BY CASE WHEN usuario.estado = 'Activo' THEN 1
 
       <div class="row mt-3 mb-2">
         <div class="col-sm-12">
-          <button class="btn btn-success fw-bold w-100" id="BtnCrearUsuario">Crear nuevo usuario</button>
+          <button class="btn btn-success fw-bold w-100 p-2" id="BtnCrearUsuario">
+            <i class="fa-solid fa-plus"></i> Crear nuevo usuario</button>
         </div>
       </div>
     </div>

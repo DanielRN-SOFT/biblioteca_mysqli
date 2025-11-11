@@ -3,16 +3,16 @@
 class MySQL
 {
 
-    /* // Datos de conexión
-     private $ipServidor = "bts4vahkrnelqbarqbkj-mysql.services.clever-cloud.com";
-     private $usuarioBase = "ueidhxxqptq4fxou";
-     private $contrasena = "UxxjUzE9KHlkkZBAupKi";
-     private $nombreBaseDatos = "bts4vahkrnelqbarqbkj"; */
+    // Datos de conexión
+    //  private $ipServidor = "bts4vahkrnelqbarqbkj-mysql.services.clever-cloud.com";
+    //  private $usuarioBase = "ueidhxxqptq4fxou";
+    //  private $contrasena = "UxxjUzE9KHlkkZBAupKi";
+    //  private $nombreBaseDatos = "bts4vahkrnelqbarqbkj";
 
-     private $ipServidor = "localhost";
-     private $usuarioBase = "root";
-     private $contrasena = "";
-     private $nombreBaseDatos = "biblioteca_prueba"; 
+    private $ipServidor = "localhost";
+    private $usuarioBase = "root";
+    private $contrasena = "";
+    private $nombreBaseDatos = "biblioteca_prueba"; 
  
     private $conexion;
 

@@ -62,7 +62,7 @@ btnCrear.addEventListener("click", () => {
 function editarCategoria(IDcategoria) {
   // Acceder a datos del usuario a editar con AJAX
   $.ajax({
-    url: "../../controllers/datos_editar.php",
+    url: "../../controllers/datosEditarCategorias.php",
     type: "POST",
     data: { IDcategoria: IDcategoria },
     dataType: "json",

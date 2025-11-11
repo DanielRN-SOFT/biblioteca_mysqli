@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
         isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
-        isset($_POST["categoria"]) && !empty($_POST["categoria"]) &&
+        isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
         isset($_POST["cantidad"]) && is_numeric($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
@@ -15,12 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mysql = new MySQL();
         $mysql->conectar();
         //sanitizacion de los datos
-        $titulo = filter_var($_POST["titulo"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $autor = filter_var($_POST["autor"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $isbn = filter_var($_POST["isbn"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $categoria = filter_var($_POST["categoria"], FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $titulo = filter_var(trim($_POST["titulo"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $autor = filter_var(trim($_POST["autor"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $isbn = filter_var(trim($_POST["isbn"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $disponibilidad = filter_var(trim($_POST["disponibilidad"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
-
+        // Capturar el arreglo de categorias
+        $categorias = json_decode($_POST["categorias"], true);
+        $errores = [];
         //validar el ISBN
         if (!validarISBN($isbn)) {
             echo json_encode([
@@ -47,7 +49,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             exit();
         }
-        if ($agregarLibro) {
+
+        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$disponibilidad', '$cantidad','Activo',NOW())");
+
+        if (!$agregarLibro) {
+            $errores = "Error en el insert del LIBRO";
+        }
+
+        // Obtener el ID del libro insertado
+        $consultaID = $mysql->efectuarConsulta("SELECT id FROM libro WHERE ISBN = '$isbn'");
+        $ultimoID = $consultaID->fetch_assoc()["id"];
+
+        // Recorrer el ID para insertar cada categoria seleccionada
+        foreach ($categorias as $IDcategoria) {
+            $insertCategoria = $mysql->efectuarConsulta("INSERT INTO categoria_has_libro
+            (categoria_id, libro_id) VALUES($IDcategoria, $ultimoID)");
+
+            if (!$insertCategoria) {
+                $errores = "Error en el insert de la categoria: " . $IDcategoria;
+            }
+        }
+
+        if (count($errores) == 0) {
             echo json_encode([
                 "success" => true,
                 "message" => "Libro agregado exitosamente"
@@ -58,15 +81,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 "message" => "Error al agregar el libro"
             ]);
         }
+
         $mysql->desconectar();
     } else {
-        if (!filter_var($_POST["cantidad"], FILTER_VALIDATE_INT)) {
-            echo json_encode([
-                "success" => false,
-                "message" => "Ingrese un valor valido en la cantidad"
-            ]);
-            exit();
-        }
         echo json_encode([
             "success" => false,
             "message" => "Todos los campos son obligatorios"

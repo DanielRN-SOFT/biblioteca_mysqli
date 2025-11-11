@@ -13,7 +13,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
   unMesDespues.setMonth(unMesDespues.getMonth() + 1);
   fechaMaxima = unMesDespues.toISOString().split("T")[0];
   Swal.fire({
-    title: '<span class="text-success fw-bold">Crear reserva</span>',
+    title: '<span class="text-success fw-bold fs-1">Crear reserva</span>',
     html: `
       <input type="text" id="busquedaProducto" class="swal2-input" placeholder="Buscar libro..." onkeyup="buscarProducto(this.value)">
         <div class= "mb-2">
@@ -26,16 +26,16 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
       <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaProductos">
         <thead>
           <tr> 
-            <th>📙 Título</th>
-            <th>✒️ Autor</th>
-            <th>📚 Categoría</th>
-            <th>⛔ Acción</th>
+            <th><i class="fa-solid fa-book text-primary"></i> Título</th>
+            <th><i class="fa-solid fa-circle-user text-success"></i> Autor</th>
+            <th><i class="fa-solid fa-book-open text-warning"></i> Categoría</th>
+            <th> <i class ="fa-solid fa-square-xmark text-danger"></i> Acción</th>
           </tr>
         </thead>
         <tbody id="t-body"></tbody>
       </table>
     `,
-    width: 900,
+    width: 1000,
     showCancelButton: true,
     confirmButtonText: "Guardar reserva",
     cancelButtonText: "Cancelar",
@@ -47,9 +47,9 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
     preConfirm: async () => {
       try {
         // Fecha de asistencia
-         const fechaAsistencia =
-           document.querySelector("#fechaAsistencia").value;
-           console.log(fechaAsistencia);
+        const fechaAsistencia =
+          document.querySelector("#fechaAsistencia").value;
+        console.log(fechaAsistencia);
         // Recolectar los libros seleccionados
         const productos = [];
         document.querySelectorAll("#tablaProductos tbody tr").forEach((row) => {
@@ -91,7 +91,7 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
           body: new URLSearchParams({
             libros: JSON.stringify(productos),
             IDcliente: IDcliente,
-            fechaAsistencia: fechaAsistencia
+            fechaAsistencia: fechaAsistencia,
           }),
         });
 
@@ -126,31 +126,54 @@ function buscarProducto(texto) {
   }
 
   let tablaBody = document.querySelector("#t-body");
+  let arregloCategoriasGeneral = [];
+  let arregloCategoriasDefinidas = [];
 
   $.ajax({
     url: "../../controllers/buscar_libros_reserva.php",
     type: "POST",
     data: { query: texto },
     success: function (response) {
-      const libros = JSON.parse(response);
+      const busqueda = JSON.parse(response);
 
       let html = `<ul class="list-group">`;
 
-      if(libros.length === 0){
-          html += `
+      if (busqueda.libros.length === 0) {
+        html += `
             <li class = "list-group-item text-muted text-center">
                No se encontraron resultados
             </li>
         `;
       }
 
-      libros.forEach((libro) => {
+      busqueda.libros.forEach((libro) => {
+        busqueda.categorias.forEach((cat) => {
+          // Definir si coincide el ID del libro con el de la categoria
+          if (libro.id == cat.libro_id) {
+            categoriasHasLibro = {
+              id: libro.id,
+              nombreCategoria: cat.nombre_categoria,
+            };
+
+            arregloCategoriasGeneral.push(categoriasHasLibro);
+          }
+        });
+
+        arregloCategoriasGeneral.forEach((cat) => {
+          if (libro.id == cat.id) {
+            arregloCategoriasDefinidas.push(cat.nombreCategoria);
+          }
+        });
+
+        let categoriasString = arregloCategoriasDefinidas.join("-");
+        arregloCategoriasDefinidas = [];
+
         html += `
             <li class = "list-group-item list-group-item-action"
-              onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}', '${libro.categoria}')">
-                <strong> 📙 Titulo:  </strong>${libro.titulo} 
-              - <strong> ✒️ Autor:  </strong> ${libro.autor} 
-              - <strong> 📚 Categoria:  </strong> ${libro.categoria}
+              onclick = "agregarLibro('${libro.id}','${libro.titulo}', '${libro.autor}' , '${categoriasString}')">
+                <strong> <i class="fa-solid fa-book text-primary"></i> Titulo:  </strong>${libro.titulo} 
+              - <strong> <i class="fa-solid fa-circle-user text-success"></i> Autor:  </strong> ${libro.autor} 
+              - <strong> <i class="fa-solid fa-book-open text-warning"></i> Categoria:  </strong> ${categoriasString}
             </li>
         `;
       });
@@ -307,28 +330,41 @@ async function verDetalle(
 
   const resultado = await response.json();
 
+  let arregloCategorias = [];
+
   if (resultado.success) {
     let tabla = `<h4 class="mt-1 mb-3"> Propietario: <span class="fw-bold"> ${nombre} ${apellido} </span> </h4>`;
     tabla += `
                     <table class="table table-striped table-bordered" style="width:100%;text-align:left;">
-                        <thead>
-                            <tr>
-                                <th>Libro</th>
-                                <th>Autor</th>
-                                <th>ISBN</th>
-                                <th>Categoria</th>
-                            </tr>
-                        </thead>
+                      <thead>
+                          <tr> 
+                          <th><i class="fa-solid fa-book text-primary"></i> Título</th>
+                          <th><i class="fa-solid fa-circle-user text-success"></i> Autor</th>
+                          <th><i class="fa-solid fa-book-open text-warning"></i> Categoría</th>
+                          <th> <i class ="fa-solid fa-square-xmark text-danger"></i> Acción</th>
+                        </tr>
+                      </thead>
+
+                        
                         <tbody>
                 `;
 
     resultado.detalle.forEach((item) => {
+      resultado.categorias.forEach((cat) => {
+        if (item.id == cat.libro_id) {
+          arregloCategorias.push(cat.nombre_categoria);
+        }
+      });
+
+      let categoriasString = arregloCategorias.join("-");
+      arregloCategorias = [];
+
       tabla += `
                         <tr class="p-5">
                             <td>${item.titulo}</td>
                             <td>${item.autor}</td>
                             <td>${item.ISBN}</td>
-                            <td>${item.categoria}</td>
+                            <td>${categoriasString}</td>
                         </tr>
                     `;
     });

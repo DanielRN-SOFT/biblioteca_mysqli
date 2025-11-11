@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }else{
                 echo json_encode([
                     "success" => false,
-                    "message" => "Usuario inactivo, por favor vuelva a intentarlo"
+                    "message" => "Usuario inactivo, por favor intente con otro usuario"
                 ]);
                 exit();
             }

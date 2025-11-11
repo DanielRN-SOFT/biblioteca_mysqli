@@ -51,6 +51,7 @@ END");
 }
 
 
+
 ?>
 <main class="app-main">
   <div class="app-content-header">
@@ -64,7 +65,8 @@ END");
       <div class="row my-2">
         <?php if ($tipoUsuario == "Administrador") { ?>
           <div class="col-sm-12">
-            <button class="btn btn-success fw-bold w-100" id="crearLibro">Crear nuevo libro</button>
+            <button class="btn btn-success fw-bold w-100 p-2 border border-0" id="crearLibro">
+              <i class="fa-solid fa-plus"></i> Crear nuevo libro</button>
           </div>
         <?php } ?>
       </div>
@@ -93,43 +95,89 @@ END");
                           <th>Titulo</th>
                           <th>Autor</th>
                           <th>ISBN</th>
-                          <th>Categoria</th>
                           <th class="text-center">Cantidad</th>
+
                           <th>Disponibilidad</th>
                           <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Estado</th>
                             <th>Fecha de creacion</th>
+                            <th>Categorias</th>
                             <th>Acciones</th>
                           <?php } ?>
                         </tr>
                       </thead>
                       <tbody>
                         <?php while ($fila = $libros->fetch_assoc()): ?>
-                          <?php $claseEstado = $fila["estado"] == "Activo" ? "badge  rounded-pill text-bg-success" : "badge  rounded-pill text-bg-danger"; ?>
+                          <?php
+                          // ====================================
+                          // Estilos para estado y disponibilidad
+                          // ====================================
+                          $claseEstado = $fila["estado"] == "Activo" ? "badge  rounded-pill text-bg-success" : "badge  rounded-pill text-bg-danger";
+                          $claseDisponibilidad = $fila["disponibilidad"] == "Disponible" ? "badge rounded-pill text-bg-success" : "badge rounded-pill text-bg-danger";
 
-                          <?php $claseDisponibilidad = $fila["disponibilidad"] == "Disponible" ? "badge rounded-pill text-bg-success" : "badge rounded-pill text-bg-danger"; ?>
+                          // =====================================
+                          // Categorias de los libros
+                          // =====================================
+                          $IDlibro = $fila["id"];
+                          $consultaCategorias = $mysql->efectuarConsulta("SELECT nombre_categoria FROM categoria_has_libro JOIN categoria ON categoria_has_libro.categoria_id = categoria.id  WHERE libro_id = $IDlibro");
 
+                          $categorias = [];
+                          while ($filaCategorias = $consultaCategorias->fetch_assoc()) {
+                            $categorias[] = $filaCategorias["nombre_categoria"];
+                          }
+
+                          $categoriasString = join(", ", $categorias);
+
+                          ?>
 
                           <tr>
-                            <td><?php echo $fila["titulo"]; ?></td>
-                            <td><?php echo $fila["autor"]; ?></td>
-                            <td><?php echo $fila["ISBN"]; ?></td>
-                            <td><?php echo $fila["categoria"]; ?></td>
-                            <td class="text-center"><?php echo $fila["cantidad"]; ?></td>
-                            <td> <span class="<?php echo $claseDisponibilidad ?> px-3 py-2"><?php echo $fila["disponibilidad"]; ?></span></td>
+                            <td>
+                              <?php echo $fila["titulo"]; ?>
+                            </td>
+                            <td>
+                              <?php echo $fila["autor"]; ?>
+                            </td>
+                            <td>
+                              <?php echo $fila["ISBN"]; ?>
+                            </td>
+                            <td class="text-center">
+                              <?php echo $fila["cantidad"]; ?>
+                            </td>
+
+                            <td>
+                              <span class="<?php echo $claseDisponibilidad ?> px-3 py-2"><?php echo $fila["disponibilidad"]; ?></span>
+                            </td>
 
                             <?php if ($tipoUsuario === "Administrador") { ?>
-                              <td><span class="<?php echo $claseEstado ?> px-3 py-2"><?php echo $fila["estado"]; ?></span></td>
-                              <td><?php echo $fila["fecha_creacion"]; ?></td>
+                              <td>
+                                <span class="<?php echo $claseEstado ?> px-2 py-2"><?php echo $fila["estado"]; ?></span>
+                              </td>
+                              <td>
+                                <?php echo $fila["fecha_creacion"]; ?>
+                              </td>
+                              <td>
+                                <?php echo $categoriasString; ?>
+                              </td>
                               <td>
                                 <div class="btn-group" role="group">
-                                  <button class="btn btn-primary" onclick="editarLibro(<?php echo $fila['id'] ?>)"><i class="fa-solid fa-pen-to-square"></i></button>
+                                  <button class="btn btn-primary"
+                                    onclick="editarLibro(<?php echo $fila['id'] ?>)">
+                                    <i class="fa-solid fa-pen-to-square"></i>
+                                  </button>
                                   <?php if ($fila["estado"] == "Activo") { ?>
-                                    <button class="btn btn-danger btn-eliminar-libro" onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>' , '<?php echo $fila['titulo'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
+                                    <button class="btn btn-danger btn-eliminar-libro"
+                                      onclick="eliminarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>' , '<?php echo $fila['titulo'] ?>')"
+                                      data-id="<?php echo $fila["id"] ?>">
+                                      <i class="fa-solid fa-trash"></i>
+                                    </button>
                                   <?php } else { ?>
-                                    <button class="btn btn-success btn-reitengrar-libro" onclick="reintegrarLibro(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
-
-
+                                    <button class="btn btn-success btn-reitengrar-libro"
+                                      onclick="reintegrarLibro(
+                                    <?php echo $fila['id'] ?> , 
+                                    '<?php echo $fila['estado'] ?>')"
+                                      data-id="<?php echo $fila["id"] ?>">
+                                      <i class="fa-solid fa-check"></i>
+                                    </button>
                                   <?php } ?>
                                 </div>
                               </td>
