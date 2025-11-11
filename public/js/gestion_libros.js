@@ -360,6 +360,7 @@ function eliminarLibro(idLibro, estado, libro) {
       cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
+      cargandoAlerta("Eliminando Registro...");
       return $.ajax({
         url: "../../controllers/eliminar_reintegrar_libro.php",
         type: "POST",

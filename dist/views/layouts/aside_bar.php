@@ -60,6 +60,12 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="./categorias.php" class="nav-link <?php echo ($archivoActual == "categorias.php" ? "active" : "") ?>">
+                                <i class="fa-solid fa-list"></i>
+                                <p>Categorias</p>
+                            </a>
+                        </li>
 
                         <li class="nav-item">
                             <a href="./reservas.php" class="nav-link <?php echo ($archivoActual == "reservas.php" ? 'active' : "") ?>">

@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $categoriasSeleccionadas = [];
 
-        while($fila = $consultaCategoriasSeleccionadas->fetch_assoc()){
+        while ($fila = $consultaCategoriasSeleccionadas->fetch_assoc()) {
             $categoriasSeleccionadas[] = $fila;
         }
 
@@ -62,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         while ($fila = $consultaCategorias->fetch_assoc()) {
             $categorias[] = $fila;
         }
-        
+
 
         // Enviar los datos via JSON para utilizarlos en JavaScript
         echo json_encode([
