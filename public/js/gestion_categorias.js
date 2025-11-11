@@ -17,8 +17,11 @@ btnCrear.addEventListener("click", () => {
     <div class="col-sm-12">
       <div class="mb-3">
         <label for="titulo" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria"/>
+        <input class="form-control text-center" type="text" id="categoria" name="categoria"
+        onkeyup="buscarCategoria(this.value)"/>
       </div>
+
+      <div id="sugerenciasCategoria" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
 </form>
 
         `,
@@ -32,7 +35,6 @@ btnCrear.addEventListener("click", () => {
     preConfirm: () => {
       const form = document.getElementById("frmCrearCategoria");
       const formData = new FormData(form);
-      cargandoAlerta("Agregando Registro...");
       return $.ajax({
         url: "../../controllers/agregarCategoria.php",
         type: "POST",
@@ -58,6 +60,38 @@ btnCrear.addEventListener("click", () => {
     }
   });
 });
+
+function buscarCategoria(texto) {
+  if (texto.length < 2) {
+    document.getElementById("sugerenciasCategoria").innerHTML = "";
+    return;
+  }
+
+  let tablaBody = document.querySelector("#t-body");
+
+  $.ajax({
+    url: "../../controllers/buscar_categoria.php",
+    type: "POST",
+    data: { query: texto },
+    success: function (response) {
+      const categorias = JSON.parse(response);
+
+      let html = `<ul class="list-group">`;
+
+      categorias.forEach((categoria) => {
+        html += `
+            <li class = "list-group-item list-group-item-action mb-2 text-center">
+            <i class="fa-solid fa-book"></i> Categoria existente: <strong> ${categoria.nombre_categoria} </strong> 
+            </li>
+        `;
+      });
+
+      html += "</ul>";
+      document.getElementById("sugerenciasCategoria").innerHTML = html;
+    },
+  });
+}
+
 //EDITAR CATEGORIA
 function editarCategoria(IDcategoria) {
   // Acceder a datos del usuario a editar con AJAX
@@ -104,7 +138,6 @@ function editarCategoria(IDcategoria) {
           const formulario = document.getElementById("frmEditarCategoria");
           const formData = new FormData(formulario);
           // Esperar un retorno de respuesta en JSON por via AJAX
-          cargandoAlerta("Editando Registro...");
           return $.ajax({
             url: "../../controllers/editarCategoria.php",
             type: "POST",
