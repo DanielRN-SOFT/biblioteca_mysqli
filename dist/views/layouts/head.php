@@ -1,3 +1,18 @@
+<?php
+
+$tipoUsuario = $_SESSION["tipoUsuario"];
+
+// Obtener el nombre del archivo actual
+$archivoActual = basename($_SERVER["PHP_SELF"]);
+
+if ($tipoUsuario == "Cliente" && $archivoActual == "categorias.php" 
+|| $tipoUsuario == "Cliente" && $archivoActual == "pdf.php"
+|| $tipoUsuario == "Cliente" && $archivoActual == "excel.php") {
+    header("location: ./dashboard.php");
+    exit();
+}
+?>
+
 <!doctype html>
 <html lang="en">
 <!--begin::Head-->

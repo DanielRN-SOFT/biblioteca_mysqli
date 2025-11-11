@@ -1,6 +1,7 @@
 <?php
 $pagina = "Categorias";
 
+
 // ==========================
 // Sección: Inicio de sesion
 // ==========================
@@ -8,9 +9,11 @@ session_start();
 
 if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
     header("location: ./login.php");
+    exit();
 } else {
     $_SESSION["acceso"] = true;
 }
+
 // ==========================
 // Sección: Conexión a la BD
 // ==========================
@@ -23,7 +26,6 @@ $mysql = new MySQL();
 // Conexión con la base de datos
 $mysql->conectar();
 
-
 // ===============================
 // Layout de componentes HTML
 // ===============================
@@ -31,7 +33,6 @@ require_once './layouts/head.php';
 require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
 
-// Ordenar los libros primero activos y disponibles 
 
 $categorias = $mysql->efectuarConsulta("SELECT * FROM categoria")
 

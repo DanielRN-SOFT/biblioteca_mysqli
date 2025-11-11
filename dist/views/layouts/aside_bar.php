@@ -60,12 +60,14 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
 
+                        <?php if($tipoUsuario == "Administrador")  {?>
                         <li class="nav-item">
                             <a href="./categorias.php" class="nav-link <?php echo ($archivoActual == "categorias.php" ? "active" : "") ?>">
                                 <i class="fa-solid fa-list"></i>
                                 <p>Categorias</p>
                             </a>
                         </li>
+                        <?php } ?>
 
                         <li class="nav-item">
                             <a href="./reservas.php" class="nav-link <?php echo ($archivoActual == "reservas.php" ? 'active' : "") ?>">
