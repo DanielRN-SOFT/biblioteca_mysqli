@@ -12,7 +12,7 @@ class MySQL
     private $ipServidor = "localhost";
     private $usuarioBase = "root";
     private $contrasena = "";
-    private $nombreBaseDatos = "biblioteca_prueba"; 
+    private $nombreBaseDatos = "biblioteca_mysqli"; 
  
     private $conexion;
 
