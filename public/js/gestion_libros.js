@@ -30,10 +30,6 @@ btnCrear.addEventListener("click", () => {
         <input class="form-control text-center" type="text" id="isbn" name="isbn" />
       </div>
 
-      <div class="mb-3">
-        <label for="categoria" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" />
-      </div>
 
       <div class="mb-3">
         <label for="cantidad" class="form-label">Cantidad:</label>
@@ -86,22 +82,19 @@ btnCrear.addEventListener("click", () => {
       if (
         titulo.length === 0 ||
         autor.length === 0 ||
-        isbn.length === 0 ||
-        cantidad.length === 0
+        isbn.length === 0
       ) {
+       
         Swal.showValidationMessage("Todos los campos son obligatorios");
         return false;
       }
 
-      if (isNaN(cantidad)) {
+
+      if (cantidad.length === 0 || isNaN(cantidad)) {
         Swal.showValidationMessage("Ingrese un valor valido en la cantidad");
         return false;
       }
 
-      if (cantidad < 0) {
-        Swal.showValidationMessage("Ingrese un valor positivo en la cantidad");
-        return false;
-      }
 
       if (categorias.length === 0) {
         Swal.showValidationMessage("Agregue al menos una categoria");
@@ -257,11 +250,7 @@ function editarLibro(IDlibro) {
         <input class="form-control text-center" type="text" id="isbn" name="isbn" disabled value="${data.datosLibro.ISBN}"/>
       </div>
 
-      <div class="mb-3">
-        <label for="categoria" class="form-label">Categoria:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" value="${data.categoria}"/>
-      </div>
-
+      
       <div class="mb-3">
         <label for="cantidad" class="form-label">Cantidad:</label>
         <input class="form-control text-center" type="number" id="cantidad" name="cantidad" value="${data.datosLibro.cantidad}"/>

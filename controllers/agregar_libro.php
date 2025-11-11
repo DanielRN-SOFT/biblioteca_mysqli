@@ -7,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
         isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
-        isset($_POST["disponibilidad"]) && !empty($_POST["disponibilidad"]) &&
         isset($_POST["cantidad"]) && is_numeric($_POST["cantidad"])
     ) {
         require_once '../models/MYSQL.php';
@@ -18,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $titulo = filter_var(trim($_POST["titulo"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $autor = filter_var(trim($_POST["autor"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $isbn = filter_var(trim($_POST["isbn"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        $disponibilidad = filter_var(trim($_POST["disponibilidad"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
         // Capturar el arreglo de categorias
         $categorias = json_decode($_POST["categorias"], true);
@@ -41,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit();
         }
         if ($cantidad > 0) {
-            $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, categoria, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$categoria', 'Disponible', '$cantidad','Activo',NOW())");
+            $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn','Disponible', '$cantidad','Activo',NOW())");
         }elseif ($cantidad <= 0) {
             echo json_encode([
                 "success" => false,
@@ -49,8 +47,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             exit();
         }
-
-        $agregarLibro = $mysql->efectuarConsulta("INSERT INTO libro(titulo, autor, ISBN, disponibilidad, cantidad,estado,fecha_creacion) VALUES('$titulo', '$autor', '$isbn', '$disponibilidad', '$cantidad','Activo',NOW())");
 
         if (!$agregarLibro) {
             $errores = "Error en el insert del LIBRO";
