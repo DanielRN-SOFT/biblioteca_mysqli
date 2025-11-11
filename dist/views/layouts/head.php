@@ -7,7 +7,8 @@ $archivoActual = basename($_SERVER["PHP_SELF"]);
 
 if ($tipoUsuario == "Cliente" && $archivoActual == "categorias.php" 
 || $tipoUsuario == "Cliente" && $archivoActual == "pdf.php"
-|| $tipoUsuario == "Cliente" && $archivoActual == "excel.php") {
+|| $tipoUsuario == "Cliente" && $archivoActual == "excel.php"
+|| $tipoUsuario == "Cliente" && $archivoActual == "usuarios.php") {
     header("location: ./dashboard.php");
     exit();
 }
