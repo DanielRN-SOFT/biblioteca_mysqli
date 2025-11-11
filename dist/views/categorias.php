@@ -34,7 +34,11 @@ require_once './layouts/nav_bar.php';
 require_once './layouts/aside_bar.php';
 
 
-$categorias = $mysql->efectuarConsulta("SELECT * FROM categoria")
+$categorias = $mysql->efectuarConsulta("SELECT * FROM categoria ORDER BY CASE
+WHEN categoria.estado = 'Activo' THEN 1
+WHEN categoria.estado = 'Inactivo' THEN 2
+ELSE 3
+END")
 
 
 ?>

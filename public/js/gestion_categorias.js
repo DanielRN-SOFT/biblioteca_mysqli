@@ -110,10 +110,10 @@ function editarCategoria(IDcategoria) {
     <div class="col-sm-12">
       <div class="mb-3">
         <label for="titulo" class="form-label">Titulo:</label>
-        <input class="form-control text-center" type="text" id="categoria" name="categoria" value="${
-          data.nombre_categoria
-        }" />
+        <input class="form-control text-center" type="text" id="categoria" name="categoria" onkeyup="buscarCategoria(this.value)" value="${data.nombre_categoria}" />
       </div>
+
+      <div id="sugerenciasCategoria" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
        <input
             class="form-control"
             type="hidden"
@@ -187,7 +187,7 @@ function eliminarCategoria(idCategoria, estado, categoria) {
       cancelButton: "btn btn-danger fw-bold",
     },
     preConfirm: () => {
-        cargandoAlerta("Eliminando Registro...");
+      cargandoAlerta("Eliminando Registro...");
       return $.ajax({
         url: "../../controllers/eliminar_reintegrar_categoria.php",
         type: "POST",
