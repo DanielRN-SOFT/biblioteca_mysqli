@@ -7,7 +7,7 @@ $pagina = "Usuarios";
 // ==========================
 session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+if ($_SESSION["acceso"] === false || $_SESSION["acceso"] === null) {
   header("location: ./login.php");
 } else {
   $_SESSION["acceso"] = true;

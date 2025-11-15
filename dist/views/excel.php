@@ -43,7 +43,7 @@ require_once './layouts/aside_bar.php';
 <main class="app-main bg-light py-5">
     <div class="container">
         <!-- Encabezado -->
-        <div class="text-center mb-5">
+        <div class="text-center mb-4">
             <div class="p-4 rounded-4 bg-white shadow-sm d-inline-block">
                 <h2 class="fw-bold text-dark mb-1">
                     <i class="fa-solid fa-file-excel text-success me-2"></i>
@@ -54,7 +54,7 @@ require_once './layouts/aside_bar.php';
         </div>
 
         <!-- Tarjeta principal -->
-        <div class="card border-0 rounded-4 shadow-lg overflow-hidden">
+        <div class="card border-0 rounded-4 shadow-lg overflow-hidden   ">
             <div class="card-header bg-white border-0 py-3 px-4 d-flex align-items-center justify-content-between flex-wrap">
                 <div class="d-flex align-items-center">
                     <div class="bg-success bg-gradient text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px;">

@@ -107,7 +107,7 @@ if ($tipoUsuario == "Administrador") {
                                                     <?php } ?>
                                                     <th>Reserva</th>
                                                     <th>Fecha de reserva</th>
-                                                    <th>Fecha de asistencia</th>
+                                                    <th>Fecha Agendada</th>
                                                     <th>Estado</th>
                                                     <th>Acciones</th>
                                                 </tr>

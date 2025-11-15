@@ -54,7 +54,7 @@ function contarInfo($nombreTabla, $alias)
   return $conteoInfo;
 }
 
-// Fuunciones para la lista de CLIENTE
+// Funciones para la lista de CLIENTE
 function contarInfoCliente($estadoReserva, $ID)
 {
   // Llamar el modelo MYSQL

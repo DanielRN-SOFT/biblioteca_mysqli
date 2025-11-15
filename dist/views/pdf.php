@@ -43,7 +43,7 @@ require_once './layouts/aside_bar.php';
 <main class="app-main bg-light py-5">
     <div class="container">
         <!-- Encabezado -->
-        <div class="text-center mb-5">
+        <div class="text-center mb-4">
             <div class="p-4 rounded-4 bg-white shadow-sm d-inline-block">
                 <h2 class="fw-bold text-dark mb-1">
                     <i class="fa-solid fa-file-pdf text-danger me-2"></i>
