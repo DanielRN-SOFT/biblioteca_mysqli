@@ -71,3 +71,10 @@
   background-color: #00cab9 !important;
 }
 
+.select2-selection__choice {
+  background-color: #004c9e !important;
+  color: white !important;
+  border: none !important;
+  border-radius: 14px !important;
+  font-weight: bolder;
+}

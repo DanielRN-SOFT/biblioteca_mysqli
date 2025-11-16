@@ -5,10 +5,12 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
 // Obtener el nombre del archivo actual
 $archivoActual = basename($_SERVER["PHP_SELF"]);
 
-if ($tipoUsuario == "Cliente" && $archivoActual == "categorias.php" 
-|| $tipoUsuario == "Cliente" && $archivoActual == "pdf.php"
-|| $tipoUsuario == "Cliente" && $archivoActual == "excel.php"
-|| $tipoUsuario == "Cliente" && $archivoActual == "usuarios.php") {
+if (
+    $tipoUsuario == "Cliente" && $archivoActual == "categorias.php"
+    || $tipoUsuario == "Cliente" && $archivoActual == "pdf.php"
+    || $tipoUsuario == "Cliente" && $archivoActual == "excel.php"
+    || $tipoUsuario == "Cliente" && $archivoActual == "usuarios.php"
+) {
     header("location: ./dashboard.php");
     exit();
 }
@@ -64,6 +66,9 @@ if ($tipoUsuario == "Cliente" && $archivoActual == "categorias.php"
     <!-- CSS personal -->
     <link rel="stylesheet" href="../../public/css/style.css">
     <!-- END CSS personal -->
+
+    <!-- Select 2 -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Link Datatables -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.3/css/bootstrap.min.css">

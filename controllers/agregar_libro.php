@@ -7,7 +7,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
         isset($_POST["isbn"]) && !empty($_POST["isbn"]) &&
-        isset($_POST["cantidad"]) && is_numeric($_POST["cantidad"])
+        isset($_POST["cantidad"]) && is_numeric($_POST["cantidad"]) &&
+        isset($_POST["categorias"]) && !empty($_POST["categorias"])
     ) {
         require_once '../models/MYSQL.php';
         require_once 'validar_isbn.php';
@@ -18,8 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $autor = filter_var(trim($_POST["autor"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $isbn = filter_var(trim($_POST["isbn"]), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
-        // Capturar el arreglo de categorias
-        $categorias = json_decode($_POST["categorias"], true);
+        $categorias = $_POST["categorias"];
         $errores = [];
         //validar el ISBN
         if (!validarISBN($isbn)) {

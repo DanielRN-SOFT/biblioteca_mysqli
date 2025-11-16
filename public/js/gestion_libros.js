@@ -9,7 +9,22 @@ function cargandoAlerta(mensaje) {
 
 // Agregar Libro
 let btnCrear = document.querySelector("#crearLibro");
-btnCrear.addEventListener("click", () => {
+btnCrear.addEventListener("click", async () => {
+  const request = await fetch("../../controllers/datos_categorias.php", {
+    method: "POST",
+  });
+
+  const response = await request.json();
+  console.log(response.categorias[0]);
+  let opciones = [];
+
+  response.categorias.forEach((cat) => {
+    opcion = `<option value = "${cat.id}"> ${cat.nombre_categoria} </option>`;
+    opciones.push(opcion);
+  });
+
+  console.log(opciones);
+
   Swal.fire({
     title: '<span class="text-success fw-bold">Agregar Libro</span>',
     html: `<form action="" method="post" id="frmCrearLibro">
@@ -40,19 +55,13 @@ btnCrear.addEventListener("click", () => {
       </div>
 
       <div class="mb-3">
-       <label for="cantidad" class="form-label">Categoria:</label>
-         <input type="text" id="busquedaCategoria" class="form-control text-center" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
-        
-      <div id="sugerenciasCategorias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
-      <table class="table table-striped table-bordered" style="width:100%;text-align:left; margin-top:10px;" id="tablaCategoria">
-        <thead>
-          <tr> 
-            <th><i class="fa-solid fa-book-open-reader text-primary"></i> Categoría</th>
-            <th><i class="fa-solid fa-square-xmark text-danger"></i> Acción</th>
-          </tr>
-        </thead>
-        <tbody id="t-body"></tbody>
-      </table>
+       <div class="mb-3">
+       <label class="form-label fw-bold">Categorías</label>
+            <select id="selectCategorias" name="categorias[]" class="form-control text-center" multiple>
+               ${opciones}
+            </select>
+      </div>
+  
       </div>
 
     </div>
@@ -67,20 +76,21 @@ btnCrear.addEventListener("click", () => {
       confirmButton: "btn btn-success fw-bold",
       cancelButton: "btn btn-danger fw-bold",
     },
+    didOpen: () => {
+      // INTEGRACIÓN SELECT2
+      $("#selectCategorias").select2({
+        language: "es",
+        width: "100%",
+        placeholder: "Seleccione las categorías del libro",
+        dropdownParent: $(".swal2-popup"),
+      });
+    },
     preConfirm: () => {
-      // Recolectar las categorias seleccionadas
-      const categorias = [];
       const titulo = document.querySelector("#titulo").value;
       const autor = document.querySelector("#autor").value;
       const isbn = document.querySelector("#isbn").value;
       const cantidad = document.querySelector("#cantidad").value;
 
-      document.querySelectorAll("#tablaCategoria tbody tr").forEach((row) => {
-        const IDCategoria = parseInt(row.dataset.id);
-        if (IDCategoria > 0) {
-          categorias.push(IDCategoria);
-        }
-      });
 
       if (titulo.length === 0 || autor.length === 0 || isbn.length === 0) {
         Swal.showValidationMessage("Todos los campos son obligatorios");
@@ -92,14 +102,8 @@ btnCrear.addEventListener("click", () => {
         return false;
       }
 
-      if (categorias.length === 0) {
-        Swal.showValidationMessage("Agregue al menos una categoria");
-        return false;
-      }
-
       const form = document.getElementById("frmCrearLibro");
       const formData = new FormData(form);
-      formData.append("categorias", JSON.stringify(categorias));
       return $.ajax({
         url: "../../controllers/agregar_libro.php",
         type: "POST",
@@ -157,80 +161,7 @@ function buscarLibro(texto) {
   });
 }
 
-function buscarCategoria(texto) {
-  if (texto.length < 2) {
-    document.getElementById("sugerenciasCategorias").innerHTML = "";
-    return;
-  }
 
-  let tablaBody = document.querySelector("#t-body");
-
-  $.ajax({
-    url: "../../controllers/buscar_categoria.php",
-    type: "POST",
-    data: { query: texto },
-    success: function (response) {
-      const categorias = JSON.parse(response);
-
-      const sugerencias = document.querySelector("#sugerenciasCategorias");
-      sugerencias.innerHTML = "";
-      const listGroup = document.createElement("ul");
-      listGroup.classList.add("list-group");
-
-      if (categorias.length === 0) {
-        let sinResultados = document.createElement("li");
-        sinResultados.classList.add(
-          "list-group-item",
-          "text-muted",
-          "text-center"
-        );
-        sinResultados.setAttribute("id", "sinResultados");
-        sinResultados.innerText = "No se encontraron resultados";
-        listGroup.appendChild(sinResultados);
-      } else {
-        categorias.forEach((categoria) => {
-          let liCategorias = document.createElement("li");
-          liCategorias.classList.add(
-            "list-group-item",
-            "list-group-item-action",
-            "text-center"
-          );
-          liCategorias.innerHTML = `
-          <strong> <i class="fa-solid fa-book-open-reader"></i> Nombre:  </strong>${categoria.nombre_categoria} 
-        `;
-
-          liCategorias.addEventListener("click", () => {
-            agregarCategoria(categoria.id, categoria.nombre_categoria);
-          });
-
-          listGroup.appendChild(liCategorias);
-        });
-      }
-
-      sugerencias.appendChild(listGroup);
-    },
-  });
-}
-
-// Agregar producto a la tabla
-function agregarCategoria(id, nombreCategoria) {
-  const tabla = document.querySelector("#tablaCategoria tbody");
-
-  if ([...tabla.querySelectorAll("tr")].some((row) => row.dataset.id === id))
-    return;
-
-  const fila = document.createElement("tr");
-  fila.dataset.id = id;
-
-  fila.innerHTML = `
-    <td> ${nombreCategoria} </td>
-    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove();">Quitar</button></td>
-  `;
-
-  tabla.appendChild(fila);
-  document.getElementById("sugerenciasCategorias").innerHTML = "";
-  document.getElementById("busquedaCategoria").value = "";
-}
 
 //EDITAR LIBRO
 function editarLibro(IDlibro) {
@@ -241,34 +172,24 @@ function editarLibro(IDlibro) {
     data: { IDlibro: IDlibro },
     dataType: "json",
     success: function (data) {
-      // Crear la tabla
-      const tabla = document.createElement("table");
-      tabla.className = "table table-striped table-bordered mt-3";
-      tabla.style.width = "100%";
-      tabla.id = "tablaCategoria";
-      tabla.innerHTML = `
-        <thead>
-          <tr> 
-            <th><i class="fa-solid fa-book-open-reader text-primary"></i> Categoría</th>
-            <th><i class="fa-solid fa-square-xmark text-danger"></i> Acción</th>
-          </tr>
-        </thead>
-        <tbody id="t-body"></tbody>
-      `;
+      // Todas las categorías (objeto completo)
+      const todasCategorias = data.categorias;
 
-      // Agregar filas
-      const tbody = tabla.querySelector("#t-body");
-      data.categoriasSeleccionadas.forEach((cat) => {
-        const fila = document.createElement("tr");
-        fila.dataset.id = cat.id;
+      // Solo IDs de categorías seleccionadas
+      const seleccionadas = data.categoriasSeleccionadas.map((c) => c.id);
 
-        fila.innerHTML = `
-    <td> ${cat.nombre_categoria} </td>
-    <td><button class="btn btn-danger btn-sm" onclick="this.closest('tr').remove();">Quitar</button></td>
-  `;
-
-        tbody.appendChild(fila);
-      });
+      // Crear las opciones
+      const opcionesSelect = todasCategorias
+        .map(
+          (cat) => `
+          <option value="${cat.id}" ${
+            seleccionadas.includes(cat.id) ? "selected" : ""
+          }>
+            ${cat.nombre_categoria}
+          </option>
+        `
+        )
+        .join("");
 
       Swal.fire({
         title: '<span class="text-primary fw-bold"> Editar Libro </span>',
@@ -298,10 +219,10 @@ function editarLibro(IDlibro) {
         <input class="form-control text-center" type="number" id="cantidad" name="cantidad" value="${data.datosLibro.cantidad}"/>
       </div>
       <div class="mb-3">
-       <label for="cantidad" class="form-label">Categoria:</label>
-         <input type="text" id="busquedaCategoria" class="form-control" placeholder="Buscar categoria..." onkeyup="buscarCategoria(this.value)">
-        
-      <div id="sugerencias" class="mt-3" style="text-align:left; max-height:150px; overflow-y:auto;"></div>
+       <label class="form-label fw-bold">Categorías</label>
+            <select id="selectCategorias" name="categorias[]" class="form-control" multiple>
+               ${opcionesSelect}
+            </select>
       </div>
 
       <div id="contenedor-tabla"> </div>
@@ -320,38 +241,29 @@ function editarLibro(IDlibro) {
           cancelButton: "btn btn-danger fw-bold",
         },
         didOpen: () => {
-          document.getElementById("contenedor-tabla").appendChild(tabla);
+          // INTEGRACIÓN SELECT2
+          $("#selectCategorias").select2({
+            language: "es",
+            width: "100%",
+            placeholder: "Seleccione las categorías del libro",
+            dropdownParent: $(".swal2-popup"),
+          });
         },
         // Antes de finalizar la accion, realize esta cuestion
         preConfirm: () => {
           // Recolectar las categorias seleccionadas
-          const categorias = [];
           const titulo = document.querySelector("#titulo").value;
           const autor = document.querySelector("#autor").value;
-          const isbn = document.querySelector("#isbn").value;
 
-          document
-            .querySelectorAll("#tablaCategoria tbody tr")
-            .forEach((row) => {
-              const IDCategoria = parseInt(row.dataset.id);
-              if (IDCategoria > 0) {
-                categorias.push(IDCategoria);
-              }
-            });
-
-          if (titulo.length === 0 || autor.length === 0 || isbn.length === 0) {
+          if (titulo.length === 0 || autor.length === 0) {
             Swal.showValidationMessage("Todos los campos son obligatorios");
             return false;
           }
 
-          if (categorias.length === 0) {
-            Swal.showValidationMessage("Agregue al menos una categoria");
-            return false;
-          }
           // Acceder a los datos ingresados en el formulario
           const formulario = document.getElementById("frmEditarLibro");
           const formData = new FormData(formulario);
-          formData.append("categorias", JSON.stringify(categorias));
+          // formData.append("categorias", JSON.stringify(categorias));
           // Esperar un retorno de respuesta en JSON por via AJAX
           return $.ajax({
             url: "../../controllers/editar_libro.php",

@@ -175,6 +175,9 @@ if ($archivoActual == "dashboard.php") {
 <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/dataTables.columnControl.js"></script>
 <script src="https://cdn.datatables.net/columncontrol/1.1.0/js/columnControl.dataTables.js"></script>
 
+<!-- Select 2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <script>
     document.getElementById("btnLogOut").addEventListener("click", () => {
         sessionStorage.clear(); // limpia todo lo guardado en la sesión

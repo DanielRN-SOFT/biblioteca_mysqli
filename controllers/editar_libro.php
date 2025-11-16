@@ -8,7 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (
         isset($_POST["titulo"]) && !empty($_POST["titulo"]) &&
         isset($_POST["autor"]) && !empty($_POST["autor"]) &&
-        isset($_POST["cantidad"]) && $_POST["cantidad"] !== "" && is_numeric($_POST["cantidad"])
+        isset($_POST["cantidad"]) && $_POST["cantidad"] !== "" && is_numeric($_POST["cantidad"]) &&
+        isset($_POST["categorias"]) && !empty($_POST["categorias"])
     ) {
         require_once '../models/MYSQL.php';
         require_once '../controllers/validar_isbn.php';
@@ -23,7 +24,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cantidad = filter_var($_POST["cantidad"], FILTER_SANITIZE_NUMBER_INT);
 
         // Obtener las categorias
-        $categorias = json_decode($_POST["categorias"], true);
+        // $categorias = json_decode($_POST["categorias"], true);
+        $categorias = $_POST["categorias"];
         $errores = [];
 
 
@@ -39,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $disponibilidad = "No Disponible";
         }
 
-        
+
 
         // Eliminar las categorias de los libros
         $deleteCategorias = $mysql->efectuarConsulta("DELETE FROM categoria_has_libro WHERE libro_id = $id");
@@ -55,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $update = $mysql->efectuarConsulta("UPDATE libro SET titulo = '$titulo', autor = '$autor', disponibilidad = '$disponibilidad',cantidad = '$cantidad' WHERE id = $id");
 
-            if (!$update) {
+        if (!$update) {
             $errores = "Error en el UPDATE";
         }
 
@@ -80,10 +82,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             ]);
             exit();
         }
+
         echo json_encode([
             "success" => false,
             "message" => "Todos los campos son obligatorios"
         ]);
     }
 }
-
