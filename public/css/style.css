@@ -1,28 +1,27 @@
-
 /* ESTILOS DEL LOGIN */
 .btn-acceder {
-    background-color: #d56000 !important;
-    border: none !important;
-    color: #fff !important;
+  background-color: #d56000 !important;
+  border: none !important;
+  color: #fff !important;
 }
 
 .btn-acceder:hover {
-    background-color: #9f4700 !important;
+  background-color: #9f4700 !important;
 }
 
 .btn-registrar {
-    background-color: #562700 !important;
-    border: none !important;
-    color: #fff !important;
+  background-color: #562700 !important;
+  border: none !important;
+  color: #fff !important;
 }
 
 .btn-registrar:hover {
-    background-color: #6f3200 !important;
+  background-color: #6f3200 !important;
 }
 
 .btn-acceder i,
 .btn-registrar i {
-    margin-right: 6px;
+  margin-right: 6px;
 }
 
 .bg-login {
@@ -42,10 +41,7 @@
 
 .bg-sombra {
   background-color: rgba(0, 0, 0, 0.7);
- 
 }
-
-
 
 /* ESTILOS DEL DASHBOARD Y GENERAL */
 .bg-nav-bar {
@@ -71,10 +67,10 @@
   background-color: #00cab9 !important;
 }
 
-.select2-selection__choice {
+/* .select2-selection__choice {
   background-color: #004c9e !important;
   color: white !important;
   border: none !important;
   border-radius: 14px !important;
-  font-weight: bolder;
-}
+} */
+

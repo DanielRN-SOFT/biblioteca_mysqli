@@ -12,6 +12,12 @@ $usuario = mysqli_fetch_assoc($sql);
 // Asignacion de zona horaria para la hora de la pagina
 date_default_timezone_set('America/Bogota');
 
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
+    header("location: ./login.php");
+} else {
+    $_SESSION["acceso"] = true;
+}
+
 ?>
 
 

@@ -7,7 +7,7 @@ $pagina = "Dashboard";
 // ==========================
 session_start();
 
-if ($_SESSION["acceso"] == false || $_SESSION["acceso"] = null) {
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
   header("location: ./login.php");
 } else {
   $_SESSION["acceso"] = true;
@@ -113,11 +113,23 @@ $fechaActual = $fechaActual->fetch_assoc()["fecha_actual"];
 
 $prestamos = $mysql->efectuarConsulta("SELECT * FROM prestamo");
 
-while($fila = $prestamos->fetch_assoc()){
+while ($fila = $prestamos->fetch_assoc()) {
   if ($fechaActual > $fila["fecha_devolucion"] && $fila["estado"] == "Prestado") {
     $IDprestamo = $fila["id"];
     $updateEstado = $mysql->efectuarConsulta("UPDATE prestamo SET estado = 'Vencido'  WHERE id = $IDprestamo");
   }
+}
+
+// UPDATE DE RESERVAS ============================= UNA VEZ SE INICIA SESION
+
+$reservas = $mysql->efectuarConsulta("SELECT reserva.id as IDreserva, reserva.estado, libro_id FROM reserva JOIN reserva_has_libro ON reserva_has_libro.reserva_id = reserva.id WHERE reserva.fecha_asistencia < DATE(NOW()) AND reserva.estado = 'Pendiente'");
+
+while ($fila = $reservas->fetch_assoc()) {
+  $IDreserva = $fila["IDreserva"];
+  $IDlibro = $fila["libro_id"];
+
+  $updateLibros = $mysql->efectuarConsulta("UPDATE libro SET cantidad = cantidad + 1 WHERE id = $IDlibro");
+  $updateReservas = $mysql->efectuarConsulta("UPDATE reserva SET estado = 'Cancelada' WHERE id = $IDreserva");
 }
 
 

@@ -1,5 +1,11 @@
 <?php
 
+if ($_SESSION["acceso"] == false || $_SESSION["acceso"] == null) {
+    header("location: ./login.php");
+} else {
+    $_SESSION["acceso"] = true;
+}
+
 // Obtener el nombre del archivo actual
 $archivoActual = basename($_SERVER["PHP_SELF"]);
 ?>

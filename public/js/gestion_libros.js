@@ -55,10 +55,10 @@ btnCrear.addEventListener("click", async () => {
       </div>
 
       <div class="mb-3">
-       <div class="mb-3">
-       <label class="form-label fw-bold">Categorías</label>
-            <select id="selectCategorias" name="categorias[]" class="form-control text-center" multiple>
-               ${opciones}
+      <div class="mb-3">
+      <label class="form-label">Categorías</label>
+            <select id="selectCategorias" name="categorias[]" class="form-select text-center" multiple="true">
+              ${opciones}
             </select>
       </div>
   
@@ -81,6 +81,7 @@ btnCrear.addEventListener("click", async () => {
       $("#selectCategorias").select2({
         language: "es",
         width: "100%",
+        dropdownAutoWidth: true,
         placeholder: "Seleccione las categorías del libro",
         dropdownParent: $(".swal2-popup"),
       });
@@ -90,7 +91,6 @@ btnCrear.addEventListener("click", async () => {
       const autor = document.querySelector("#autor").value;
       const isbn = document.querySelector("#isbn").value;
       const cantidad = document.querySelector("#cantidad").value;
-
 
       if (titulo.length === 0 || autor.length === 0 || isbn.length === 0) {
         Swal.showValidationMessage("Todos los campos son obligatorios");
@@ -160,8 +160,6 @@ function buscarLibro(texto) {
     },
   });
 }
-
-
 
 //EDITAR LIBRO
 function editarLibro(IDlibro) {

@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         //sanitizacion de los datos
         $categoria = filter_var($_POST["categoria"],FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         //validar que no se repita la categoria
-        $categoriaRepetida=$mysql->efectuarConsulta("SELECT 1 FROM categoria WHERE nombre_categoria='$categoria'");
+        $categoriaRepetida=$mysql->efectuarConsulta("SELECT 1 FROM categoria WHERE nombre_categoria='$categoria' AND id != $id");
         if(mysqli_num_rows($categoriaRepetida)>0){
             echo json_encode([
                 "success"=> false,
