@@ -7,7 +7,7 @@ function cargandoAlerta(mensaje) {
   });
 }
 
-// CREAR empleado
+// CREAR usuario
 let btnCrear = document.querySelector("#BtnCrearUsuario");
 btnCrear.addEventListener("click", () => {
   Swal.fire({
@@ -99,7 +99,7 @@ btnCrear.addEventListener("click", () => {
   });
 });
 
-// EDITAR EMPLEADO
+// EDITAR USUARIO
 function editarUsuario(IDuser) {
   // Acceder a datos del usuario a editar con AJAX
   $.ajax({
@@ -223,7 +223,7 @@ function editarUsuario(IDuser) {
   });
 }
 
-// ELIMINAR EMPLEADO
+// ELIMINAR USUARIO
 function eliminarUsuario(IDusuario, estado, nombre, apellido) {
   Swal.fire({
     title: '<span class = "text-danger fw-bold"> Eliminar usuario </span>',
@@ -272,12 +272,13 @@ function eliminarUsuario(IDusuario, estado, nombre, apellido) {
   });
 }
 
-// Reintegrar empleado
-function reintegrarUsuario(IDusuario, estado) {
+// Reintegrar usuario
+function reintegrarUsuario(IDusuario, estado, nombre, apellido) {
   console.log(estado);
   Swal.fire({
     title: "<span class='text-success fw-bold'> Reintegrar usuario </span>",
-    html: "¿Esta seguro de reintegrar este usuario?",
+    html: `¿Esta seguro de reintegrar este usuario? 
+    <br> Nombre: <strong> ${nombre} ${apellido} </strong>`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Si, reintegrar usuario",

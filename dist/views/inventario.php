@@ -101,7 +101,9 @@ END");
                           <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Estado</th>
                             <th>Fecha de creacion</th>
-                            <th>Categorias</th>
+                          <?php } ?>
+                          <th>Categorias</th>
+                          <?php if ($tipoUsuario == "Administrador") { ?>
                             <th>Acciones</th>
                           <?php } ?>
                         </tr>
@@ -155,9 +157,12 @@ END");
                               <td>
                                 <?php echo $fila["fecha_creacion"]; ?>
                               </td>
-                              <td>
-                                <?php echo $categoriasString; ?>
-                              </td>
+                            <?php } ?>
+
+                            <td>
+                              <?php echo $categoriasString; ?>
+                            </td>
+                            <?php if ($tipoUsuario == "Administrador") { ?>
                               <td>
                                 <div class="btn-group" role="group">
                                   <button class="btn btn-primary"
@@ -174,7 +179,8 @@ END");
                                     <button class="btn btn-success btn-reitengrar-libro"
                                       onclick="reintegrarLibro(
                                     <?php echo $fila['id'] ?> , 
-                                    '<?php echo $fila['estado'] ?>')"
+                                    '<?php echo $fila['estado'] ?>' ,
+                                    '<?php echo htmlspecialchars($fila['titulo']) ?>')"
                                       data-id="<?php echo $fila["id"] ?>">
                                       <i class="fa-solid fa-check"></i>
                                     </button>

@@ -87,12 +87,12 @@ $usuario = mysqli_fetch_assoc($sql);
                         <!-- Cambio de contraseña -->
                         <div class="row mb-3">
                             <div class="col-md-6">
-                                <label class="form-label">Password Actual</label>
-                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Ingresa tu contraseña actual">
+                                <label class="form-label">Contraseña actual</label>
+                                <input type="password" class="form-control" id="oldPassword" name="oldPassword" placeholder="Ingrese su contraseña actual">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Nuevo Password</label>
-                                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled placeholder="Ingresa nueva contraseña">
+                                <label class="form-label">Nueva Contraseña</label>
+                                <input type="password" class="form-control" id="newPassword" name="newPassword" disabled placeholder="Ingresa una nueva contraseña">
                                 <div class="form-check mb-2">
                                     <input class="form-check-input" type="checkbox" id="cambiarPassword">
                                     <label class="form-check-label" for="cambiarPassword">

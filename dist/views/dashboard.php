@@ -55,7 +55,7 @@ function contarInfo($nombreTabla, $alias)
 }
 
 // Funciones para la lista de CLIENTE
-function contarInfoCliente($estadoReserva, $ID)
+function contarReservasCliente($estadoReserva, $ID)
 {
   // Llamar el modelo MYSQL
   require_once '../../models/MYSQL.php';
@@ -66,9 +66,25 @@ function contarInfoCliente($estadoReserva, $ID)
 
   // Total de reservas por usuario
   $consultaReservas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.estado = '$estadoReserva' AND reserva.id_usuario = $ID");
-  $conteoAprobadas = $consultaReservas->fetch_assoc()["conteo"];
+  $conteoReservas = $consultaReservas->fetch_assoc()["conteo"];
 
-  return $conteoAprobadas;
+  return $conteoReservas;
+}
+
+function contarPrestamosCliente($estadoReserva, $ID)
+{
+  // Llamar el modelo MYSQL
+  require_once '../../models/MYSQL.php';
+  // Instancia de la clase
+  $mysql = new MySQL();
+  // Conexión con la base de datos
+  $mysql->conectar();
+
+  // Total de reservas por usuario
+  $consultaPrestamos = $mysql->efectuarConsulta("SELECT COUNT(prestamo.id) as conteo FROM prestamo JOIN reserva ON reserva.id = prestamo.id_reserva WHERE prestamo.estado = '$estadoReserva' AND reserva.id_usuario = $ID");
+  $conteoPrestamos = $consultaPrestamos->fetch_assoc()["conteo"];
+
+  return $conteoPrestamos;
 }
 
 
@@ -95,15 +111,19 @@ if ($tipoUsuario == "Cliente") {
   $consultaPrestamos = $mysql->efectuarConsulta("SELECT COUNT(*) as conteoPrestamos FROM prestamo JOIN reserva ON reserva.id = prestamo.id_reserva JOIN usuario ON usuario.id  = reserva.id_usuario WHERE usuario.id = $IDusuario");
   $conteoPrestamos = $consultaPrestamos->fetch_assoc()["conteoPrestamos"];
 
+  // Conteo de prestamos segun su estado
+  $conteoDevueltos = contarPrestamosCliente("Devuelto", $IDusuario);
+  $conteoPrestados = contarPrestamosCliente("Prestado", $IDusuario);
+
   // Total de reservas por usuario
   $consultaTotalReservas = $mysql->efectuarConsulta("SELECT COUNT(reserva.id) as conteo FROM reserva WHERE reserva.id_usuario = $IDusuario");
   $conteoTotal = $consultaTotalReservas->fetch_assoc()["conteo"];
 
   // Conteo de reservas segun su estado 
-  $conteoAprobadas = contarInfoCliente("Aprobada", $IDusuario);
-  $conteoRechazadas = contarInfoCliente("Rechazada", $IDusuario);
-  $conteoPendientes = contarInfoCliente("Pendiente", $IDusuario);
-  $conteoCancelada = contarInfoCliente("Cancelada", $IDusuario);
+  $conteoAprobadas = contarReservasCliente("Aprobada", $IDusuario);
+  $conteoRechazadas = contarReservasCliente("Rechazada", $IDusuario);
+  $conteoPendientes = contarReservasCliente("Pendiente", $IDusuario);
+  $conteoCancelada = contarReservasCliente("Cancelada", $IDusuario);
 }
 
 
@@ -320,9 +340,7 @@ while ($fila = $reservas->fetch_assoc()) {
           <!-- ./col -->
         <?php } ?>
 
-        <?php if ($tipoUsuario == "Cliente") { ?>
-          <div class="row d-flex justify-content-center align-items-center">
-          <?php } ?>
+       
           <!-- col -->
           <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -365,10 +383,50 @@ while ($fila = $reservas->fetch_assoc()) {
               </svg>
             </a>
           </div>
-          <!-- ./col -->
+
           <?php if ($tipoUsuario == "Cliente") { ?>
-          </div>
-        <?php } ?>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <a href="./prestamos.php" class="small-box bg-card-devueltos nav-link">
+                <div class="inner">
+                  <h3 class="text-light"><?php echo $conteoDevueltos ?></h3>
+
+                  <p class="fw-bold text-light">Prestamos devueltos</p>
+                </div>
+                <svg
+                  class="small-box-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path
+                    d="M7 3a1 1 0 00-1 1v7a1 1 0 001 1h4a1 1 0 001-1V4a1 1 0 00-1-1H7zm7.75 1.5a.75.75 0 00-.75.75V10a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 101.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H14V5.25a.75.75 0 00-.75-.75zM4.25 13.5a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 001.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H5a.75.75 0 00-.75.75v1.5zm7.25 1.5a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 00-1-1h-4z" />
+                </svg>
+              </a>
+            </div>
+
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <a href="./prestamos.php" class="small-box bg-card-prestados nav-link">
+                <div class="inner">
+                  <h3 class="text-light"><?php echo $conteoPrestados ?></h3>
+
+                  <p class="fw-bold text-light">Prestamos activos</p>
+                </div>
+                <svg
+                  class="small-box-icon"
+                  fill="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true">
+                  <path
+                    d="M7 3a1 1 0 00-1 1v7a1 1 0 001 1h4a1 1 0 001-1V4a1 1 0 00-1-1H7zm7.75 1.5a.75.75 0 00-.75.75V10a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 101.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H14V5.25a.75.75 0 00-.75-.75zM4.25 13.5a.75.75 0 00.75.75h2.69l-1.22 1.22a.75.75 0 001.06 1.06l2.5-2.5a.75.75 0 000-1.06l-2.5-2.5a.75.75 0 10-1.06 1.06l1.22 1.22H5a.75.75 0 00-.75.75v1.5zm7.25 1.5a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1v-4a1 1 0 00-1-1h-4z" />
+                </svg>
+              </a>
+            </div>
+          <?php } ?>
+          <!-- ./col -->
+      
 
 
 

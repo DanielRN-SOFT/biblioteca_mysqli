@@ -343,11 +343,12 @@ function eliminarLibro(idLibro, estado, libro) {
   });
 }
 // Reintegrar LIBRO
-function reintegrarLibro(idLibro, estado) {
+function reintegrarLibro(idLibro, estado, libro) {
   console.log(estado);
   Swal.fire({
     title: "<span class='text-success fw-bold'> Reintegrar Libro </span>",
-    html: "¿Esta seguro de reintegrar este Libro?",
+    html: `¿Esta seguro de reintegrar este Libro?
+    <br> Titulo: <strong> ${libro} </strong>`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Si, reintegrar libro",

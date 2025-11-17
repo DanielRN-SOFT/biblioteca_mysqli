@@ -69,13 +69,13 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                             </a>
                         </li>
 
-                        <?php if($tipoUsuario == "Administrador")  {?>
-                        <li class="nav-item">
-                            <a href="./categorias.php" class="nav-link <?php echo ($archivoActual == "categorias.php" ? "active" : "") ?>">
-                                <i class="fa-solid fa-list"></i>
-                                <p>Categorias</p>
-                            </a>
-                        </li>
+                        <?php if ($tipoUsuario == "Administrador") { ?>
+                            <li class="nav-item">
+                                <a href="./categorias.php" class="nav-link <?php echo ($archivoActual == "categorias.php" ? "active" : "") ?>">
+                                    <i class="fa-solid fa-list"></i>
+                                    <p>Categorias</p>
+                                </a>
+                            </li>
                         <?php } ?>
 
                         <li class="nav-item">
@@ -94,23 +94,34 @@ $tipoUsuario = $_SESSION["tipoUsuario"];
                 </li>
                 <!-- Fin menú de información -->
 
-                <?php if($tipoUsuario === "Administrador"){ ?>
-                <!-- Menú de reportes -->
-                <li class="nav-header">REPORTES</li>
-                <li class="nav-item">
-                    <a href="./pdf.php" class="nav-link <?php echo ($archivoActual == "pdf.php" ? 'active' : "") ?>">
-                        <i class="fa-solid fa-file-pdf"></i>
-                        <p class="fw-bold">PDF</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="./excel.php" class="nav-link <?php echo ($archivoActual == "excel.php" ? 'active' : "") ?>">
-                        <i class="fa-solid fa-file-excel"></i>
-                        <p class="fw-bold">Excel</p>
-                    </a>
-                </li>
-                <!-- Fin menú de reportes -->
-<?php }?>
+                <?php if ($tipoUsuario === "Administrador") { ?>
+                    <!-- Menú de reportes -->
+                    <li class="nav-header fw-bold">
+                        <hr>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link active">
+                            <i class="fa-solid fa-folder-open"></i>
+                            <p class="fw-bold">Reportes <i class="nav-arrow bi bi-chevron-right"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="./pdf.php" class="nav-link <?php echo ($archivoActual == "pdf.php" ? 'active' : "") ?>">
+                                    <i class="fa-solid fa-file-pdf"></i>
+                                    <p>PDF</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="./excel.php" class="nav-link <?php echo ($archivoActual == "excel.php" ? 'active' : "") ?>">
+                                    <i class="fa-solid fa-file-excel"></i>
+                                    <p>Excel</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Fin menú de reportes -->
+                <?php } ?>
 
             </ul>
             <!--end::Sidebar Menu-->

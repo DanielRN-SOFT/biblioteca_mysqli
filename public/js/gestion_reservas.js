@@ -112,7 +112,12 @@ async function crearReserva(IDcliente, tipoUsuarioBD) {
     },
   }).then((resultado) => {
     if (resultado.isConfirmed && resultado.value) {
-      Swal.fire("¡Éxito!", resultado.value, "success").then(() => {
+      Swal.fire({
+        title: "¡Exito!",
+        text: resultado.value,
+        icon: "success",
+        confirmButtonText: "Aceptar"
+      }).then(() => {
         location.reload();
       });
     }
@@ -124,7 +129,6 @@ function buscarProducto(texto) {
     document.getElementById("sugerencias").innerHTML = "";
     return;
   }
-
 
   $.ajax({
     url: "../../controllers/buscar_libros_reserva.php",
@@ -150,7 +154,6 @@ function buscarProducto(texto) {
         listGroup.appendChild(sinResultados);
       } else {
         busqueda.libros.forEach((libro) => {
-
           const categoriasString = busqueda.categorias
             .filter((cat) => cat.libro_id == libro.id)
             .map((cat) => cat.nombre_categoria)
@@ -176,7 +179,6 @@ function buscarProducto(texto) {
     },
   });
 }
-
 
 // Agregar producto a la tabla
 function agregarLibro(id, titulo, autor, categoria) {
@@ -223,6 +225,8 @@ async function cancelarReserva(IDreservaBD, estadoBD) {
       title: "¡Exito!",
       text: respuesta.message,
       icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
     }).then(() => {
       location.reload();
     });
@@ -257,6 +261,8 @@ async function aprobarReserva(IDreservaBD, estadoBD, opcionBD, IDusuario) {
       title: "¡Exito!",
       text: respuesta.message,
       icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
     }).then(() => {
       location.reload();
     });
@@ -290,6 +296,8 @@ async function rechazarReserva(IDreservaBD, estadoBD, opcionBD) {
       title: "¡Exito!",
       text: respuesta.message,
       icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
     }).then(() => {
       location.reload();
     });

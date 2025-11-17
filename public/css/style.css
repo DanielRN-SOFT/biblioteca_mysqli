@@ -67,6 +67,14 @@
   background-color: #00cab9 !important;
 }
 
+.bg-card-devueltos {
+  background-color: #17297a !important;
+}
+
+.bg-card-prestados {
+  background-color: #a0a801 !important;
+}
+
 /* .select2-selection__choice {
   background-color: #004c9e !important;
   color: white !important;
