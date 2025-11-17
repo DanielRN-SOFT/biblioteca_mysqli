@@ -71,7 +71,8 @@ if ($tipoUsuario == "Administrador") {
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-2">
+                <?php if($tipoUsuario == "Cliente"){ ?>
                 <div class="col-sm-12">
                     <button class="btn btn-success fw-bold w-100 p-2" id="BtnCrearReserva" onclick="crearReserva(
                     <?php echo $IDusuario ?> , 
@@ -79,6 +80,7 @@ if ($tipoUsuario == "Administrador") {
                         <i class="fa-solid fa-plus"></i>
                         Crear nueva reserva</button>
                 </div>
+                <?php }?>
             </div>
         </div>
     </div>
