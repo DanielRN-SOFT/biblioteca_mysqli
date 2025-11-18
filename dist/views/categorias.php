@@ -109,7 +109,7 @@ END")
                                                                     <?php if ($fila["estado"] == "Activo") { ?>
                                                                         <button class="btn btn-danger btn-eliminar-categoria" onclick="eliminarCategoria(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>' , '<?php echo htmlspecialchars($fila['nombre_categoria']) ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-trash"></i></button>
                                                                     <?php } else { ?>
-                                                                        <button class="btn btn-success btn-reitengrar-categoria" onclick="reintegrarCategoria(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
+                                                                        <button class="btn btn-success btn-reitengrar-categoria" onclick="reintegrarCategoria(<?php echo $fila['id'] ?> , '<?php echo $fila['estado'] ?>', '<?php echo htmlspecialchars($fila['nombre_categoria']) ?>')" data-id="<?php echo $fila["id"] ?>"><i class="fa-solid fa-check"></i></button>
 
 
                                                                     <?php } ?>

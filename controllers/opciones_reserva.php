@@ -32,13 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $consultaUsuario = $mysql->efectuarConsulta("SELECT id, nombre, apellido, email FROM usuario WHERE id = $IDusuario");
             $datosUsuario = $consultaUsuario->fetch_assoc();
 
-            // Fechas de prestamo
-            $consultaFechas = $mysql->efectuarConsulta("SELECT NOW() as hoy, DATE_ADD(NOW(), INTERVAL 5 DAY) as diasPosteriores");
-            $fechas = $consultaFechas->fetch_assoc();
-
             // Fecha de la reserva para el prestamo
             $consultaReserva = $mysql->efectuarConsulta("SELECT fecha_asistencia FROM reserva WHERE id = $IDreserva");
             $fechaPrestamo = $consultaReserva->fetch_assoc()["fecha_asistencia"];
+
+            // Fechas de prestamo
+            $consultaFechas = $mysql->efectuarConsulta("SELECT DATE_ADD(fecha_asistencia, INTERVAL 5 DAY) as diasPosteriores FROM reserva WHERE id = $IDreserva");
+            $fechaDevolucion = $consultaFechas->fetch_assoc();
 
 
             // Insertar en prestamo la reserva aprobada
@@ -49,13 +49,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $errores = "Error al insertar PRESTAMO";
             }
 
-                enviarCorreo($datosUsuario["email"], $datosUsuario["nombre"], $datosUsuario["apellido"], $fechas["hoy"], $fechas["diasPosteriores"]);
-            
+            enviarCorreo($datosUsuario["email"], $datosUsuario["nombre"], $datosUsuario["apellido"], $fechaPrestamo, $fechaDevolucion['diasPosteriores']);
         }
 
         // Si la opcion es rechazar
         if ($opcion == "Rechazar") {
-           
+
             // Asignar nuevo el nuevo estado
             $nuevoEstado = "Rechazada";
             $mensaje = "Rechazo de reserva completada";

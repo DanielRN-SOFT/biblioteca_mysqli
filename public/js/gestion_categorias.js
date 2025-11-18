@@ -219,11 +219,12 @@ function eliminarCategoria(idCategoria, estado, categoria) {
   });
 }
 // Reintegrar Categoria
-function reintegrarCategoria(idCategoria, estado) {
-  console.log(estado);
+function reintegrarCategoria(idCategoria, estado, categoria) {
+  console.log(categoria);
   Swal.fire({
     title: "<span class='text-success fw-bold'> Reintegrar Categoria </span>",
-    html: "¿Esta seguro de reintegrar esta categoria?",
+    html: `¿Esta seguro de reintegrar esta categoria?
+     <br> Categoria: <strong> ${categoria} </strong>`,
     icon: "warning",
     showCancelButton: true,
     confirmButtonText: "Si, reintegrar categoria",
