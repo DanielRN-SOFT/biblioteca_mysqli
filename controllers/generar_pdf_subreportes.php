@@ -107,7 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $pdf->SetFont('Arial', 'B', 10);
                 $pdf->Cell(70, 10, "Titulo", 1);
                 $pdf->Cell(45, 10, "Autor", 1);
-                $pdf->Cell(40, 10, "Categoria", 1);
+                $pdf->Cell(40, 10, "Fecha de creacion", 1);
+                // $pdf->Cell(40, 10, "Categoria", 1);
                 $pdf->Cell(20, 10, "Cantidad", 1);
                 $pdf->Ln();
 
@@ -116,7 +117,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 foreach ($datos as $dato) {
                     $pdf->Cell(70, 10, ($dato['titulo']), 1);
                     $pdf->Cell(45, 10, ($dato['autor']), 1);
-                    $pdf->Cell(40, 10, ($dato['categoria']), 1);
+                    $pdf->Cell(40, 10, ($dato['fecha_creacion']), 1);
+                    // $pdf->Cell(40, 10, ($dato['categoria']), 1);
                     $pdf->Cell(20, 10, ($dato['cantidad']), 1);
                     $pdf->Ln();
                 }
@@ -172,7 +174,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $pdf->SetFont('Arial', 'B', 10);
                 $pdf->Cell(50, 10, "Titulo", 1);
                 $pdf->Cell(45, 10, "Autor", 1);
-                $pdf->Cell(40, 10, "Categoria", 1);
+                $pdf->Cell(40, 10, "Fecha de creacion", 1);
+                // $pdf->Cell(40, 10, "Categoria", 1);
                 $pdf->Cell(20, 10, "Cantidad", 1);
                 $pdf->Ln();
 
@@ -181,7 +184,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 foreach ($datos as $dato) {
                     $pdf->Cell(50, 10, ($dato['titulo']), 1);
                     $pdf->Cell(45, 10, ($dato['autor']), 1);
-                    $pdf->Cell(40, 10, ($dato['categoria']), 1);
+                    $pdf->Cell(40, 10, ($dato['fecha_creacion']), 1);
+                    // $pdf->Cell(40, 10, ($dato['categoria']), 1);
                     $pdf->Cell(20, 10, ($dato['cantidad']), 1);
                     $pdf->Ln();
                 }

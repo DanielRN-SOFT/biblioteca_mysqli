@@ -159,12 +159,12 @@ if ($tipoInforme == "Inventario") {
 
     // FECHA DEL REPORTE
     $sheet->setCellValue('A2', 'Fecha de generación: ' . date('d/m/Y'));
-    $sheet->mergeCells('A2:G2');
+    $sheet->mergeCells('A2:F2');
     $sheet->getStyle('A2')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
 
     // CABECERA DE LA TABLA
-    $encabezados = ['Titulo', 'Autor', 'ISBN', 'Categoria', 'Disponibilidad', 'Cantidad', 'Fecha'];
+    $encabezados = ['Titulo', 'Autor', 'ISBN', 'Disponibilidad', 'Cantidad', 'Fecha'];
     $columna = 'A';
     foreach ($encabezados as $enc) {
         $sheet->setCellValue($columna . '4', $enc);
@@ -180,16 +180,15 @@ if ($tipoInforme == "Inventario") {
         $sheet->setCellValue('A' . $fila, $dato["titulo"]);
         $sheet->setCellValue('B' . $fila, $dato["autor"]);
         $sheet->setCellValueExplicit('C' . $fila, $dato["ISBN"], DataType::TYPE_STRING);
-        $sheet->setCellValue('D' . $fila, $dato["categoria"]);
-        $sheet->setCellValue('E' . $fila, $dato["disponibilidad"]);
-        $sheet->setCellValue('F' . $fila, $dato["cantidad"]);
-        $sheet->setCellValue('G' . $fila, $dato["fecha_creacion"]);
+        $sheet->setCellValue('D' . $fila, $dato["disponibilidad"]);
+        $sheet->setCellValue('E' . $fila, $dato["cantidad"]);
+        $sheet->setCellValue('F' . $fila, $dato["fecha_creacion"]);
         $fila++;
     }
 
     // FORMATO DE LA TABLA
     $ultimaFila = $fila - 1;
-    $rango = "A4:G{$ultimaFila}";
+    $rango = "A4:F{$ultimaFila}";
 
     // BORDES DE LA TABLA
     $sheet->getStyle($rango)->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
@@ -199,7 +198,7 @@ if ($tipoInforme == "Inventario") {
         ->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
 
     // Autoajustar columnas
-    foreach (range('A', 'G') as $col) {
+    foreach (range('A', 'Fz') as $col) {
         $sheet->getColumnDimension($col)->setAutoSize(true);
     }
 }

@@ -150,7 +150,7 @@ if ($tipoInforme === "Inventario") {
 
 
         // CABECERA DE LA TABLA
-        $encabezados = ['Titulo', 'Autor', 'Categoria', 'Cantidad'];
+        $encabezados = ['Titulo', 'Autor', 'Fecha', 'Cantidad'];
         $columna = 'A';
         foreach ($encabezados as $enc) {
             $sheet->setCellValue($columna . '4', $enc);
@@ -165,7 +165,7 @@ if ($tipoInforme === "Inventario") {
         foreach ($datos as $dato) {
             $sheet->setCellValue('A' . $fila, $dato["titulo"]);
             $sheet->setCellValue('B' . $fila, $dato["autor"]);
-            $sheet->setCellValue('C' . $fila, $dato["categoria"]);
+            $sheet->setCellValue('C' . $fila, $dato["fecha_creacion"]);
             $sheet->setCellValue('D' . $fila, $dato["cantidad"]);
             $fila++;
         }
@@ -295,7 +295,7 @@ if ($tipoInforme === "Inventario") {
 
 
         // CABECERA DE LA TABLA
-        $encabezados = ['Titulo', 'Autor', 'Categoria', 'Cantidad'];
+        $encabezados = ['Titulo', 'Autor', 'Fecha', 'Cantidad'];
         $columna = 'A';
         foreach ($encabezados as $enc) {
             $sheet->setCellValue($columna . '4', $enc);
@@ -310,7 +310,7 @@ if ($tipoInforme === "Inventario") {
         foreach ($datos as $dato) {
             $sheet->setCellValue('A' . $fila, $dato["titulo"]);
             $sheet->setCellValue('B' . $fila, $dato["autor"]);
-            $sheet->setCellValue('C' . $fila, $dato["categoria"]);
+            $sheet->setCellValue('C' . $fila, $dato["fecha_creacion"]);
             $sheet->setCellValue('D' . $fila, $dato["cantidad"]);
             $fila++;
         }
